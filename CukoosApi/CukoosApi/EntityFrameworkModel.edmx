@@ -193,51 +193,15 @@ warning 6002: The table/view 'dev.dbo.UserFollowPhoto' does not have a primary k
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="cukooModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
-        <EntityType Name="Category">
-          <Key>
-            <PropertyRef Name="id" />
-          </Key>
-          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="name" Type="String" MaxLength="256" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="image" Type="Binary" MaxLength="1024" FixedLength="true" />
-          <NavigationProperty Name="Photos" Relationship="Self.FK_Photos_Categories" FromRole="Categories" ToRole="Photos" />
-          <NavigationProperty Name="Users" Relationship="cukooModel.UserFollowCategory1" FromRole="Category" ToRole="User" />
-        </EntityType>
-        <EntityType Name="Photo">
-          <Key>
-            <PropertyRef Name="id" />
-          </Key>
-          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="title" Type="String" MaxLength="256" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="image" Type="Binary" MaxLength="5120" FixedLength="true" />
-          <Property Name="category" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="Category1" Relationship="Self.FK_Photos_Categories" FromRole="Photos" ToRole="Categories" />
-          <NavigationProperty Name="UserUploads" Relationship="cukooModel.FK_UserUploads_Photos" FromRole="Photo" ToRole="UserUpload" />
-          <NavigationProperty Name="Users" Relationship="cukooModel.UserFollowPhoto1" FromRole="Photo" ToRole="User" />
-        </EntityType>
-        <Association Name="FK_Photos_Categories">
-          <End Role="Categories" Type="Self.Category" Multiplicity="1" />
-          <End Role="Photos" Type="Self.Photo" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Categories">
-              <PropertyRef Name="id" />
-            </Principal>
-            <Dependent Role="Photos">
-              <PropertyRef Name="category" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <EntityContainer Name="cukooEntities" annotation:LazyLoadingEnabled="true">
-          <EntitySet Name="Categories" EntityType="Self.Category" />
-          <EntitySet Name="Photos" EntityType="Self.Photo" />
-          <AssociationSet Name="FK_Photos_Categories" Association="Self.FK_Photos_Categories">
-            <End Role="Categories" EntitySet="Categories" />
-            <End Role="Photos" EntitySet="Photos" />
-          </AssociationSet>
-          <EntitySet Name="UserFollowCategories" EntityType="cukooModel.UserFollowCategory" />
-          <EntitySet Name="UserFollowPhotoes" EntityType="cukooModel.UserFollowPhoto" />
+          <EntitySet Name="Categories" EntityType="cukooModel.Category" />
+          <EntitySet Name="Photos" EntityType="cukooModel.Photo" />
           <EntitySet Name="Users" EntityType="cukooModel.User" />
           <EntitySet Name="UserUploads" EntityType="cukooModel.UserUpload" />
+          <AssociationSet Name="FK_Photos_Categories" Association="cukooModel.FK_Photos_Categories">
+            <End Role="Category" EntitySet="Categories" />
+            <End Role="Photo" EntitySet="Photos" />
+          </AssociationSet>
           <AssociationSet Name="FK_UserUploads_Photos" Association="cukooModel.FK_UserUploads_Photos">
             <End Role="Photo" EntitySet="Photos" />
             <End Role="UserUpload" EntitySet="UserUploads" />
@@ -246,30 +210,36 @@ warning 6002: The table/view 'dev.dbo.UserFollowPhoto' does not have a primary k
             <End Role="User" EntitySet="Users" />
             <End Role="UserUpload" EntitySet="UserUploads" />
           </AssociationSet>
-          <AssociationSet Name="UserFollowCategory1" Association="cukooModel.UserFollowCategory1">
+          <AssociationSet Name="UserFollowCategory" Association="cukooModel.UserFollowCategory">
             <End Role="Category" EntitySet="Categories" />
             <End Role="User" EntitySet="Users" />
           </AssociationSet>
-          <AssociationSet Name="UserFollowPhoto1" Association="cukooModel.UserFollowPhoto1">
+          <AssociationSet Name="UserFollowPhoto" Association="cukooModel.UserFollowPhoto">
             <End Role="Photo" EntitySet="Photos" />
             <End Role="User" EntitySet="Users" />
           </AssociationSet>
         </EntityContainer>
-        <EntityType Name="UserFollowCategory">
+        <EntityType Name="Category">
           <Key>
-            <PropertyRef Name="user" />
-            <PropertyRef Name="category" />
+            <PropertyRef Name="id" />
           </Key>
-          <Property Name="user" Type="Int32" Nullable="false" />
-          <Property Name="category" Type="Int32" Nullable="false" />
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="name" Type="String" Nullable="false" MaxLength="256" FixedLength="false" Unicode="true" />
+          <Property Name="image" Type="Binary" MaxLength="1024" FixedLength="true" />
+          <NavigationProperty Name="Photos" Relationship="cukooModel.FK_Photos_Categories" FromRole="Category" ToRole="Photo" />
+          <NavigationProperty Name="Users" Relationship="cukooModel.UserFollowCategory" FromRole="Category" ToRole="User" />
         </EntityType>
-        <EntityType Name="UserFollowPhoto">
+        <EntityType Name="Photo">
           <Key>
-            <PropertyRef Name="user" />
-            <PropertyRef Name="photo" />
+            <PropertyRef Name="id" />
           </Key>
-          <Property Name="user" Type="Int32" Nullable="false" />
-          <Property Name="photo" Type="Int32" Nullable="false" />
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="title" Type="String" Nullable="false" MaxLength="256" FixedLength="false" Unicode="true" />
+          <Property Name="image" Type="Binary" MaxLength="5120" FixedLength="true" />
+          <Property Name="category" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Category1" Relationship="cukooModel.FK_Photos_Categories" FromRole="Photo" ToRole="Category" />
+          <NavigationProperty Name="UserUploads" Relationship="cukooModel.FK_UserUploads_Photos" FromRole="Photo" ToRole="UserUpload" />
+          <NavigationProperty Name="Users" Relationship="cukooModel.UserFollowPhoto" FromRole="Photo" ToRole="User" />
         </EntityType>
         <EntityType Name="User">
           <Key>
@@ -278,8 +248,8 @@ warning 6002: The table/view 'dev.dbo.UserFollowPhoto' does not have a primary k
           <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="fb_id" Type="Int32" Nullable="false" />
           <NavigationProperty Name="UserUploads" Relationship="cukooModel.FK_UserUploads_Users" FromRole="User" ToRole="UserUpload" />
-          <NavigationProperty Name="Categories" Relationship="cukooModel.UserFollowCategory1" FromRole="User" ToRole="Category" />
-          <NavigationProperty Name="Photos" Relationship="cukooModel.UserFollowPhoto1" FromRole="User" ToRole="Photo" />
+          <NavigationProperty Name="Categories" Relationship="cukooModel.UserFollowCategory" FromRole="User" ToRole="Category" />
+          <NavigationProperty Name="Photos" Relationship="cukooModel.UserFollowPhoto" FromRole="User" ToRole="Photo" />
         </EntityType>
         <EntityType Name="UserUpload">
           <Key>
@@ -293,6 +263,18 @@ warning 6002: The table/view 'dev.dbo.UserFollowPhoto' does not have a primary k
           <NavigationProperty Name="Photo1" Relationship="cukooModel.FK_UserUploads_Photos" FromRole="UserUpload" ToRole="Photo" />
           <NavigationProperty Name="User1" Relationship="cukooModel.FK_UserUploads_Users" FromRole="UserUpload" ToRole="User" />
         </EntityType>
+        <Association Name="FK_Photos_Categories">
+          <End Type="cukooModel.Category" Role="Category" Multiplicity="1" />
+          <End Type="cukooModel.Photo" Role="Photo" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Category">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Photo">
+              <PropertyRef Name="category" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_UserUploads_Photos">
           <End Type="cukooModel.Photo" Role="Photo" Multiplicity="1" />
           <End Type="cukooModel.UserUpload" Role="UserUpload" Multiplicity="*" />
@@ -317,15 +299,15 @@ warning 6002: The table/view 'dev.dbo.UserFollowPhoto' does not have a primary k
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="UserFollowCategory1">
+        <Association Name="UserFollowCategory">
           <End Type="cukooModel.Category" Role="Category" Multiplicity="*" />
           <End Type="cukooModel.User" Role="User" Multiplicity="*" />
         </Association>
-        <Association Name="UserFollowPhoto1">
+        <Association Name="UserFollowPhoto">
           <End Type="cukooModel.Photo" Role="Photo" Multiplicity="*" />
           <End Type="cukooModel.User" Role="User" Multiplicity="*" />
         </Association>
-      </Schema>
+        </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
     <edmx:Mappings>
@@ -334,35 +316,19 @@ warning 6002: The table/view 'dev.dbo.UserFollowPhoto' does not have a primary k
           <EntitySetMapping Name="Categories">
             <EntityTypeMapping TypeName="cukooModel.Category">
               <MappingFragment StoreEntitySet="Categories">
-                <ScalarProperty Name="id" ColumnName="id" />
-                <ScalarProperty Name="name" ColumnName="name" />
                 <ScalarProperty Name="image" ColumnName="image" />
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="id" ColumnName="id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Photos">
             <EntityTypeMapping TypeName="cukooModel.Photo">
               <MappingFragment StoreEntitySet="Photos">
-                <ScalarProperty Name="id" ColumnName="id" />
-                <ScalarProperty Name="title" ColumnName="title" />
+                <ScalarProperty Name="category" ColumnName="category" />
                 <ScalarProperty Name="image" ColumnName="image" />
-                <ScalarProperty Name="category" ColumnName="category" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="UserFollowCategories">
-            <EntityTypeMapping TypeName="cukooModel.UserFollowCategory">
-              <MappingFragment StoreEntitySet="UserFollowCategory">
-                <ScalarProperty Name="category" ColumnName="category" />
-                <ScalarProperty Name="user" ColumnName="user" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="UserFollowPhotoes">
-            <EntityTypeMapping TypeName="cukooModel.UserFollowPhoto">
-              <MappingFragment StoreEntitySet="UserFollowPhoto">
-                <ScalarProperty Name="photo" ColumnName="photo" />
-                <ScalarProperty Name="user" ColumnName="user" />
+                <ScalarProperty Name="title" ColumnName="title" />
+                <ScalarProperty Name="id" ColumnName="id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -385,7 +351,7 @@ warning 6002: The table/view 'dev.dbo.UserFollowPhoto' does not have a primary k
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <AssociationSetMapping Name="UserFollowCategory1" TypeName="cukooModel.UserFollowCategory1" StoreEntitySet="UserFollowCategory">
+          <AssociationSetMapping Name="UserFollowCategory" TypeName="cukooModel.UserFollowCategory" StoreEntitySet="UserFollowCategory">
             <EndProperty Name="User">
               <ScalarProperty Name="id" ColumnName="user" />
             </EndProperty>
@@ -393,7 +359,7 @@ warning 6002: The table/view 'dev.dbo.UserFollowPhoto' does not have a primary k
               <ScalarProperty Name="id" ColumnName="category" />
             </EndProperty>
           </AssociationSetMapping>
-          <AssociationSetMapping Name="UserFollowPhoto1" TypeName="cukooModel.UserFollowPhoto1" StoreEntitySet="UserFollowPhoto">
+          <AssociationSetMapping Name="UserFollowPhoto" TypeName="cukooModel.UserFollowPhoto" StoreEntitySet="UserFollowPhoto">
             <EndProperty Name="User">
               <ScalarProperty Name="id" ColumnName="user" />
             </EndProperty>

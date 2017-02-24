@@ -197,12 +197,6 @@
     <Compile Include="User.cs">
       <DependentUpon>EntityFrameworkModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="UserFollowCategory.cs">
-      <DependentUpon>EntityFrameworkModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="UserFollowPhoto.cs">
-      <DependentUpon>EntityFrameworkModel.tt</DependentUpon>
-    </Compile>
     <Compile Include="UserUpload.cs">
       <DependentUpon>EntityFrameworkModel.tt</DependentUpon>
     </Compile>

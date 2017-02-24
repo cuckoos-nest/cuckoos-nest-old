@@ -15,6 +15,7 @@ namespace CukoosApi.Controllers
     {
         private cukooEntities db = new cukooEntities();
 
+        #region Get
         [ResponseType(typeof(PhotoModel))]
         public IHttpActionResult GetPhotos()
         {
@@ -32,6 +33,12 @@ namespace CukoosApi.Controllers
 
             return Ok(new PhotoModel(photo));
         }
+
+        public IHttpActionResult GetPhotos(int category)
+        {
+            return Ok(db.Photos.Where(x => x.category == category).ToList().Select(x => new PhotoModel(x)));
+        }
+        #endregion
 
         [ResponseType(typeof(void))]
         public IHttpActionResult PutPhoto(int id, PhotoModel photoModel)

@@ -27,8 +27,6 @@ namespace CukoosApi
     
         public virtual DbSet<Category> Categories { get; set; }
         public virtual DbSet<Photo> Photos { get; set; }
-        public virtual DbSet<UserFollowCategory> UserFollowCategories { get; set; }
-        public virtual DbSet<UserFollowPhoto> UserFollowPhotoes { get; set; }
         public virtual DbSet<User> Users { get; set; }
         public virtual DbSet<UserUpload> UserUploads { get; set; }
     }
