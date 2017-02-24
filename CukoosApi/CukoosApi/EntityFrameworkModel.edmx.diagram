@@ -8,6 +8,14 @@
         <EntityTypeShape EntityType="cukooModel.Category" Width="1.5" PointX="0.75" PointY="1" IsExpanded="true" />
         <EntityTypeShape EntityType="cukooModel.Photo" Width="1.5" PointX="3" PointY="0.875" IsExpanded="true" />
         <AssociationConnector Association="cukooModel.FK_Photos_Categories" ManuallyRouted="false" />
+        <EntityTypeShape EntityType="cukooModel.UserFollowCategory" Width="1.5" PointX="9.75" PointY="0.625" />
+        <EntityTypeShape EntityType="cukooModel.UserFollowPhoto" Width="1.5" PointX="10" PointY="2.5" />
+        <EntityTypeShape EntityType="cukooModel.User" Width="1.5" PointX="8" PointY="4.875" />
+        <EntityTypeShape EntityType="cukooModel.UserUpload" Width="1.5" PointX="5.75" PointY="0.75" />
+        <AssociationConnector Association="cukooModel.FK_UserUploads_Photos" />
+        <AssociationConnector Association="cukooModel.FK_UserUploads_Users" />
+        <AssociationConnector Association="cukooModel.UserFollowCategory1" />
+        <AssociationConnector Association="cukooModel.UserFollowPhoto1" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

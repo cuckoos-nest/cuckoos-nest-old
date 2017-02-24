@@ -162,6 +162,8 @@
     <Compile Include="App_Start\SwaggerConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\CategoriesController.cs" />
+    <Compile Include="Controllers\UsersController.cs" />
+    <Compile Include="Controllers\UserUploadsController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -186,10 +188,24 @@
     <Compile Include="Controllers\PhotosController.cs" />
     <Compile Include="Models\CategoryModel.cs" />
     <Compile Include="Models\PhotoModel.cs" />
+    <Compile Include="Models\UserModel.cs" />
+    <Compile Include="Models\UserUploadModel.cs" />
     <Compile Include="Photo.cs">
       <DependentUpon>EntityFrameworkModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="User.cs">
+      <DependentUpon>EntityFrameworkModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="UserFollowCategory.cs">
+      <DependentUpon>EntityFrameworkModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="UserFollowPhoto.cs">
+      <DependentUpon>EntityFrameworkModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="UserUpload.cs">
+      <DependentUpon>EntityFrameworkModel.tt</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />
