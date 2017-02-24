@@ -11,6 +11,8 @@ import { CategoryDetailComponent } from './components/categories/category-detail
 import { GalleryComponent } from './components/gallery/gallery.component'
 import { UserProfileComponent } from './components/user-profile/user-profile.component'
 
+import { PhotosService } from './services/photos.service';
+
 
 
 @NgModule({
@@ -40,6 +42,9 @@ import { UserProfileComponent } from './components/user-profile/user-profile.com
     GalleryComponent,
     UserProfileComponent,
   ],
-  providers: [{provide: ErrorHandler, useClass: IonicErrorHandler}]
+  providers: [
+    {provide: ErrorHandler, useClass: IonicErrorHandler},
+    PhotosService
+    ]
 })
 export class AppModule {}
