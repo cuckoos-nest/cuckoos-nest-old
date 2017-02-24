@@ -19,8 +19,7 @@ export class MyApp implements OnInit{
       StatusBar.styleDefault();
       Splashscreen.hide();
     });
-    //this.initFacebookApi();
-    this.rootPage = MainMenuComponent;
+    this.initFacebookApi();
   }
 
   private initFacebookApi() {
