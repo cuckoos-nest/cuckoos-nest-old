@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { NavController } from 'ionic-angular';
 import { CategoryDetailComponent } from './category-detail/category-detail.component';
 
-import { Category } from '../../models/photo.models';
+import { CategoryModel } from '../../models/category.model';
 
 import { CategoriesService } from '../../services/categories.service';
 
@@ -12,15 +12,15 @@ import { CategoriesService } from '../../services/categories.service';
 })
 export class CategoriesComponent {
     
-    filteredCategories : Category[];
-    allCategories : Category[];
+    filteredCategories : CategoryModel[];
+    allCategories : CategoryModel[];
 
     constructor(private nav: NavController, private categoriesService: CategoriesService) {
         this.categoriesService.getCategories()
             .subscribe(categories => this.filteredCategories = this.allCategories = categories); 
     }
 
-    private goToCategory(selectedCategory : Category) : void {
+    private goToCategory(selectedCategory : CategoryModel) : void {
         this.nav.push(CategoryDetailComponent, {
             category: selectedCategory
         });

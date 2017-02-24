@@ -9,9 +9,19 @@ namespace CukoosApi.Models
     {
         #region Properties
         public int id { get; set; }
+
         public PhotoModel photo { get; set; }
-        public byte[] userPhoto { get; set; }
+
+        public string imageUrl
+        {
+            get
+            {
+                return "";
+            }
+        }
+
         public string description { get; set; }
+
         public UserModel user { get; set; }
         #endregion
 
@@ -24,7 +34,6 @@ namespace CukoosApi.Models
         {
             this.id = entity.id;
             this.photo = new PhotoModel(entity.Photo1);
-            this.userPhoto = entity.user_photo;
             this.description = entity.description;
             this.user = new UserModel(entity.User1);
         }
@@ -35,7 +44,6 @@ namespace CukoosApi.Models
             {
                 id = this.id,
                 photo = this.photo.id,
-                user_photo = this.userPhoto,
                 description = this.description,
                 user = this.user.id,
             };

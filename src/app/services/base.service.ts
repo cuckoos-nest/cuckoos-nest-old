@@ -10,9 +10,9 @@ import Config from '../config.json';
 @Injectable()
 export abstract class BaseService {
     readonly host = Config.host + "/";
-    readonly categoriesDirectory = "categories";
-    readonly photoesDirectory = "photos";
-    readonly userDirectory = "users";
+    readonly categoriesDirectory = this.host + "categories";
+    readonly photoesDirectory = this.host + "photos";
+    readonly userDirectory = this.host + "users";
 
     protected handleError (error: Response | any) {
         // log error

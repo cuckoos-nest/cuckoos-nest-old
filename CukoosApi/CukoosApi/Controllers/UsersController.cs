@@ -15,6 +15,7 @@ namespace CukoosApi.Controllers
     {
         private cukooEntities db = new cukooEntities();
 
+        #region Get
         [ResponseType(typeof(UserModel))]
         public IHttpActionResult GetUsers()
         {
@@ -32,6 +33,17 @@ namespace CukoosApi.Controllers
 
             return Ok(new UserModel(user));
         }
+
+        [ResponseType(typeof(UserModel))]
+        public IHttpActionResult GetUsers(int fb_id)
+        {
+            User user = db.Users.FirstOrDefault(x => x.fb_id == fb_id);
+            if (user == null)
+                return NotFound();
+
+            return Ok(new UserModel(user));
+        }
+        #endregion
 
         [ResponseType(typeof(void))]
         public IHttpActionResult PutUser(int id, UserModel userModel)

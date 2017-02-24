@@ -1,4 +1,7 @@
 import { Component } from '@angular/core';
+import { NavParams } from 'ionic-angular';
+
+import { UserModel } from '../../models/user.model';
 
 @Component({
     selector: 'user-profile',
@@ -6,7 +9,9 @@ import { Component } from '@angular/core';
 })
 export class UserProfileComponent {
 
-    constructor() {
+    private user: UserModel;
 
+    constructor(private navParams: NavParams) {
+        this.user = navParams.get('user');
     }    
 }
