@@ -1,13 +1,9 @@
 <ion-header>
   <ion-navbar>
     <ion-title>
-      {{ category }}
+      {{ category.name }}
     </ion-title>
   </ion-navbar>
 </ion-header>
 
-<!--<ion-list>
-  <button ion-item *ngFor="let item of items" (click)="takePhoto(item)">{{item}}</button>
-</ion-list>-->
-
-<gallery [items]="items"></gallery>
+<gallery [items]="photos" [titleMember]="getPhotoTitle" [imageMember]="getPhotoImage"></gallery>

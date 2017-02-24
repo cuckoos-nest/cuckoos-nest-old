@@ -12,7 +12,7 @@ export class PhotosService {
 
     readonly categoriesDirectory = 'categories';
     readonly photoesDirectory = 'photos';
-    readonly host = Config.host;
+    readonly host = Config.host + "/";
 
     constructor(private http: Http) {
 
@@ -43,6 +43,11 @@ export class PhotosService {
 
     public getPhotoById(id: number) : Observable<Photo> {
         return this.http.get(`${this.host}${this.photoesDirectory}`)
+        .map(bodyResponse => bodyResponse.json());
+    }
+
+    public getPhotosByCategory(categoryId: number) : Observable<Photo[]> {
+        return this.http.get(`${this.host}${this.photoesDirectory}/?category=${categoryId}`)
         .map(bodyResponse => bodyResponse.json());
     }
 
