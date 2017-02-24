@@ -4,7 +4,7 @@ import { CategoryDetailComponent } from './category-detail/category-detail.compo
 
 import { Category } from '../../models/photo.models';
 
-import { PhotosService } from '../../services/photos.service';
+import { CategoriesService } from '../../services/categories.service';
 
 @Component({
     selector: '<categories></categories>',
@@ -15,8 +15,8 @@ export class CategoriesComponent {
     filteredCategories : Category[];
     allCategories : Category[];
 
-    constructor(private nav: NavController, private photosService: PhotosService) {
-        this.photosService.getCategories()
+    constructor(private nav: NavController, private categoriesService: CategoriesService) {
+        this.categoriesService.getCategories()
             .subscribe(categories => this.filteredCategories = this.allCategories = categories); 
     }
 

@@ -12,6 +12,8 @@ import { GalleryComponent } from './components/gallery/gallery.component'
 import { UserProfileComponent } from './components/user-profile/user-profile.component'
 
 import { PhotosService } from './services/photos.service';
+import { CategoriesService } from './services/categories.service';
+import { UsersService } from './services/users.service';
 
 
 
@@ -44,7 +46,9 @@ import { PhotosService } from './services/photos.service';
   ],
   providers: [
     {provide: ErrorHandler, useClass: IonicErrorHandler},
-    PhotosService
+    PhotosService,
+    CategoriesService,
+    UsersService
     ]
 })
 export class AppModule {}
