@@ -10,6 +10,6 @@
   <ion-searchbar (ionInput)="filter($event)"></ion-searchbar>
 
   <ion-list>
-    <button ion-item *ngFor="let category of categories" (click)="goToCategory(category)">{{category.name}}</button>
+    <button ion-item *ngFor="let category of filteredCategories" (click)="goToCategory(category)">{{category.name}}</button>
   </ion-list>
 </ion-content>

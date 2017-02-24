@@ -1,7 +1,9 @@
 import { Component } from '@angular/core';
 import { NavController } from 'ionic-angular';
 import { CategoryDetailComponent } from './category-detail/category-detail.component';
+
 import { Category } from '../../models/photo.models';
+
 import { PhotosService } from '../../services/photos.service';
 
 @Component({
@@ -10,33 +12,30 @@ import { PhotosService } from '../../services/photos.service';
 })
 export class CategoriesComponent {
     
-    categories : Category[];
+    filteredCategories : Category[];
+    allCategories : Category[];
 
     constructor(private nav: NavController, private photosService: PhotosService) {
-        this.initItems();
-    }   
-
-    private initItems() {
-        //this.categories = new Array<Category>();
         this.photosService.getCategories()
-        .subscribe(categories => this.categories = categories);
-    } 
+            .subscribe(categories => this.filteredCategories = this.allCategories = categories); 
+    }
 
-    private goToCategory(category : string) : void {
+    private goToCategory(selectedCategory : Category) : void {
         this.nav.push(CategoryDetailComponent, {
-            category: category
+            category: selectedCategory
         });
     }
 
-    // private filter(ev : any) {
-    //     let val = ev.target.value;
-        
-    //     this.initItems();
+    private filter(ev : any) {
+        let val = ev.target.value;
 
-    //     if (val && val.trim() != '') {
-    //         this.categories = this.categories.filter((item) => {
-    //             return (item.toLowerCase().indexOf(val.toLowerCase()) > -1);
-    //         })
-    //     }
-    // }
+        if (val && val.trim() != '') {
+            this.filteredCategories = this.allCategories.filter((item) => {
+                return (item.name.toLowerCase().indexOf(val.toLowerCase()) > -1);
+            })
+        }
+        else {
+            this.filteredCategories = this.allCategories;
+        }
+    }
 }

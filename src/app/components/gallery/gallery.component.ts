@@ -32,6 +32,12 @@ export class GalleryComponent implements OnChanges {
         }
     }
 
+    @Input()
+    imageMember : (item : any) => string;
+    
+    @Input()
+    titleMember : (item : any) => string;
+
     constructor() {        
         
     } 
