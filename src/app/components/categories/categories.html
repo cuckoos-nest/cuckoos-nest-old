@@ -1,0 +1,15 @@
+<ion-header>
+  <ion-navbar>
+    <ion-title>
+      Categories
+    </ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content>
+  <ion-searchbar (ionInput)="filter($event)"></ion-searchbar>
+
+  <ion-list>
+    <button ion-item *ngFor="let category of categories" (click)="goToCategory(category)">{{category}}</button>
+  </ion-list>
+</ion-content>
