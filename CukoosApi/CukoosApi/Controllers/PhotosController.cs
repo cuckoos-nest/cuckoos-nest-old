@@ -1,6 +1,6 @@
-﻿using System;
+﻿using CukoosApi.Models;
+using System;
 using System.Collections.Generic;
-using System.Data;
 using System.Data.Entity;
 using System.Data.Entity.Infrastructure;
 using System.Linq;
@@ -8,7 +8,6 @@ using System.Net;
 using System.Net.Http;
 using System.Web.Http;
 using System.Web.Http.Description;
-using CukoosApi.Models;
 
 namespace CukoosApi.Controllers
 {
@@ -16,14 +15,13 @@ namespace CukoosApi.Controllers
     {
         private cukooEntities db = new cukooEntities();
 
-        // GET: api/Photos
-        public IQueryable<Photo> GetPhotos()
+        [ResponseType(typeof(PhotoModel))]
+        public IHttpActionResult GetPhotos()
         {
-            return db.Photos;
+            return Ok(db.Photos.ToList().Select(x => new PhotoModel(x)));
         }
 
-        // GET: api/Photos/5
-        [ResponseType(typeof(Photo))]
+        [ResponseType(typeof(PhotoModel))]
         public IHttpActionResult GetPhoto(int id)
         {
             Photo photo = db.Photos.Find(id);
@@ -32,24 +30,25 @@ namespace CukoosApi.Controllers
                 return NotFound();
             }
 
-            return Ok(photo);
+            return Ok(new PhotoModel(photo));
         }
 
-        // PUT: api/Photos/5
         [ResponseType(typeof(void))]
-        public IHttpActionResult PutPhoto(int id, Photo photo)
+        public IHttpActionResult PutPhoto(int id, PhotoModel photoModel)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            if (id != photo.id)
+            if (photoModel.id != id)
             {
                 return BadRequest();
             }
 
-            db.Entry(photo).State = EntityState.Modified;
+            Photo entity = photoModel.ToEntity();
+
+            db.Entry(entity).State = EntityState.Modified;
 
             try
             {
@@ -67,26 +66,26 @@ namespace CukoosApi.Controllers
                 }
             }
 
-            return StatusCode(HttpStatusCode.NoContent);
+            return StatusCode(HttpStatusCode.OK);
         }
 
-        // POST: api/Photos
-        [ResponseType(typeof(Photo))]
-        public IHttpActionResult PostPhoto(Photo photo)
+        [ResponseType(typeof(PhotoModel))]
+        public IHttpActionResult PostPhoto(PhotoModel photoModel)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            db.Photos.Add(photo);
+            Photo entity = photoModel.ToEntity();
+
+            db.Photos.Add(entity);
             db.SaveChanges();
 
-            return CreatedAtRoute("DefaultApi", new { id = photo.id }, photo);
+            return CreatedAtRoute("DefaultApi", new { id = photoModel.id }, photoModel);
         }
 
-        // DELETE: api/Photos/5
-        [ResponseType(typeof(Photo))]
+        [ResponseType(typeof(PhotoModel))]
         public IHttpActionResult DeletePhoto(int id)
         {
             Photo photo = db.Photos.Find(id);
@@ -98,7 +97,7 @@ namespace CukoosApi.Controllers
             db.Photos.Remove(photo);
             db.SaveChanges();
 
-            return Ok(photo);
+            return Ok(new PhotoModel(photo));
         }
 
         protected override void Dispose(bool disposing)

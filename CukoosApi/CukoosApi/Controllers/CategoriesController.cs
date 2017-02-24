@@ -1,6 +1,6 @@
-﻿using System;
+﻿using CukoosApi.Models;
+using System;
 using System.Collections.Generic;
-using System.Data;
 using System.Data.Entity;
 using System.Data.Entity.Infrastructure;
 using System.Linq;
@@ -8,7 +8,6 @@ using System.Net;
 using System.Net.Http;
 using System.Web.Http;
 using System.Web.Http.Description;
-using CukoosApi.Models;
 
 namespace CukoosApi.Controllers
 {
@@ -16,14 +15,13 @@ namespace CukoosApi.Controllers
     {
         private cukooEntities db = new cukooEntities();
 
-        // GET: api/Categories
-        public IQueryable<Category> GetCategories()
+        [ResponseType(typeof(CategoryModel))]
+        public IHttpActionResult GetCategories()
         {
-            return db.Categories;
+            return Ok(db.Categories.ToList().Select(x => new CategoryModel(x)));
         }
 
-        // GET: api/Categories/5
-        [ResponseType(typeof(Category))]
+        [ResponseType(typeof(CategoryModel))]
         public IHttpActionResult GetCategory(int id)
         {
             Category category = db.Categories.Find(id);
@@ -32,24 +30,25 @@ namespace CukoosApi.Controllers
                 return NotFound();
             }
 
-            return Ok(category);
+            return Ok(new CategoryModel(category));
         }
 
-        // PUT: api/Categories/5
         [ResponseType(typeof(void))]
-        public IHttpActionResult PutCategory(int id, Category category)
+        public IHttpActionResult PutCategory(int id, CategoryModel categoryModel)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            if (id != category.id)
+            if (categoryModel.id != id)
             {
                 return BadRequest();
             }
 
-            db.Entry(category).State = EntityState.Modified;
+            Category entity = categoryModel.ToEntity();
+
+            db.Entry(entity).State = EntityState.Modified;
 
             try
             {
@@ -67,26 +66,26 @@ namespace CukoosApi.Controllers
                 }
             }
 
-            return StatusCode(HttpStatusCode.NoContent);
+            return StatusCode(HttpStatusCode.OK);
         }
 
-        // POST: api/Categories
-        [ResponseType(typeof(Category))]
-        public IHttpActionResult PostCategory(Category category)
+        [ResponseType(typeof(PhotoModel))]
+        public IHttpActionResult PostCategory(CategoryModel categoryModel)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            db.Categories.Add(category);
+            Category entity = categoryModel.ToEntity();
+
+            db.Categories.Add(entity);
             db.SaveChanges();
 
-            return CreatedAtRoute("DefaultApi", new { id = category.id }, category);
+            return CreatedAtRoute("DefaultApi", new { id = categoryModel.id }, categoryModel);
         }
 
-        // DELETE: api/Categories/5
-        [ResponseType(typeof(Category))]
+        [ResponseType(typeof(PhotoModel))]
         public IHttpActionResult DeleteCategory(int id)
         {
             Category category = db.Categories.Find(id);
@@ -98,7 +97,7 @@ namespace CukoosApi.Controllers
             db.Categories.Remove(category);
             db.SaveChanges();
 
-            return Ok(category);
+            return Ok(new CategoryModel(category));
         }
 
         protected override void Dispose(bool disposing)
