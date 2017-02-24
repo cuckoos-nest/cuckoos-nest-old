@@ -15,6 +15,7 @@ namespace CukoosApi.Controllers
     {
         private cukooEntities db = new cukooEntities();
 
+        #region Get
         [ResponseType(typeof(CategoryModel))]
         public IHttpActionResult GetCategories()
         {
@@ -32,6 +33,7 @@ namespace CukoosApi.Controllers
 
             return Ok(new CategoryModel(category));
         }
+        #endregion
 
         [ResponseType(typeof(void))]
         public IHttpActionResult PutCategory(int id, CategoryModel categoryModel)
