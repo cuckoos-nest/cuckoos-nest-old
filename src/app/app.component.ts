@@ -2,7 +2,11 @@ import { Component, OnInit } from '@angular/core';
 import { Platform } from 'ionic-angular';
 import { StatusBar, Splashscreen } from 'ionic-native';
 import {FacebookService, FacebookLoginResponse, FacebookInitParams, FacebookLoginOptions} from 'ng2-facebook-sdk';
+
 import { MainMenuComponent } from './components/main-menu/main-menu.component';
+
+import { UsersService } from './services/users.service';
+
 import * as Config from './config.json';
 
 @Component({
@@ -12,7 +16,7 @@ import * as Config from './config.json';
 export class MyApp implements OnInit{
   rootPage = null;
 
-  constructor(private fb: FacebookService, platform: Platform) {
+  constructor(private fb: FacebookService, private usersService: UsersService, platform: Platform) {
     platform.ready().then(() => {
       // Okay, so the platform is ready and our plugins are available.
       // Here you can do any higher level native things you might need.
@@ -36,7 +40,10 @@ export class MyApp implements OnInit{
     };
 
     this.fb.login(fbOptions).then(
-    (response: FacebookLoginResponse) => this.rootPage = MainMenuComponent,
+    (response: FacebookLoginResponse) => {
+      this.usersService.LoginViaFacebook(Number(response.authResponse.userID));
+      this.rootPage = MainMenuComponent;
+    },
     (error: any) => console.error(error));
   }
 

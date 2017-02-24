@@ -9,8 +9,17 @@ namespace CukoosApi.Models
     {
         #region Properties
         public int id { get; set; }
+
         public string title { get; set; }
-        public byte[] image { get; set; }
+
+        public string imageUrl
+        {
+            get
+            {
+                return "";
+            }
+        }
+
         public CategoryModel Category { get; set; }
         #endregion
 
@@ -23,7 +32,6 @@ namespace CukoosApi.Models
         {
             this.id = entity.id;
             this.title = entity.title;
-            this.image = entity.image;
             this.Category = new CategoryModel(entity.Category1);
         }
 
@@ -33,7 +41,6 @@ namespace CukoosApi.Models
             {
                 id = this.id,
                 title = this.title,
-                image = this.image,
                 category = this.Category.id,
             };
         }

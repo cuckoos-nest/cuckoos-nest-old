@@ -2,7 +2,8 @@ import { Component } from '@angular/core';
 import { NavParams } from 'ionic-angular';
 import { Camera } from 'ionic-native';
 
-import { Category, Photo } from '../../../models/photo.models';
+import { PhotoModel } from '../../../models/photo.model';
+import { CategoryModel } from '../../../models/category.model';
 
 import { PhotosService } from '../../../services/photos.service';
 
@@ -12,8 +13,8 @@ import { PhotosService } from '../../../services/photos.service';
 })
 export class CategoryDetailComponent {
 
-    photos : Photo[];
-    category : Category;
+    photos : PhotoModel[];
+    category : CategoryModel;
 
     constructor(private navParams: NavParams, private photosService: PhotosService) {
         this.category = navParams.get('category');
