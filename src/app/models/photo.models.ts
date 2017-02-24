@@ -1,11 +1,13 @@
 export class Photo {
-    public id : number;
-    public title : string;
-    public image : any;
-    public category : Category;
+     id : number;
+     title : string;
+     image : any;
+     category : Category;
 }
 
 export class Category {
-    public id : number;
-    public name : string;
+     id : number;
+     name : string;
+     image: string;
+     photos: string[];
 }
