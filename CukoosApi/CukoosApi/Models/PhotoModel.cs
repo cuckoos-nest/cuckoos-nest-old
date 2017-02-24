@@ -24,6 +24,7 @@ namespace CukoosApi.Models
             this.id = entity.id;
             this.title = entity.title;
             this.image = entity.image;
+            this.Category = new CategoryModel(entity.Category1);
         }
 
         public Photo ToEntity()

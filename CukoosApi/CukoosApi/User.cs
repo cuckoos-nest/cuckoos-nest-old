@@ -12,24 +12,24 @@ namespace CukoosApi
     using System;
     using System.Collections.Generic;
     
-    public partial class Photo
+    public partial class User
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public Photo()
+        public User()
         {
             this.UserUploads = new HashSet<UserUpload>();
-            this.Users = new HashSet<User>();
+            this.Categories = new HashSet<Category>();
+            this.Photos = new HashSet<Photo>();
         }
     
         public int id { get; set; }
-        public string title { get; set; }
-        public byte[] image { get; set; }
-        public int category { get; set; }
+        public int fb_id { get; set; }
     
-        public virtual Category Category1 { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<UserUpload> UserUploads { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<User> Users { get; set; }
+        public virtual ICollection<Category> Categories { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Photo> Photos { get; set; }
     }
 }
