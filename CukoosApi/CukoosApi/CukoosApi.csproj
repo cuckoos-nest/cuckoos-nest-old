@@ -144,12 +144,12 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Global.asax" />
-    <Content Include="Models\EntityFrameworkModel.Context.tt">
+    <Content Include="EntityFrameworkModel.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <DependentUpon>EntityFrameworkModel.edmx</DependentUpon>
       <LastGenOutput>EntityFrameworkModel.Context.cs</LastGenOutput>
     </Content>
-    <Content Include="Models\EntityFrameworkModel.tt">
+    <Content Include="EntityFrameworkModel.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <DependentUpon>EntityFrameworkModel.edmx</DependentUpon>
       <LastGenOutput>EntityFrameworkModel.cs</LastGenOutput>
@@ -162,29 +162,31 @@
     <Compile Include="App_Start\SwaggerConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\CategoriesController.cs" />
-    <Compile Include="Controllers\PhotosController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Models\Category.cs">
+    <Compile Include="Category.cs">
       <DependentUpon>EntityFrameworkModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\EntityFrameworkModel.Context.cs">
+    <Compile Include="EntityFrameworkModel.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>EntityFrameworkModel.Context.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\EntityFrameworkModel.cs">
+    <Compile Include="EntityFrameworkModel.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>EntityFrameworkModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\EntityFrameworkModel.Designer.cs">
+    <Compile Include="EntityFrameworkModel.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>EntityFrameworkModel.edmx</DependentUpon>
     </Compile>
-    <Compile Include="Models\Photo.cs">
+    <Compile Include="Controllers\PhotosController.cs" />
+    <Compile Include="Models\CategoryModel.cs" />
+    <Compile Include="Models\PhotoModel.cs" />
+    <Compile Include="Photo.cs">
       <DependentUpon>EntityFrameworkModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -194,11 +196,11 @@
     <Content Include="ApplicationInsights.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <EntityDeploy Include="Models\EntityFrameworkModel.edmx">
+    <EntityDeploy Include="EntityFrameworkModel.edmx">
       <Generator>EntityModelCodeGenerator</Generator>
       <LastGenOutput>EntityFrameworkModel.Designer.cs</LastGenOutput>
     </EntityDeploy>
-    <Content Include="Models\EntityFrameworkModel.edmx.diagram">
+    <Content Include="EntityFrameworkModel.edmx.diagram">
       <DependentUpon>EntityFrameworkModel.edmx</DependentUpon>
     </Content>
     <Content Include="Metadata\deploymentTemplates\apiappconfig.azureresource.json" />
