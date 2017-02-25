@@ -39,7 +39,7 @@ namespace CukoosApi.Controllers
     }
 
     [ResponseType(typeof(UserModel))]
-    public IHttpActionResult GetUsers(int fb_id)
+    public IHttpActionResult GetUsers(long fb_id)
     {
       using (var db = new CukoosContext())
       {
