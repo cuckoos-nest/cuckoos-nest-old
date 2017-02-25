@@ -34,9 +34,14 @@ namespace CukoosApi.Models
         public UserUploadModel(Upload entity)
         {
             this.id = entity.Id;
-            this.photo = new PhotoModel(entity.Photo);
+
+            if (entity.Photo != null)
+              this.photo = new PhotoModel(entity.Photo);
+
             this.description = entity.Description;
-            this.user = new UserModel(entity.User);
+
+            if (entity.User != null)
+              this.user = new UserModel(entity.User);
         }
 
         public Upload ToEntity()

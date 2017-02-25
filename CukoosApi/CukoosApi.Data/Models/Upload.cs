@@ -19,7 +19,10 @@ namespace CukoosApi.Data.Models
     [Required]
     public virtual User User { get; set; }
 
-    [ForeignKey("Id")]
+    [Column("photo")]
+    public int PhotoId { get; set; }
+
+    [ForeignKey("PhotoId")]
     [Required]
     public virtual Photo Photo { get; set; }
 
@@ -32,5 +35,7 @@ namespace CukoosApi.Data.Models
     public DateTime DateCreated { get; set; }
 
     public virtual ICollection<Comment> Comments { get; set; }
+
+    public virtual ICollection<Like> Likes { get; set; }
   }
 }

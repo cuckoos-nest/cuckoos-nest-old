@@ -29,7 +29,7 @@ namespace CukoosApi.Controllers
     {
       using (var db = new CukoosContext())
       {
-        var photo = db.Photos.Include(p => p.Category).Single(p => p.Id == id);
+        var photo = db.Photos.Include(p => p.Category).SingleOrDefault(p => p.Id == id);
 
         if (photo == null)
           return NotFound();

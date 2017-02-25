@@ -13,7 +13,6 @@ namespace CukoosApi.Models
         public long fb_id { get; set; }
         public IEnumerable<PhotoModel> followingPhotos { get; set; }
         public IEnumerable<CategoryModel> followingCategories { get; set; }
-        public IEnumerable<UserUploadModel> uploads { get; set; }
         #endregion
 
         #region Consturctors
@@ -25,7 +24,6 @@ namespace CukoosApi.Models
         {
             this.id = entity.Id;
             this.fb_id = entity.FacebookId;
-            this.uploads = entity.Uploads.ToList().Select(x => new UserUploadModel(x));
         }
 
         public User ToEntity()

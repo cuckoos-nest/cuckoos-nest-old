@@ -20,8 +20,5 @@ namespace CukoosApi.Data.Models
     [Column("name")]
     [Required]
     public string Name { get; set; }
-
-    [Column("image")]
-    public byte[] Image { get; set; }
   }
 }
