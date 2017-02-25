@@ -1,0 +1,10 @@
+C:\projets\cuckoo\CukoosApi\CukoosApi.Data\bin\Release\CukoosApi.Data.dll.config
+C:\projets\cuckoo\CukoosApi\CukoosApi.Data\bin\Release\CukoosApi.Data.dll
+C:\projets\cuckoo\CukoosApi\CukoosApi.Data\bin\Release\CukoosApi.Data.pdb
+C:\projets\cuckoo\CukoosApi\CukoosApi.Data\bin\Release\EntityFramework.dll
+C:\projets\cuckoo\CukoosApi\CukoosApi.Data\bin\Release\EntityFramework.SqlServer.dll
+C:\projets\cuckoo\CukoosApi\CukoosApi.Data\bin\Release\EntityFramework.xml
+C:\projets\cuckoo\CukoosApi\CukoosApi.Data\bin\Release\EntityFramework.SqlServer.xml
+C:\projets\cuckoo\CukoosApi\CukoosApi.Data\obj\Release\CukoosApi.Data.csprojResolveAssemblyReference.cache
+C:\projets\cuckoo\CukoosApi\CukoosApi.Data\obj\Release\CukoosApi.Data.dll
+C:\projets\cuckoo\CukoosApi\CukoosApi.Data\obj\Release\CukoosApi.Data.pdb

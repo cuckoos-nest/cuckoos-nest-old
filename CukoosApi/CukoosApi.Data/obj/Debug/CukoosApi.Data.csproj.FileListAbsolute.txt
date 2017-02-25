@@ -23,5 +23,6 @@ C:\projets\cuckoo\CukoosApi\CukoosApi.Data\bin\Debug\EntityFramework.dll
 C:\projets\cuckoo\CukoosApi\CukoosApi.Data\bin\Debug\EntityFramework.SqlServer.dll
 C:\projets\cuckoo\CukoosApi\CukoosApi.Data\bin\Debug\EntityFramework.xml
 C:\projets\cuckoo\CukoosApi\CukoosApi.Data\bin\Debug\EntityFramework.SqlServer.xml
+C:\projets\cuckoo\CukoosApi\CukoosApi.Data\obj\Debug\CukoosApi.Data.csprojResolveAssemblyReference.cache
 C:\projets\cuckoo\CukoosApi\CukoosApi.Data\obj\Debug\CukoosApi.Data.dll
 C:\projets\cuckoo\CukoosApi\CukoosApi.Data\obj\Debug\CukoosApi.Data.pdb
