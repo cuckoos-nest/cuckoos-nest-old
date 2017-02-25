@@ -41,7 +41,7 @@ namespace CukoosApi.Repository.Base
 
     public T GetById(int id)
     {
-      return this._dbSet.Single(entity => entity.ID == id);
+      return this._dbSet.Single(entity => entity.Id == id);
     }
 
     public void Remove(T entity)
@@ -53,7 +53,6 @@ namespace CukoosApi.Repository.Base
     {
       this._dbSet.RemoveRange(entities);
     }
-
 
     public void Dispose()
     {

@@ -40,6 +40,7 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.configuration" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -50,9 +51,14 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CukoosContext.cs" />
+    <Compile Include="Helpers\CukoosConnectionStringBuilder.cs" />
     <Compile Include="Interfaces\IEntity.cs" />
     <Compile Include="Models\Category.cs" />
+    <Compile Include="Models\Comment.cs" />
+    <Compile Include="Models\Like.cs" />
     <Compile Include="Models\Photo.cs" />
+    <Compile Include="Models\Upload.cs" />
+    <Compile Include="Models\User.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

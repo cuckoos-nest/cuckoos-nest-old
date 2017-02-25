@@ -1,4 +1,5 @@
-﻿using System;
+﻿using CukoosApi.Data.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -19,16 +20,16 @@ namespace CukoosApi.Models
 
         public CategoryModel(Category entity)
         {
-            this.id = entity.id;
-            this.name = entity.name;
+            this.id = entity.Id;
+            this.name = entity.Name;
         }
 
         public Category ToEntity()
         {
             return new Category
             {
-                id = this.id,
-                name = this.name
+                Id = this.id,
+                Name = this.name
             };
         }
         #endregion
