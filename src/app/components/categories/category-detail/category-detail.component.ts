@@ -33,11 +33,11 @@ export class CategoryDetailComponent {
         });
     }
 
-    private getPhotoTitle(photo) {
+    private getPhotoTitle(photo: PhotoModel) {
         return photo.title;
     }
 
-    private getPhotoImage(photo) {
-        return "assets/testingImages/banana.png";
+    private getPhotoImage(photo: PhotoModel) {
+        return photo.imageUrl;
     }
 }
