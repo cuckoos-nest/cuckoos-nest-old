@@ -53,8 +53,10 @@ export class MyApp implements OnInit{
 
         if (!isConnected)
           this.fbLogin();
-        else
+        else {
+          this.usersService.LoginViaFacebook(Number(fbResponse.authResponse.userID));
           this.rootPage = MainMenuComponent;
+        }
       });
     }
 }

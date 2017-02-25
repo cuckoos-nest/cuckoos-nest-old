@@ -33,10 +33,12 @@ export class UsersService extends BaseService {
                     this.http.post(`${this.userDirectory}`, userModel).map(bodyResponse => bodyResponse.json())
                     .subscribe(newUser => {
                         this._loggedInUser = newUser;
+                    console.log("New user has been registered", newUser);
                     });
                 }
                 else {
                     this._loggedInUser = user;
+                    console.log("User is already registerd", user);
                 }
             });
     }
