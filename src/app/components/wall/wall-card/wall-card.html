@@ -1,29 +1,29 @@
 <div class="title">
-    <img src="assets/testingImages/tomato-icon.png" /> 
+    <img src="{{ userUpload.photo.imageUrl }}" /> 
     Tomato
   </div>
 
 <ion-card>
-  <img src="assets/testingImages/assaf.png"/>
+  <img src="{{ userUpload.imageUrl }}"/>
 
-  <a href="#" (click)="goToUser()" class="user">assafn</a>
+  <a href="#" (click)="goToUser()" class="user">{{ userUpload.user.firstName }} {{ userUpload.user.lastName }}</a>
 
   <ion-card-content>
-      <div class="description">I'm the happiest tomato in the world!!</div>
-      <div class="time">2 hours ago</div>
+      <div class="description">{{ userUpload.description }}</div>
+      <div class="time">{{ calculateTime(userUpload.datetime) }}</div>
   </ion-card-content>
 
   <ion-row>
     <ion-col>
       <button ion-button icon-left clear small>
         <ion-icon name="thumbs-up"></ion-icon>
-        <div>275 Likes</div>
+        <div>{{ userUpload.likes.length }} Likes</div>
       </button>
     </ion-col>
     <ion-col>
       <button ion-button icon-left clear small>
         <ion-icon name="text"></ion-icon>
-        <div>52 Comments</div>
+        <div>{{ userUpload.comments.length }} Comments</div>
       </button>
     </ion-col>
   </ion-row>

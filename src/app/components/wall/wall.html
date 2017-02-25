@@ -1,4 +1,3 @@
 <ion-content>
-    <wall-card></wall-card>
-    <wall-card></wall-card>
+    <wall-card *ngFor="let userUpload of _currentWall" [data]="userUpload"></wall-card>
 </ion-content>
