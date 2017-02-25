@@ -17,7 +17,7 @@ namespace CukoosApi.Controllers
     #region Get
     [ResponseType(typeof(PhotoModel))]
     public IHttpActionResult GetPhotos()
-    {
+    { 
       using (var db = new CukoosContext())
       {
         return Ok(db.Photos.Include(p => p.Category).ToList().Select(x => new PhotoModel(x)));

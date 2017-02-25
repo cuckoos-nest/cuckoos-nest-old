@@ -17,7 +17,7 @@ namespace CukoosApi.Models
         {
             get
             {
-                return "";
+                return $"http://cukooapi.azurewebsites.net/assets/photos/{this.id}.png";
             }
         }
 

@@ -49,7 +49,7 @@ namespace CukoosApi.Data.Helpers
           InitialCatalog = _initialCatalog,
           DataSource = _dataSource,
           UserID = _userId,
-          Password = _password
+          Password = _password,
         };
 
         return connBuilder.ConnectionString;

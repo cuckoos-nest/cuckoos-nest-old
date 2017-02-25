@@ -13,10 +13,6 @@ import Config from '../config.json';
 @Injectable()
 export class CategoriesService extends BaseService {
 
-    readonly categoriesDirectory = 'categories';
-    readonly photoesDirectory = 'photos';
-    readonly host = Config.host + "/";
-
     constructor(private http: Http) {
         super();
     }
