@@ -13,8 +13,9 @@ namespace CukoosApi.Data.Models
   public class Category : IEntity
   {
     [Column("id")]
+    [Key()]
     [Required]
-    public int ID { get; set; }
+    public int Id { get; set; }
 
     [Column("name")]
     [Required]

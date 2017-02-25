@@ -8,6 +8,6 @@ namespace CukoosApi.Data.Interfaces
 {
   public interface IEntity
   {
-    int ID { get; set; }
+    int Id { get; set; }
   }
 }

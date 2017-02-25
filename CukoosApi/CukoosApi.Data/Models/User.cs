@@ -1,5 +1,4 @@
-﻿using CukoosApi.Data.Interfaces;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -9,18 +8,15 @@ using System.Threading.Tasks;
 
 namespace CukoosApi.Data.Models
 {
-  [Table("Photos")]
-  public class Photo : IEntity
+  public class User
   {
+    [Key]
     [Column("id")]
-    [Required]
     public int Id { get; set; }
 
-    [Column("title")]
-    [Required]
-    public string Title { get; set; }
+    [Column("fb_id")]
+    public long FacebookId { get; set; }
 
-    [ForeignKey("Id")]
-    public virtual Category Category { get; set; }
+    public virtual ICollection<Upload> Uploads { get; set; }
   }
 }

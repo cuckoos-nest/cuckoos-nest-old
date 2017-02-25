@@ -1,4 +1,5 @@
-﻿using System;
+﻿using CukoosApi.Data.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -30,22 +31,22 @@ namespace CukoosApi.Models
         {
         }
 
-        public UserUploadModel(UserUpload entity)
+        public UserUploadModel(Upload entity)
         {
-            this.id = entity.id;
-            this.photo = new PhotoModel(entity.Photo1);
-            this.description = entity.description;
-            this.user = new UserModel(entity.User1);
+            this.id = entity.Id;
+            this.photo = new PhotoModel(entity.Photo);
+            this.description = entity.Description;
+            this.user = new UserModel(entity.User);
         }
 
-        public UserUpload ToEntity()
+        public Upload ToEntity()
         {
-            return new UserUpload()
+            return new Upload()
             {
-                id = this.id,
-                photo = this.photo.id,
-                description = this.description,
-                user = this.user.id,
+                Id = this.id,
+                Photo = this.photo.ToEntity(),
+                Description = this.description,
+                User = this.user.ToEntity(),
             };
         }
         #endregion

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using CukoosApi.Data.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -30,18 +31,20 @@ namespace CukoosApi.Models
 
         public PhotoModel(Photo entity)
         {
-            this.id = entity.id;
-            this.title = entity.title;
-            this.Category = new CategoryModel(entity.Category1);
+            this.id = entity.Id;
+            this.title = entity.Title;
+            
+            if (entity.Category != null)
+              this.Category = new CategoryModel(entity.Category);
         }
 
         public Photo ToEntity()
         {
             return new Photo()
             {
-                id = this.id,
-                title = this.title,
-                category = this.Category.id,
+                Id = this.id,
+                Title = this.title,
+                Category = this.Category.ToEntity(),
             };
         }
         #endregion
