@@ -1,5 +1,7 @@
 import { PhotoModel } from "./photo.model";
 import { UserModel } from "./user.model";
+import { CommentModel } from "./comment.model";
+import { LikeModel } from "./like.model";
 
 export class UserUploadModel {
      id : number;
@@ -7,4 +9,7 @@ export class UserUploadModel {
      description: string;
      user: UserModel;
      imageUrl: string;
+     dateTime: string;
+     likes: LikeModel[];
+     comments: CommentModel[];
 }
