@@ -15,11 +15,16 @@ namespace CukoosApi.Data.Models
     [Required]
     public int Id { get; set; }
 
+    [Column("user")]
+    public int UserId { get; set; }
+
     [ForeignKey("Id")]
     public virtual User User { get; set; }
 
-    [ForeignKey("Id")]
     [Column("userUpload")]
+    public int UploadId { get; set; }
+
+    [ForeignKey("UploadId")]
     public virtual Upload Upload { get; set; }
 
     [Column("content")]

@@ -16,3 +16,12 @@ C:\Users\IDO\Desktop\cukoo\CukoosApi\CukoosApi.Data\bin\Debug\EntityFramework.xm
 C:\Users\IDO\Desktop\cukoo\CukoosApi\CukoosApi.Data\bin\Debug\EntityFramework.SqlServer.xml
 C:\Users\IDO\Desktop\cukoo\CukoosApi\CukoosApi.Data\obj\Debug\CukoosApi.Data.dll
 C:\Users\IDO\Desktop\cukoo\CukoosApi\CukoosApi.Data\obj\Debug\CukoosApi.Data.pdb
+C:\projets\cuckoo\CukoosApi\CukoosApi.Data\bin\Debug\CukoosApi.Data.dll.config
+C:\projets\cuckoo\CukoosApi\CukoosApi.Data\bin\Debug\CukoosApi.Data.dll
+C:\projets\cuckoo\CukoosApi\CukoosApi.Data\bin\Debug\CukoosApi.Data.pdb
+C:\projets\cuckoo\CukoosApi\CukoosApi.Data\bin\Debug\EntityFramework.dll
+C:\projets\cuckoo\CukoosApi\CukoosApi.Data\bin\Debug\EntityFramework.SqlServer.dll
+C:\projets\cuckoo\CukoosApi\CukoosApi.Data\bin\Debug\EntityFramework.xml
+C:\projets\cuckoo\CukoosApi\CukoosApi.Data\bin\Debug\EntityFramework.SqlServer.xml
+C:\projets\cuckoo\CukoosApi\CukoosApi.Data\obj\Debug\CukoosApi.Data.dll
+C:\projets\cuckoo\CukoosApi\CukoosApi.Data\obj\Debug\CukoosApi.Data.pdb

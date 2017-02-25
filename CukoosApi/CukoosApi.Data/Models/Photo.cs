@@ -20,7 +20,10 @@ namespace CukoosApi.Data.Models
     [Required]
     public string Title { get; set; }
 
-    [ForeignKey("Id")]
+    [Column("category")]
+    public int CategoryId { get; set; }
+
+    [ForeignKey("CategoryId")]
     public virtual Category Category { get; set; }
   }
 }
