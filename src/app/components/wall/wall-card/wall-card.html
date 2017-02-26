@@ -10,7 +10,7 @@
 
   <ion-card-content>
       <div class="description">{{ userUpload.description }}</div>
-      <div class="time">{{ stringifyTime(userUpload.datetime) }}</div>
+      <div class="time">{{ userUpload.dateTime | date: 'MMM d, HH:mm' }}</div>
   </ion-card-content>
 
   <ion-row>
