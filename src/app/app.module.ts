@@ -10,6 +10,7 @@ import { CategoriesComponent } from './components/categories/categories.componen
 import { CategoryDetailComponent } from './components/categories/category-detail/category-detail.component';
 import { GalleryComponent } from './components/gallery/gallery.component'
 import { UserProfileComponent } from './components/user-profile/user-profile.component'
+import { NotificationsComponent } from './components/notifications/notifications.component'
 
 import { PhotosService } from './services/photos.service';
 import { CategoriesService } from './services/categories.service';
@@ -18,9 +19,6 @@ import { WallService } from './services/wall.service';
 import { FacebookLoginService } from './services/facebook-login.service';
 
 import { FacebookService } from 'ng2-facebook-sdk';
-
-
-
 
 @NgModule({
   declarations: [
@@ -33,6 +31,7 @@ import { FacebookService } from 'ng2-facebook-sdk';
     CategoryDetailComponent,
     GalleryComponent,
     UserProfileComponent,
+    NotificationsComponent,
     ],
   imports: [
     IonicModule.forRoot(MyApp)
@@ -48,6 +47,7 @@ import { FacebookService } from 'ng2-facebook-sdk';
     CategoryDetailComponent,
     GalleryComponent,
     UserProfileComponent,
+    NotificationsComponent,
   ],
   providers: [
     {provide: ErrorHandler, useClass: IonicErrorHandler},
