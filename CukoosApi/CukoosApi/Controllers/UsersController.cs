@@ -85,7 +85,7 @@ namespace CukoosApi.Controllers
     }
 
     [ResponseType(typeof(PhotoModel))]
-    public IHttpActionResult PostUser(UserModel userModel)
+    public IHttpActionResult PostUser([FromBody] UserModel userModel)
     {
       if (!ModelState.IsValid)
         return BadRequest(ModelState);
@@ -96,9 +96,11 @@ namespace CukoosApi.Controllers
       {
         db.Users.Add(entity);
         db.SaveChanges();
+
+        userModel = new UserModel(db.Users.Single(x => x.Id == entity.Id));
       }
 
-      return CreatedAtRoute("DefaultApi", new { id = userModel.id }, userModel);
+      return CreatedAtRoute("CukoosApi", new { id = userModel.id }, userModel);
     }
 
     [ResponseType(typeof(UserModel))]

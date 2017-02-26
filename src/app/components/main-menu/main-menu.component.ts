@@ -9,13 +9,13 @@ import { CategoriesComponent } from '../categories/categories.component';
 })
 export class MainMenuComponent {
 
-    wallTab: any;
-    searchTab: any;
-    addTab: any;
+    private _wallTab: any;
+    private _searchTab: any;
+    private _addTab: any;
 
     constructor() {
-        this.wallTab = WallComponent;
-        this.searchTab = SearchComponent;
-        this.addTab = CategoriesComponent;
+        this._wallTab = WallComponent;
+        this._searchTab = SearchComponent;
+        this._addTab = CategoriesComponent;
     }    
 }

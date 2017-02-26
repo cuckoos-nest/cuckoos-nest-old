@@ -1,6 +1,9 @@
 import { Component } from '@angular/core';
 
 import { UserUploadModel } from '../../models/user-upload.model';
+import { UserModel } from '../../models/user.model';
+
+import { UsersService } from '../../services/users.service';
 
 @Component({
     selector: '<wall></wall>',
@@ -8,9 +11,10 @@ import { UserUploadModel } from '../../models/user-upload.model';
 })
 export class WallComponent {
 
+    private _loggedInUser: UserModel;
     private _currentWall: UserUploadModel[];
 
-    constructor() {
-        
+    constructor(private usersService: UsersService) {
+        this._loggedInUser = this.usersService.loggedInUser;
     }    
 }
