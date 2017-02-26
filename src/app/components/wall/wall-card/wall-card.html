@@ -1,16 +1,16 @@
 <div class="title">
     <img src="{{ userUpload.photo.imageUrl }}" /> 
-    Tomato
+    {{ userUpload.photo.title }}
   </div>
 
 <ion-card>
   <img src="{{ userUpload.imageUrl }}"/>
 
-  <a href="#" (click)="goToUser()" class="user">{{ userUpload.user.firstName }} {{ userUpload.user.lastName }}</a>
+  <a href="#" (click)="goToUser()" class="user">{{ userUpload.user.displayName }}</a>
 
   <ion-card-content>
       <div class="description">{{ userUpload.description }}</div>
-      <div class="time">{{ calculateTime(userUpload.datetime) }}</div>
+      <div class="time">{{ stringifyTime(userUpload.datetime) }}</div>
   </ion-card-content>
 
   <ion-row>

@@ -12,17 +12,20 @@ namespace CukoosApi.Data.Models
   {
     [Key]
     [Column("id")]
+    [Required]
     public int Id { get; set; }
 
     [Column("fb_id")]
     public long FacebookId { get; set; }
 
-    public virtual ICollection<Upload> Uploads { get; set; }
+    public virtual ICollection<Category> Categories { get; set; }
 
     [Column("email")]
+    [Required]
     public string Email { get; set; }
 
     [Column("displayName")]
+    [Required]
     public string DisplayName { get; set; }
   }
 }

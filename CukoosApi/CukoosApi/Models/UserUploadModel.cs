@@ -17,13 +17,19 @@ namespace CukoosApi.Models
         {
             get
             {
-                return "";
+                return $"http://cukooapi.azurewebsites.net/assets/userUploads/{this.id}.png";
             }
         }
 
         public string description { get; set; }
 
         public UserModel user { get; set; }
+        
+        public List<Comment> comments { get; set; }
+
+        public List<Like> likes { get; set; }
+
+        public DateTime dateTime { get; set; }
         #endregion
 
         #region Consturctors
@@ -34,14 +40,12 @@ namespace CukoosApi.Models
         public UserUploadModel(Upload entity)
         {
             this.id = entity.Id;
-
-            if (entity.Photo != null)
-              this.photo = new PhotoModel(entity.Photo);
-
+            this.photo = new PhotoModel(entity.Photo);
             this.description = entity.Description;
-
-            if (entity.User != null)
-              this.user = new UserModel(entity.User);
+            this.user = new UserModel(entity.User);
+            this.comments = new List<Comment>();
+            this.likes = new List<Like>();
+            this.dateTime = entity.DateCreated;
         }
 
         public Upload ToEntity()

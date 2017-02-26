@@ -25,5 +25,6 @@ namespace CukoosApi.Data.Models
 
     [ForeignKey("CategoryId")]
     public virtual Category Category { get; set; }
+    public virtual ICollection<Upload> Uploads { get; set; }
   }
 }

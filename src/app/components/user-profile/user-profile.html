@@ -1,11 +1,31 @@
 <ion-header>
-  <ion-navbar>
+  <ion-toolbar>
+    <ion-buttons start [hidden]="!_isMyProfile">
+      <button ion-button icon-only>
+        <ion-icon name="create"></ion-icon>
+      </button>
+    </ion-buttons>
+
     <ion-title>
-      assafn
+      Profile
     </ion-title>
-  </ion-navbar>
+  </ion-toolbar>
 </ion-header>
 
 <ion-content>
-  
+  <ion-list no-border>
+      <ion-item>
+        Display Name
+        <ion-note item-right>{{ _user.displayName }}</ion-note>
+      </ion-item>
+
+      <ion-item>
+        Email
+        <ion-note item-right>{{ _user.email }}</ion-note>
+      </ion-item>
+
+      <button ion-item>View My Uploads</button>
+
+      <button ion-item>Categories I'm following</button>
+  </ion-list>
 </ion-content>

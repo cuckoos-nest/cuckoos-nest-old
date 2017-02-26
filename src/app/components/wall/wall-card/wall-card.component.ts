@@ -15,6 +15,6 @@ export class WallCardComponent {
     }
 
     private stringifyTime(dateTime: string): string {
-        return "";
+        return dateTime;
     }    
 }

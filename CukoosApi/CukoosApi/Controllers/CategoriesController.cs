@@ -38,6 +38,20 @@ namespace CukoosApi.Controllers
         return Ok(new CategoryModel(category));
       }
     }
+
+    [ResponseType(typeof(CategoryModel))]
+    public IHttpActionResult GetCategories(int followedBy)
+    {
+      using (var db = new CukoosContext())
+      {
+        User follower = db.Users.Include(u => u.Categories).SingleOrDefault(x => x.Id == followedBy);
+
+        if (follower == null)
+          return NotFound();
+
+        return Ok(follower.Categories.ToList().Select(x => new CategoryModel(x)));
+      }
+    }
     #endregion
 
     [ResponseType(typeof(void))]

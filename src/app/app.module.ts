@@ -14,6 +14,7 @@ import { UserProfileComponent } from './components/user-profile/user-profile.com
 import { PhotosService } from './services/photos.service';
 import { CategoriesService } from './services/categories.service';
 import { UsersService } from './services/users.service';
+import { WallService } from './services/wall.service';
 import { FacebookLoginService } from './services/facebook-login.service';
 
 import { FacebookService } from 'ng2-facebook-sdk';
@@ -54,7 +55,8 @@ import { FacebookService } from 'ng2-facebook-sdk';
     CategoriesService,
     UsersService,
     FacebookService,
-    FacebookLoginService
+    FacebookLoginService,
+    WallService
     ]
 })
 export class AppModule {}

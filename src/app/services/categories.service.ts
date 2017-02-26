@@ -17,22 +17,27 @@ export class CategoriesService extends BaseService {
         super();
     }
 
-    public getCategories() : Observable<CategoryModel[]> {
+    public getCategories(): Observable<CategoryModel[]> {
         return this.http.get(`${this.categoriesDirectory}`)
-        .map(bodyResponse => bodyResponse.json());
+            .map(bodyResponse => bodyResponse.json());
     }
 
-    public getCategoryByName(name: string) : Observable<CategoryModel> { //until updated api
+    public getCategoryByName(name: string): Observable<CategoryModel> { //until updated api
         return this.http.get(`${this.categoriesDirectory}`)
-        .map(bodyResponse => {
-            const categories = <CategoryModel[]>bodyResponse.json(); 
-            return categories.find(category => category.name === name);
-        })
+            .map(bodyResponse => {
+                const categories = <CategoryModel[]>bodyResponse.json(); 
+                return categories.find(category => category.name === name);
+            })
     }
 
-    public getCategoryById(id: number) : Observable<CategoryModel> {
+    public getCategoryById(id: number): Observable<CategoryModel> {
         return this.http.get(`${this.categoriesDirectory}/${id}`)
-        .map(bodyResponse => bodyResponse.json());
+            .map(bodyResponse => bodyResponse.json());
+    }
+
+    public getCategoriesByFollower(userId: number): Observable<CategoryModel> {
+        return this.http.get(`${this.categoriesDirectory}?followedBy=${userId}`)
+            .map(bodyResponse => bodyResponse.json());
     }
 
 }

@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 
 namespace CukoosApi.Data.Models
 {
+  [Table("UserUploads")]
   public class Upload
   {
     [Key]
@@ -15,7 +16,10 @@ namespace CukoosApi.Data.Models
     [Required]
     public int Id { get; set; }
 
-    [ForeignKey("Id")]
+    [Column("user")]
+    public int UserId { get; set; }
+
+    [ForeignKey("UserId")]
     [Required]
     public virtual User User { get; set; }
 

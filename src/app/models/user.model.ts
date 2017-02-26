@@ -6,6 +6,4 @@ export class UserModel {
      fb_id : number;
      email : string;
      displayName : string;
-     followingPhotos: PhotoModel[];
-     followingCategories: CategoryModel[];
 }

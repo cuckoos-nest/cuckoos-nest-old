@@ -13,8 +13,6 @@ namespace CukoosApi.Models
         public long fb_id { get; set; }
         public string email { get; set; }
         public string displayName { get; set; }
-        public IEnumerable<PhotoModel> followingPhotos { get; set; }
-        public IEnumerable<CategoryModel> followingCategories { get; set; }
         #endregion
 
         #region Consturctors
