@@ -13,8 +13,4 @@ export class WallCardComponent {
 
     constructor() {
     }
-
-    private stringifyTime(dateTime: string): string {
-        return dateTime;
-    }    
 }
