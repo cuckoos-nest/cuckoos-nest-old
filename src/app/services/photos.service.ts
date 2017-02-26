@@ -4,7 +4,7 @@ import { PhotoModel } from '../models/photo.model';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/map';
 
-import { BaseService } from './base.service';
+import { BaseService } from './base/base.service';
 
 import Config from '../config.json';
 

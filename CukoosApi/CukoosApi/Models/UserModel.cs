@@ -11,6 +11,8 @@ namespace CukoosApi.Models
         #region Properties
         public int id { get; set; }
         public long fb_id { get; set; }
+        public string email { get; set; }
+        public string displayName { get; set; }
         public IEnumerable<PhotoModel> followingPhotos { get; set; }
         public IEnumerable<CategoryModel> followingCategories { get; set; }
         #endregion
@@ -24,7 +26,9 @@ namespace CukoosApi.Models
         {
             this.id = entity.Id;
             this.fb_id = entity.FacebookId;
-        }
+            this.email = entity.Email;
+            this.displayName = entity.DisplayName;
+    }
 
         public User ToEntity()
         {
@@ -32,6 +36,8 @@ namespace CukoosApi.Models
             {
                 Id = this.id,
                 FacebookId = this.fb_id,
+                Email = this.email,
+                DisplayName = this.displayName,
             };
         }
         #endregion

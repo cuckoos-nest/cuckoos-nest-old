@@ -4,6 +4,8 @@ import { PhotoModel } from "./photo.model";
 export class UserModel {
      id : number;
      fb_id : number;
+     email : string;
+     displayName : string;
      followingPhotos: PhotoModel[];
      followingCategories: CategoryModel[];
 }

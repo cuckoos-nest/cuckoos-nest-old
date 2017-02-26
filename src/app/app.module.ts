@@ -14,6 +14,10 @@ import { UserProfileComponent } from './components/user-profile/user-profile.com
 import { PhotosService } from './services/photos.service';
 import { CategoriesService } from './services/categories.service';
 import { UsersService } from './services/users.service';
+import { FacebookLoginService } from './services/facebook-login.service';
+
+import { FacebookService } from 'ng2-facebook-sdk';
+
 
 
 
@@ -48,7 +52,9 @@ import { UsersService } from './services/users.service';
     {provide: ErrorHandler, useClass: IonicErrorHandler},
     PhotosService,
     CategoriesService,
-    UsersService
+    UsersService,
+    FacebookService,
+    FacebookLoginService
     ]
 })
 export class AppModule {}

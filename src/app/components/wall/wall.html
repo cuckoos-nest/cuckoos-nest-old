@@ -1,3 +1,11 @@
+<ion-header>
+  <ion-navbar>
+    <ion-title>
+      Welcome, {{ _loggedInUser.displayName }}
+    </ion-title>
+  </ion-navbar>
+</ion-header>
+
 <ion-content>
     <wall-card *ngFor="let userUpload of _currentWall" [data]="userUpload"></wall-card>
 </ion-content>

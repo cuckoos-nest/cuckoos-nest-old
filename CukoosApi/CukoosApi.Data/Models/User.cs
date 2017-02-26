@@ -18,5 +18,11 @@ namespace CukoosApi.Data.Models
     public long FacebookId { get; set; }
 
     public virtual ICollection<Upload> Uploads { get; set; }
+
+    [Column("email")]
+    public string Email { get; set; }
+
+    [Column("displayName")]
+    public string DisplayName { get; set; }
   }
 }

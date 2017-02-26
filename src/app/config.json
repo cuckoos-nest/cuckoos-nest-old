@@ -1,4 +1,5 @@
 {
     "host": "http://cukooapi.azurewebsites.net/api/",
-    "facebookAppId": 1852328261703414
+    "facebookAppId": 1852328261703414,
+    "debugMode": true
 }
