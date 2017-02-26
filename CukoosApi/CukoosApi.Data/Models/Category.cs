@@ -20,5 +20,9 @@ namespace CukoosApi.Data.Models
     [Column("name")]
     [Required]
     public string Name { get; set; }
+
+    public virtual ICollection<User> Users { get; set; }
+
+    public virtual ICollection<Photo> Photos { get; set; }
   }
 }

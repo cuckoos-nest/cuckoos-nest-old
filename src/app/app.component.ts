@@ -16,6 +16,10 @@ export class MyApp implements OnInit{
   rootPage = null;
 
   constructor(private loginService: FacebookLoginService, platform: Platform) {
+    if (Config.debugMode) {
+      console.log("Platform", platform);
+    }
+
     platform.ready().then(() => {
       // Okay, so the platform is ready and our plugins are available.
       // Here you can do any higher level native things you might need.

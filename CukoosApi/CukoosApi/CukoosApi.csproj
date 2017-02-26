@@ -152,6 +152,7 @@
     <Content Include="Assets\Photos\2.png" />
     <Content Include="Assets\Photos\6.png" />
     <Content Include="Assets\Photos\4.png" />
+    <Content Include="Assets\UserUploads\2.png" />
     <Content Include="Global.asax" />
     <Content Include="scripts\ai.0.15.0-build58334.js" />
     <Content Include="scripts\ai.0.15.0-build58334.min.js" />
@@ -164,6 +165,7 @@
     <Compile Include="Controllers\PhotosController.cs" />
     <Compile Include="Controllers\UsersController.cs" />
     <Compile Include="Controllers\UserUploadsController.cs" />
+    <Compile Include="Controllers\WallController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -192,7 +194,6 @@
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Assets\UserImages\" />
-    <Folder Include="Assets\UserUploads\" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
