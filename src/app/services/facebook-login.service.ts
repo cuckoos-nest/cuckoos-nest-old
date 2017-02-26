@@ -17,7 +17,7 @@ import Config from '../config.json';
 @Injectable()
 export class FacebookLoginService extends BaseLoginService {
 
-    constructor(private http: Http, private fb: FacebookService, private usersService: UsersService) {
+    constructor(private http: Http, private facebookService: FacebookService, private usersService: UsersService) {
         super();
     }
 
@@ -30,10 +30,10 @@ export class FacebookLoginService extends BaseLoginService {
                               version: 'v2.6'
             };
 
-            this.fb.init(fbParams);
+            this.facebookService.init(fbParams);
 
             // Attempt to perform facebook login
-            this.fb.getLoginStatus().then(fbResponse => {
+            this.facebookService.getLoginStatus().then(fbResponse => {
                 let isConnected: Boolean = (fbResponse.status === "connected");
 
                 if (!isConnected) {
@@ -42,7 +42,7 @@ export class FacebookLoginService extends BaseLoginService {
                     };
 
                     // The facebook account is not connected to the application, ask him for permissions
-                    this.fb.login(fbOptions).then((response: FacebookLoginResponse) => {
+                    this.facebookService.login(fbOptions).then((response: FacebookLoginResponse) => {
                         if (Config.debugMode) {
                             console.log("New facebook connection established");
                         }
@@ -102,7 +102,7 @@ export class FacebookLoginService extends BaseLoginService {
                     observer.complete();
                 },  
                 err => {
-                    this.fb.api("/me?fields=name,email,picture").then(me => {
+                    this.facebookService.api("/me?fields=name,email,picture").then(me => {
                         if (Config.debugMode) {
                             console.log("facebook /me response", me);
                         }
