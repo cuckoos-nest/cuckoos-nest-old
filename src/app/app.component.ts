@@ -13,7 +13,7 @@ import * as Config from './config.json';
   templateUrl: 'app.html'
 })
 export class MyApp implements OnInit{
-  rootPage = null;
+  private rootPage: Component = null;
 
   constructor(private loginService: FacebookLoginService, platform: Platform) {
     if (Config.debugMode) {

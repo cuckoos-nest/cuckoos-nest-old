@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Http } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
+import { Observer } from 'rxjs/Observer';
 import 'rxjs/add/operator/map';
 
 import { BaseService } from './base/base.service';
@@ -40,7 +41,7 @@ export class NotificationsService extends BaseService {
                 console.log(`New notification observer has been created for user: ${userId}`);
             }
 
-            let observable: Observable<NotificationModel> = new Observable<NotificationModel>(observer => {
+            let observable: Observable<NotificationModel> = new Observable<NotificationModel>((observer: Observer<NotificationModel>) => {
                 let previousNotifications: NotificationModel[] = new Array<NotificationModel>();
 
                 let intervalFunction = () => {
@@ -61,7 +62,7 @@ export class NotificationsService extends BaseService {
                         });
                     });
                 };
-                
+
                 intervalFunction();
                 setInterval(intervalFunction, Config.checkNotificationsDelay);
             });
@@ -73,6 +74,6 @@ export class NotificationsService extends BaseService {
     }
 
     public stopListening(userId: number) {
-        clearInterval(this._intervals[userId]);
+        clearInterval(this._intervals.get(userId));
     }
 }
