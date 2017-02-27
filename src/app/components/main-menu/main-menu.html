@@ -3,7 +3,7 @@
     <ion-tab tabIcon="home" [root]="_wallTab"></ion-tab>
     <ion-tab tabIcon="search" [root]="_searchTab"></ion-tab>
     <ion-tab tabIcon="add" [root]="_addTab"></ion-tab>
-    <ion-tab tabIcon="heart" [root]="_notificationsTab" tabBadge="3" tabBadgeStyle="danger"></ion-tab>
+    <ion-tab tabIcon="heart" [root]="_notificationsTab" (ionSelect)="resetNotifications()" [tabBadge]="_newNotifications" tabBadgeStyle="danger"></ion-tab>
     <ion-tab tabIcon="person" [root]="_profileTab"></ion-tab>
   </ion-tabs>
 </ion-content>

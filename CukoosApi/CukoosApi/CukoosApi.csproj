@@ -162,6 +162,7 @@
     <Compile Include="App_Start\SwaggerConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\CategoriesController.cs" />
+    <Compile Include="Controllers\NotificationsController.cs" />
     <Compile Include="Controllers\PhotosController.cs" />
     <Compile Include="Controllers\UsersController.cs" />
     <Compile Include="Controllers\UserUploadsController.cs" />
@@ -170,6 +171,7 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\CategoryModel.cs" />
+    <Compile Include="Models\NotificationModel.cs" />
     <Compile Include="Models\PhotoModel.cs" />
     <Compile Include="Models\UserModel.cs" />
     <Compile Include="Models\UserUploadModel.cs" />

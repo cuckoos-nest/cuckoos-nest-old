@@ -4,10 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace CukoosApi.Data.Interfaces
+namespace CukoosApi.Data.Enums
 {
-	public interface IEntity
+	public enum NotificationType
 	{
-		int Id { get; set; }
+		FollowingYou,
+		LikeYourUpload,
 	}
 }

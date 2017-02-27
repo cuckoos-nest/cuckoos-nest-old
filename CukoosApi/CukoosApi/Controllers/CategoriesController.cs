@@ -13,119 +13,119 @@ using System.Web.Http.Description;
 
 namespace CukoosApi.Controllers
 {
-  public class CategoriesController : ApiController
-  {
-    #region Get
-    [ResponseType(typeof(CategoryModel))]
-    public IHttpActionResult GetCategories()
-    {
-      using (var db = new CukoosContext())
-      {
-        return Ok(db.Categories.ToList().Select(x => new CategoryModel(x)));
-      }
-    }
+	public class CategoriesController : ApiController
+	{
+		#region Get
+		[ResponseType(typeof(CategoryModel))]
+		public IHttpActionResult GetCategories()
+		{
+			using (var db = new CukoosContext())
+			{
+				return Ok(db.Categories.ToList().Select(x => new CategoryModel(x)));
+			}
+		}
 
-    [ResponseType(typeof(CategoryModel))]
-    public IHttpActionResult GetCategory(int id)
-    {
-      using (var db = new CukoosContext())
-      {
-        Category category = db.Categories.Find(id);
+		[ResponseType(typeof(CategoryModel))]
+		public IHttpActionResult GetCategory(int id)
+		{
+			using (var db = new CukoosContext())
+			{
+				Category category = db.Categories.Find(id);
 
-        if (category == null)
-          return NotFound();
+				if (category == null)
+					return NotFound();
 
-        return Ok(new CategoryModel(category));
-      }
-    }
+				return Ok(new CategoryModel(category));
+			}
+		}
 
-    [ResponseType(typeof(CategoryModel))]
-    public IHttpActionResult GetCategories(int followedBy)
-    {
-      using (var db = new CukoosContext())
-      {
-        User follower = db.Users.Include(u => u.Categories).SingleOrDefault(x => x.Id == followedBy);
+		[ResponseType(typeof(CategoryModel))]
+		public IHttpActionResult GetCategories(int followedBy)
+		{
+			using (var db = new CukoosContext())
+			{
+				User follower = db.Users.Include(u => u.Categories).SingleOrDefault(x => x.Id == followedBy);
 
-        if (follower == null)
-          return NotFound();
+				if (follower == null)
+					return NotFound();
 
-        return Ok(follower.Categories.ToList().Select(x => new CategoryModel(x)));
-      }
-    }
-    #endregion
+				return Ok(follower.Categories.ToList().Select(x => new CategoryModel(x)));
+			}
+		}
+		#endregion
 
-    [ResponseType(typeof(void))]
-    public IHttpActionResult PutCategory(int id, CategoryModel categoryModel)
-    {
-      if (!ModelState.IsValid)
-        return BadRequest(ModelState);
+		[ResponseType(typeof(void))]
+		public IHttpActionResult PutCategory(int id, CategoryModel categoryModel)
+		{
+			if (!ModelState.IsValid)
+				return BadRequest(ModelState);
 
-      if (categoryModel.id != id)
-        return BadRequest();
+			if (categoryModel.id != id)
+				return BadRequest();
 
-      Category entity = categoryModel.ToEntity();
+			Category entity = categoryModel.ToEntity();
 
-      using (var db = new CukoosContext())
-      {
-        db.Entry(entity).State = EntityState.Modified;
+			using (var db = new CukoosContext())
+			{
+				db.Entry(entity).State = EntityState.Modified;
 
-        try
-        {
-          db.SaveChanges();
-        }
+				try
+				{
+					db.SaveChanges();
+				}
 
-        catch (DbUpdateConcurrencyException)
-        {
-          if (!CategoryExists(id))
-            return NotFound();
-          else
-            throw;
-        }
+				catch (DbUpdateConcurrencyException)
+				{
+					if (!CategoryExists(id))
+						return NotFound();
+					else
+						throw;
+				}
 
-        return StatusCode(HttpStatusCode.OK);
-      }
-    }
+				return StatusCode(HttpStatusCode.OK);
+			}
+		}
 
-    [ResponseType(typeof(PhotoModel))]
-    public IHttpActionResult PostCategory(CategoryModel categoryModel)
-    {
-      if (!ModelState.IsValid)
-        return BadRequest(ModelState);
+		[ResponseType(typeof(PhotoModel))]
+		public IHttpActionResult PostCategory(CategoryModel categoryModel)
+		{
+			if (!ModelState.IsValid)
+				return BadRequest(ModelState);
 
-      Category entity = categoryModel.ToEntity();
+			Category entity = categoryModel.ToEntity();
 
-      using (var db = new CukoosContext())
-      {
-        db.Categories.Add(entity);
-        db.SaveChanges();
-      }
+			using (var db = new CukoosContext())
+			{
+				db.Categories.Add(entity);
+				db.SaveChanges();
+			}
 
-      return CreatedAtRoute("DefaultApi", new { id = categoryModel.id }, categoryModel);
-    }
+			return CreatedAtRoute("DefaultApi", new { id = categoryModel.id }, categoryModel);
+		}
 
-    [ResponseType(typeof(PhotoModel))]
-    public IHttpActionResult DeleteCategory(int id)
-    {
-      using (var db = new CukoosContext())
-      {
-        Category category = db.Categories.Find(id);
+		[ResponseType(typeof(PhotoModel))]
+		public IHttpActionResult DeleteCategory(int id)
+		{
+			using (var db = new CukoosContext())
+			{
+				Category category = db.Categories.Find(id);
 
-        if (category == null)
-          return NotFound();
+				if (category == null)
+					return NotFound();
 
-        db.Categories.Remove(category);
-        db.SaveChanges();
+				db.Categories.Remove(category);
+				db.SaveChanges();
 
-        return Ok(new CategoryModel(category));
-      }
-    }
+				return Ok(new CategoryModel(category));
+			}
+		}
 
-    private bool CategoryExists(int id)
-    {
-      using (var db = new CukoosContext())
-      {
-        return db.Categories.Count(e => e.Id == id) > 0;
-      }
-    }
-  }
+		private bool CategoryExists(int id)
+		{
+			using (var db = new CukoosContext())
+			{
+				return db.Categories.Count(e => e.Id == id) > 0;
+			}
+		}
+	}
 }

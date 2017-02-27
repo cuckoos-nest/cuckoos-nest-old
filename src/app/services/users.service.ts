@@ -7,6 +7,7 @@ import 'rxjs/add/operator/map';
 import { BaseService } from './base/base.service';
 
 import { UserModel } from '../models/user.model';
+import { NotificationModel } from '../models/notification.model';
 
 import Config from '../config.json';
 
@@ -38,6 +39,6 @@ export class UsersService extends BaseService {
 
     public createUser(userModel: UserModel): Observable<UserModel> {
         return this.http.post(`${this.userDirectory}`, userModel)
-                .map(bodyResponse => bodyResponse.json())
+                .map(bodyResponse => bodyResponse.json());
     }
 }

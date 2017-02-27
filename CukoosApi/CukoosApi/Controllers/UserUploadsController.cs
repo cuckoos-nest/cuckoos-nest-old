@@ -7,7 +7,7 @@ using System.Web.Http;
 
 namespace CukoosApi.Controllers
 {
-    public class UserUploadsController : ApiController
-    {
-    }
+	public class UserUploadsController : ApiController
+	{
+	}
 }
