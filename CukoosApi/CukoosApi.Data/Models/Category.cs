@@ -9,20 +9,20 @@ using System.Threading.Tasks;
 
 namespace CukoosApi.Data.Models
 {
-  [Table("Categories")]
-  public class Category : IEntity
-  {
-    [Column("id")]
-    [Key()]
-    [Required]
-    public int Id { get; set; }
+	[Table("Categories")]
+	public class Category : IEntity
+	{
+		[Column("id")]
+		[Key()]
+		[Required]
+		public int Id { get; set; }
 
-    [Column("name")]
-    [Required]
-    public string Name { get; set; }
+		[Column("name")]
+		[Required]
+		public string Name { get; set; }
 
-    public virtual ICollection<User> Users { get; set; }
+		public virtual ICollection<User> Users { get; set; }
 
-    public virtual ICollection<Photo> Photos { get; set; }
-  }
+		public virtual ICollection<Photo> Photos { get; set; }
+	}
 }

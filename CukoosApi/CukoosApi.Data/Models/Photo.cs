@@ -9,22 +9,23 @@ using System.Threading.Tasks;
 
 namespace CukoosApi.Data.Models
 {
-  [Table("Photos")]
-  public class Photo : IEntity
-  {
-    [Column("id")]
-    [Required]
-    public int Id { get; set; }
+	[Table("Photos")]
+	public class Photo : IEntity
+	{
+		[Key]
+		[Column("id")]
+		[Required]
+		public int Id { get; set; }
 
-    [Column("title")]
-    [Required]
-    public string Title { get; set; }
+		[Column("title")]
+		[Required]
+		public string Title { get; set; }
 
-    [Column("category")]
-    public int CategoryId { get; set; }
+		[Column("category")]
+		public int CategoryId { get; set; }
 
-    [ForeignKey("CategoryId")]
-    public virtual Category Category { get; set; }
-    public virtual ICollection<Upload> Uploads { get; set; }
-  }
+		[ForeignKey("CategoryId")]
+		public virtual Category Category { get; set; }
+		public virtual ICollection<Upload> Uploads { get; set; }
+	}
 }

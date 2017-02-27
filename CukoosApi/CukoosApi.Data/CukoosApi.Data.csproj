@@ -51,11 +51,13 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CukoosContext.cs" />
+    <Compile Include="Enums\NotificationType.cs" />
     <Compile Include="Helpers\CukoosConnectionStringBuilder.cs" />
     <Compile Include="Interfaces\IEntity.cs" />
     <Compile Include="Models\Category.cs" />
     <Compile Include="Models\Comment.cs" />
     <Compile Include="Models\Like.cs" />
+    <Compile Include="Models\Notification.cs" />
     <Compile Include="Models\Photo.cs" />
     <Compile Include="Models\Upload.cs" />
     <Compile Include="Models\User.cs" />

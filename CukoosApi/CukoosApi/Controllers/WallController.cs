@@ -12,30 +12,30 @@ using System.Web.Http.Description;
 
 namespace CukoosApi.Controllers
 {
-    public class WallController : ApiController
-    {
-    private CukoosContext _db = new CukoosContext();
+	public class WallController : ApiController
+	{
+		private CukoosContext _db = new CukoosContext();
 
-    #region Get
-    [ResponseType(typeof(UserUploadModel))]
-      public IHttpActionResult GetWall(int userId)
-      {
-          User user = _db.Users.Find(userId);
+		#region Get
+		[ResponseType(typeof(UserUploadModel))]
+		public IHttpActionResult GetWall(int userId)
+		{
+			User user = _db.Users.Find(userId);
 
-          if (user == null)
-            return NotFound();
+			if (user == null)
+				return NotFound();
 
-          IEnumerable<Upload> wall = user.Categories.SelectMany(x => x.Photos).SelectMany(x => x.Uploads);
+			IEnumerable<Upload> wall = user.Categories.SelectMany(x => x.Photos).SelectMany(x => x.Uploads);
 
-          return Ok(wall.ToList().Select(x => new UserUploadModel(x)));
-      
-      }
-    #endregion
+			return Ok(wall.ToList().Select(x => new UserUploadModel(x)));
 
-    protected override void Dispose(bool disposing)
-    {
-      _db.Dispose();
-      base.Dispose(disposing);
-    }
-  }
+		}
+		#endregion
+
+		protected override void Dispose(bool disposing)
+		{
+			_db.Dispose();
+			base.Dispose(disposing);
+		}
+	}
 }
