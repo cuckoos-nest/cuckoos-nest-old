@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { Http } from '@angular/http';
 import { Category, Photo } from '../models/photo.models';
 import { Observable } from 'rxjs/Observable';
+import { Observer } from 'rxjs/Observer';
 import 'rxjs/add/operator/map';
 
 import {FacebookService, FacebookLoginResponse, FacebookInitParams, FacebookLoginOptions} from 'ng2-facebook-sdk';
@@ -22,7 +23,7 @@ export class FacebookLoginService extends BaseLoginService {
     }
 
     public login(): Observable<LoginResult> {
-        let result: Observable<LoginResult> = new Observable<LoginResult>(observer => {
+        let result: Observable<LoginResult> = new Observable<LoginResult>((observer: Observer<LoginResult>) => {
             // Configure and initalize the third-party facebook service
             let fbParams: FacebookInitParams = {
                               appId: Config.facebookAppId,
@@ -90,7 +91,7 @@ export class FacebookLoginService extends BaseLoginService {
     }
 
     private getUserModel(fb_id: number): Observable<UserModel> {
-        let result: Observable<UserModel> = new Observable<UserModel>(observer => {
+        let result: Observable<UserModel> = new Observable<UserModel>((observer: Observer<UserModel>) => {
             this.usersService.getUserByFbId(fb_id)
                 .subscribe(userModel => {
                     
