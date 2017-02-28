@@ -7,7 +7,7 @@ import { CategoryModel } from '../../models/category.model';
 import { CategoriesService } from '../../services/categories.service';
 
 @Component({
-    selector: '<categories></categories>',
+    selector: 'categories',
     templateUrl: 'categories.html'
 })
 export class CategoriesComponent {
