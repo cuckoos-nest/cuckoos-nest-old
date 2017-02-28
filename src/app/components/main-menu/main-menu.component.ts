@@ -16,11 +16,11 @@ import { NotificationModel } from '../../models/notification.model';
 })
 export class MainMenuComponent {
 
-    private _wallTab: any;
-    private _searchTab: any;
-    private _addTab: any;
-    private _profileTab: any;
-    private _notificationsTab: any;
+    private _wallTab: Component;
+    private _searchTab: Component;
+    private _addTab: Component;
+    private _profileTab: Component;
+    private _notificationsTab: Component;
 
     private _newNotifications: number = 0;
 

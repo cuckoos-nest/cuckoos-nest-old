@@ -1,7 +1,6 @@
 export class Photo {
      id : number;
      title : string;
-     image : any;
      category : Category;
 }
 
