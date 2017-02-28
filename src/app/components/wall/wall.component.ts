@@ -18,7 +18,7 @@ export class WallComponent {
     constructor(private usersService: UsersService, private wallService: WallService) {
         this._loggedInUser = this.usersService.loggedInUser;
         
-        this.wallService.getWallByUser(this._loggedInUser.id)
+        this.wallService.getWallByUser()
             .subscribe(wall => this._currentWall = wall);
     }  
 }
