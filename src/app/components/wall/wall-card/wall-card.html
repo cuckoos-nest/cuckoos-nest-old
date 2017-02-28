@@ -4,7 +4,7 @@
   </div>
 
 <ion-card>
-  <img src="{{ userUpload.imageUrl }}" (click)="goToImage(userUpload)" />
+  <img src="{{ userUpload.imageUrl }}" (click)="goToImage()" />
 
   <a href="#" (click)="goToUser(userUpload.user)" class="user">{{ userUpload.user.displayName }}</a>
 
@@ -15,15 +15,18 @@
 
   <ion-row>
     <ion-col>
-      <button ion-button icon-left clear small>
-        <ion-icon name="thumbs-up"></ion-icon>
-        <div>{{ userUpload.likes.length }} Likes</div>
+      <button ion-button icon-left clear small (click)="like()" [disabled]="_isLikeLoading"> 
+        <ion-icon [hidden]="userUpload.isLiked" name="thumbs-up"></ion-icon>
+        <div [hidden]="userUpload.isLiked">Like</div>
+        
+        <ion-icon [hidden]="!userUpload.isLiked" name="thumbs-down"></ion-icon>
+        <div [hidden]="!userUpload.isLiked">Unlike</div>
       </button>
     </ion-col>
     <ion-col>
       <button ion-button icon-left clear small>
         <ion-icon name="text"></ion-icon>
-        <div>{{ userUpload.comments.length }} Comments</div>
+        <div>Comment</div>
       </button>
     </ion-col>
   </ion-row>

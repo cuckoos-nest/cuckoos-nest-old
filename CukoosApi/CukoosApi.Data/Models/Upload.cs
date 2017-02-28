@@ -37,9 +37,8 @@ namespace CukoosApi.Data.Models
 		[Column("dateTime")]
 		[Required]
 		public DateTime DateCreated { get; set; }
-
-		public virtual ICollection<Comment> Comments { get; set; }
-
+		
+		[InverseProperty("Upload")]
 		public virtual ICollection<Like> Likes { get; set; }
 	}
 }

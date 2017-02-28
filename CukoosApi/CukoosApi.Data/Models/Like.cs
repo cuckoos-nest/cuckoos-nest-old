@@ -8,17 +8,17 @@ using System.Threading.Tasks;
 
 namespace CukoosApi.Data.Models
 {
+	[Table("UserUploadLikes")]
 	public class Like
 	{
 		[Key]
 		[Column("id")]
-		[Required]
 		public int Id { get; set; }
 
 		[Column("user")]
 		public int UserId { get; set; }
 
-		[ForeignKey("Id")]
+		[ForeignKey("UserId")]
 		public virtual User User { get; set; }
 
 		[Column("userUpload")]

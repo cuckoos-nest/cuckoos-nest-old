@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Http } from '@angular/http';
+import { Http, Response } from '@angular/http';
 import { Category, Photo } from '../models/photo.models';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/map';
@@ -19,5 +19,13 @@ export class WallService extends BaseService {
     public getWallByUser(userId: number): Observable<UserUploadModel[]> {
         return this.http.get(`${this.wallDirectory}?userId=${userId}`)
             .map(bodyResponse => bodyResponse.json());
+    }
+
+    public like(userUploadId: number): Observable<Response> {
+        return this.http.post(`${this.likeDirectory}?userUploadId=${userUploadId}`, null);
+    }
+
+    public unlike(userUploadId: number): Observable<Response> {
+        return this.http.delete(`${this.likeDirectory}?userUploadId=${userUploadId}`, null);
     }
 }

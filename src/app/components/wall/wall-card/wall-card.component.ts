@@ -6,6 +6,8 @@ import { UserModel } from '../../../models/user.model';
 import { UserProfileComponent } from '../../user-profile/user-profile.component';
 import { FullscreenImageComponent } from '../../fullscreen-image/fullscreen-image.component';
 
+import { WallService } from '../../../services/wall.service';
+
 @Component({
     selector: 'wall-card',
     templateUrl: 'wall-card.html'
@@ -15,7 +17,9 @@ export class WallCardComponent {
     @Input("data")
     public userUpload: UserUploadModel;
 
-    constructor(private nav: NavController) {
+    private _isLikeLoading: Boolean;
+
+    constructor(private nav: NavController, private wallService: WallService) {
     }
 
     private goToUser(user: UserModel) {
@@ -24,9 +28,25 @@ export class WallCardComponent {
         });
     }
 
-    private goToImage(userUpload: UserUploadModel) {
+    private goToImage() {
         this.nav.push(FullscreenImageComponent, {
-            userUpload: userUpload
+            userUpload: this.userUpload
         });
+    }
+
+    private like() {
+        this._isLikeLoading = true;
+        if (this.userUpload.isLiked == false) {
+            this.wallService.like(this.userUpload.id).subscribe(() => {
+                this.userUpload.isLiked = true
+                this._isLikeLoading = false;
+            });
+        }
+        else {
+            this.wallService.unlike(this.userUpload.id).subscribe(() => {
+                this.userUpload.isLiked = false
+                this._isLikeLoading = false;
+            });
+        }
     }
 }
