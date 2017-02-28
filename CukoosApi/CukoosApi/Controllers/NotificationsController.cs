@@ -19,16 +19,7 @@ namespace CukoosApi.Controllers
 		[ResponseType(typeof(NotificationModel))]
 		public IHttpActionResult GetNotifications()
 		{
-			return Ok(__db.Notifications.ToList().Select(x => new NotificationModel(x)));
-		}
-
-		[ResponseType(typeof(NotificationModel))]
-		public IHttpActionResult GetNotifications(int userId)
-		{
-			UserEntity user = __db.Users.Find(userId);
-			if (user == null)
-				return NotFound();
-
+			UserEntity user = __db.Users.Find(__currentUser.Id);
 			return Ok(user.Notifications.Select(x => new NotificationModel(x)));
 		}
 		#endregion
@@ -39,6 +30,9 @@ namespace CukoosApi.Controllers
 		{
 			if (!ModelState.IsValid)
 				return BadRequest(ModelState);
+
+			if (model.sentByUserId != __currentUser.Id)
+				return BadRequest("User authentication failed");
 
 			var entity = model.ToEntity();
 			__db.Notifications.Add(entity);
@@ -55,14 +49,12 @@ namespace CukoosApi.Controllers
 		/// <param name="userId"></param>
 		/// <returns></returns>
 		[ResponseType(typeof(NotificationModel))]
-		public IHttpActionResult PutNotification(int userId)
+		public IHttpActionResult PutNotification()
 		{
 			if (!ModelState.IsValid)
 				return BadRequest(ModelState);
 
-			UserEntity user = __db.Users.Find(userId);
-			if (user == null)
-				return NotFound();
+			UserEntity user = __db.Users.Find(__currentUser.Id);
 
 			foreach (NotificationEntity notification in user.Notifications)
 			{

@@ -1,4 +1,5 @@
 ﻿using CukoosApi.Data;
+using CukoosApi.Data.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,6 +14,15 @@ namespace CukoosApi.Controllers.Base
     {
 		#region Fields
 		protected CukoosContext __db = new CukoosContext();
+
+		// Should be changed to the user who is currently connected to the server
+		protected UserEntity __currentUser
+		{
+			get
+			{
+				return __db.Users.Find(17); 
+			}
+		}
 		#endregion
 
 		#region Methods
