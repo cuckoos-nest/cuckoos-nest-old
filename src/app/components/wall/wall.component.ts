@@ -7,7 +7,7 @@ import { UsersService } from '../../services/users.service';
 import { WallService } from '../../services/wall.service';
 
 @Component({
-    selector: '<wall></wall>',
+    selector: 'wall',
     templateUrl: 'wall.html'
 })
 export class WallComponent {

@@ -8,7 +8,7 @@ import { CategoryModel } from '../../../models/category.model';
 import { PhotosService } from '../../../services/photos.service';
 
 @Component({
-    selector: '<category-detail></category-detail>',
+    selector: 'category-detail',
     templateUrl: 'category-detail.html'
 })
 export class CategoryDetailComponent {
