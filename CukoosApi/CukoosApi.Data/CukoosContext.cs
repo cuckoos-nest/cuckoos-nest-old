@@ -1,5 +1,5 @@
 ﻿using CukoosApi.Data.Helpers;
-using CukoosApi.Data.Models;
+using CukoosApi.Data.Entities;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
@@ -18,15 +18,15 @@ namespace CukoosApi.Data
 			//base.Database.Connection.ConnectionString = connStringBuilder.BuildConnectionString();
 		}
 
-		public virtual DbSet<Category> Categories { get; set; }
-		public virtual DbSet<Photo> Photos { get; set; }
-		public virtual DbSet<User> Users { get; set; }
-		public virtual DbSet<Upload> Uploads { get; set; }
-		public virtual DbSet<Notification> Notifications { get; set; }
+		public virtual DbSet<CategoryEntity> Categories { get; set; }
+		public virtual DbSet<PhotoEntity> Photos { get; set; }
+		public virtual DbSet<UserEntity> Users { get; set; }
+		public virtual DbSet<UploadEntity> Uploads { get; set; }
+		public virtual DbSet<NotificationEntity> Notifications { get; set; }
 
 		protected override void OnModelCreating(DbModelBuilder modelBuilder)
 		{
-			modelBuilder.Entity<User>()
+			modelBuilder.Entity<UserEntity>()
 			.HasMany(a => a.Categories)
 			.WithMany(p => p.Users)
 			.Map(x =>

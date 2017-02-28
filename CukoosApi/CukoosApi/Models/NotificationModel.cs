@@ -1,5 +1,5 @@
 ﻿using CukoosApi.Data.Enums;
-using CukoosApi.Data.Models;
+using CukoosApi.Data.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -28,7 +28,7 @@ namespace CukoosApi.Models
 		{
 		}
 
-		public NotificationModel(Notification entity)
+		public NotificationModel(NotificationEntity entity)
 		{
 			this.id = entity.Id;
 			this.type = (int)entity.Type;
@@ -39,9 +39,9 @@ namespace CukoosApi.Models
         }
 		#endregion
 
-		public Notification ToEntity()
+		public NotificationEntity ToEntity()
 		{
-			return new Notification()
+			return new NotificationEntity()
 			{
 				Id = this.id,
 				Type = (NotificationType)this.type,

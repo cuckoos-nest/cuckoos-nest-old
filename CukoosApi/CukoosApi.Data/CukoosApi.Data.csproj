@@ -54,13 +54,13 @@
     <Compile Include="Enums\NotificationType.cs" />
     <Compile Include="Helpers\CukoosConnectionStringBuilder.cs" />
     <Compile Include="Interfaces\IEntity.cs" />
-    <Compile Include="Models\Category.cs" />
-    <Compile Include="Models\Comment.cs" />
-    <Compile Include="Models\Like.cs" />
-    <Compile Include="Models\Notification.cs" />
-    <Compile Include="Models\Photo.cs" />
-    <Compile Include="Models\Upload.cs" />
-    <Compile Include="Models\User.cs" />
+    <Compile Include="Entities\CategoryEntity.cs" />
+    <Compile Include="Entities\CommentEntity.cs" />
+    <Compile Include="Entities\LikeEntity.cs" />
+    <Compile Include="Entities\NotificationEntity.cs" />
+    <Compile Include="Entities\PhotoEntity.cs" />
+    <Compile Include="Entities\UploadEntity.cs" />
+    <Compile Include="Entities\UserEntity.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

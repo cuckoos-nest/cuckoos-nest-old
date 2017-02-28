@@ -1,6 +1,6 @@
 ﻿using CukoosApi.Controllers.Base;
 using CukoosApi.Data;
-using CukoosApi.Data.Models;
+using CukoosApi.Data.Entities;
 using CukoosApi.Models;
 using System;
 using System.Collections.Generic;
@@ -26,7 +26,7 @@ namespace CukoosApi.Controllers
 		[ResponseType(typeof(UserModel))]
 		public IHttpActionResult GetUser(int id)
 		{
-			User entity = __db.Users.Find(id);
+			UserEntity entity = __db.Users.Find(id);
 
 			if (entity == null)
 				return NotFound();
@@ -37,7 +37,7 @@ namespace CukoosApi.Controllers
 		[ResponseType(typeof(UserModel))]
 		public IHttpActionResult GetUsers(long fb_id)
 		{
-			User entity = __db.Users.FirstOrDefault(x => x.FacebookId == fb_id);
+			UserEntity entity = __db.Users.FirstOrDefault(x => x.FacebookId == fb_id);
 
 			if (entity == null)
 				return NotFound();
@@ -98,7 +98,7 @@ namespace CukoosApi.Controllers
 		[ResponseType(typeof(UserModel))]
 		public IHttpActionResult DeleteUser(int id)
 		{
-			User entity = __db.Users.Find(id);
+			UserEntity entity = __db.Users.Find(id);
 
 			if (entity == null)
 				return NotFound();

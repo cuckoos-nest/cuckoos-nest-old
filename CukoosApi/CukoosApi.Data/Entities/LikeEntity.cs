@@ -6,10 +6,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace CukoosApi.Data.Models
+namespace CukoosApi.Data.Entities
 {
 	[Table("UserUploadLikes")]
-	public class Like
+	public class LikeEntity
 	{
 		[Key]
 		[Column("id")]
@@ -19,12 +19,12 @@ namespace CukoosApi.Data.Models
 		public int UserId { get; set; }
 
 		[ForeignKey("UserId")]
-		public virtual User User { get; set; }
+		public virtual UserEntity User { get; set; }
 
 		[Column("userUpload")]
 		public int UploadId { get; set; }
 
 		[ForeignKey("UploadId")]
-		public virtual Upload Upload { get; set; }
+		public virtual UploadEntity Upload { get; set; }
 	}
 }

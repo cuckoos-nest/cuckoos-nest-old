@@ -6,9 +6,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace CukoosApi.Data.Models
+namespace CukoosApi.Data.Entities
 {
-	public class User
+	public class UserEntity
 	{
 		[Key]
 		[Column("id")]
@@ -18,9 +18,9 @@ namespace CukoosApi.Data.Models
 		[Column("fb_id")]
 		public long FacebookId { get; set; }
 
-		public virtual ICollection<Category> Categories { get; set; }
+		public virtual ICollection<CategoryEntity> Categories { get; set; }
 
-		public virtual ICollection<Notification> Notifications { get; set; }
+		public virtual ICollection<NotificationEntity> Notifications { get; set; }
 
 		[Column("email")]
 		[Required]
