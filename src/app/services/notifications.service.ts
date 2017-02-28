@@ -24,12 +24,12 @@ export class NotificationsService extends BaseService {
     }
 
     public getNotifications(userId: number): Observable<NotificationModel[]> {
-        return this.http.get(`${this.notificationDictionary}?userId=${userId}`)
+        return this.http.get(`${this.notificationDirectory}?userId=${userId}`)
                 .map(bodyResponse => bodyResponse.json());
     }
 
     public markNotificationsAsRead(userId: number) {
-        this.http.put(`${this.notificationDictionary}?userId=${userId}`, null);
+        this.http.put(`${this.notificationDirectory}?userId=${userId}`, null);
     }
 
     public listen(userId: number): Observable<NotificationModel> {

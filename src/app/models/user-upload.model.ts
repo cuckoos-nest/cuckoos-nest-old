@@ -10,6 +10,6 @@ export class UserUploadModel {
      user: UserModel;
      imageUrl: string;
      dateTime: string;
-     likes: LikeModel[];
-     comments: CommentModel[];
+     likeCount: number;
+     isLiked: Boolean;
 }

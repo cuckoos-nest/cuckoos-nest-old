@@ -18,19 +18,16 @@
         <WebProjectProperties>
           <StartPageUrl>
           </StartPageUrl>
-          <StartAction>CurrentPage</StartAction>
+          <StartAction>NoStartPage</StartAction>
           <AspNetDebugging>True</AspNetDebugging>
           <SilverlightDebugging>False</SilverlightDebugging>
           <NativeDebugging>False</NativeDebugging>
           <SQLDebugging>False</SQLDebugging>
-          <ExternalProgram>
-          </ExternalProgram>
+          <ExternalProgram>C:\Program Files (x86)\Google\Chrome\Application\chrome.exe</ExternalProgram>
           <StartExternalURL>
           </StartExternalURL>
-          <StartCmdLineArguments>
-          </StartCmdLineArguments>
-          <StartWorkingDirectory>
-          </StartWorkingDirectory>
+          <StartCmdLineArguments>--profile-directory=Default --app-id=fhbjgbiflinjbdggehcddcbncdddomop</StartCmdLineArguments>
+          <StartWorkingDirectory>C:\Program Files (x86)\Google\Chrome\Application</StartWorkingDirectory>
           <EnableENC>True</EnableENC>
           <AlwaysStartWebServerOnDebug>True</AlwaysStartWebServerOnDebug>
         </WebProjectProperties>

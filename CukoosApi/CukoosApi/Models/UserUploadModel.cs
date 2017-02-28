@@ -22,12 +22,12 @@ namespace CukoosApi.Models
 		}
 
 		public string description { get; set; }
-
+			
 		public UserModel user { get; set; }
 
-		public List<Comment> comments { get; set; }
+		public int likeCount { get; set; }
 
-		public List<Like> likes { get; set; }
+		public bool isLiked { get; set; }
 
 		public DateTime dateTime { get; set; }
 		#endregion
@@ -43,8 +43,8 @@ namespace CukoosApi.Models
 			this.photo = new PhotoModel(entity.Photo);
 			this.description = entity.Description;
 			this.user = new UserModel(entity.User);
-			this.comments = new List<Comment>();
-			this.likes = new List<Like>();
+			this.likeCount = entity.Likes.Count;
+			this.isLiked = entity.Likes.Any(x => x.UserId == 17);
 			this.dateTime = entity.DateCreated;
 		}
 
