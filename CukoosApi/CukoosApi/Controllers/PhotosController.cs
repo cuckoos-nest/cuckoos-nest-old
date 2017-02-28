@@ -1,4 +1,6 @@
-﻿using CukoosApi.Data;
+﻿using CukoosApi.Controllers.Base;
+using CukoosApi.Data;
+using CukoosApi.Data.Models;
 using CukoosApi.Models;
 using System;
 using System.Collections.Generic;
@@ -12,116 +14,99 @@ using System.Web.Http.Description;
 
 namespace CukoosApi.Controllers
 {
-	public class PhotosController : ApiController
+	public class PhotosController : BaseApiController
 	{
 		#region Get
 		[ResponseType(typeof(PhotoModel))]
 		public IHttpActionResult GetPhotos()
 		{
-			using (var db = new CukoosContext())
-			{
-				return Ok(db.Photos.Include(p => p.Category).ToList().Select(x => new PhotoModel(x)));
-			}
+			return Ok(__db.Photos.Include(p => p.Category).ToList().Select(x => new PhotoModel(x)));
 		}
 
 		[ResponseType(typeof(PhotoModel))]
 		public IHttpActionResult GetPhoto(int id)
 		{
-			using (var db = new CukoosContext())
-			{
-				var photo = db.Photos.Include(p => p.Category).SingleOrDefault(p => p.Id == id);
+			Photo entity = __db.Photos.Include(p => p.Category).SingleOrDefault(p => p.Id == id);
 
-				if (photo == null)
-					return NotFound();
+			if (entity == null)
+				return NotFound();
 
-				return Ok(new PhotoModel(photo));
-			}
+			return Ok(new PhotoModel(entity));
 		}
 
 		public IHttpActionResult GetPhotos(int category)
 		{
-			using (var db = new CukoosContext())
-			{
-				return Ok(db.Photos.Include(p => p.Category).Where(x => x.Category.Id == category).ToList().Select(x => new PhotoModel(x)));
-			}
+			return Ok(__db.Photos.Where(x => x.Category.Id == category).ToList().Select(x => new PhotoModel(x)));
 		}
 		#endregion
 
+		#region Put
 		[ResponseType(typeof(void))]
-		public IHttpActionResult PutPhoto(int id, PhotoModel photoModel)
+		public IHttpActionResult PutPhoto(int id, PhotoModel model)
 		{
 			if (!ModelState.IsValid)
-			{
 				return BadRequest(ModelState);
-			}
 
-			if (photoModel.id != id)
-			{
+			if (model.id != id)
 				return BadRequest();
-			}
 
-			var entity = photoModel.ToEntity();
+			var entity = model.ToEntity();
 
-			using (var db = new CukoosContext())
+			__db.Entry(entity).State = EntityState.Modified;
+
+			try
 			{
-				db.Entry(entity).State = EntityState.Modified;
-
-				try
-				{
-					db.SaveChanges();
-				}
-				catch (DbUpdateConcurrencyException)
-				{
-					if (!PhotoExists(id))
-						return NotFound();
-					else
-						throw;
-				}
-
-				return StatusCode(HttpStatusCode.OK);
+				__db.SaveChanges();
 			}
-		}
+			catch (DbUpdateConcurrencyException)
+			{
+				if (!PhotoExists(id))
+					return NotFound();
+				else
+					throw;
+			}
 
+			return StatusCode(HttpStatusCode.OK);
+		}
+		#endregion
+
+		#region Post
 		[ResponseType(typeof(PhotoModel))]
-		public IHttpActionResult PostPhoto(PhotoModel photoModel)
+		public IHttpActionResult PostPhoto(PhotoModel model)
 		{
 			if (!ModelState.IsValid)
 				return BadRequest(ModelState);
 
-			var entity = photoModel.ToEntity();
+			var entity = model.ToEntity();
 
-			using (var db = new CukoosContext())
-			{
-				db.Photos.Add(entity);
-				db.SaveChanges();
-			}
+			__db.Photos.Add(entity);
+			__db.SaveChanges();
 
-			return CreatedAtRoute("DefaultApi", new { id = photoModel.id }, photoModel);
+			return CreatedAtRoute("CukoosApi", new { id = model.id }, model);
 		}
+		#endregion
 
+		#region Delete
 		[ResponseType(typeof(PhotoModel))]
 		public IHttpActionResult DeletePhoto(int id)
 		{
-			using (var db = new CukoosContext())
-			{
-				var photo = db.Photos.Find(id);
+			Photo model = __db.Photos.Find(id);
 
-				if (photo == null)
-					return NotFound();
+			if (model == null)
+				return NotFound();
 
-				db.Photos.Remove(photo);
-				db.SaveChanges();
+			__db.Photos.Remove(model);
+			__db.SaveChanges();
 
-				return Ok(new PhotoModel(photo));
-			}
+			return Ok(new PhotoModel(model));
 		}
+		#endregion
 
+		#region Private Method
 		private bool PhotoExists(int id)
 		{
-			using (var db = new CukoosContext())
-			{
-				return db.Photos.Count(e => e.Id == id) > 0;
-			}
+			return __db.Photos.Any(e => e.Id == id);
 		}
+		#endregion
 	}
 }

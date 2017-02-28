@@ -1,4 +1,5 @@
-﻿using CukoosApi.Data;
+﻿using CukoosApi.Controllers.Base;
+using CukoosApi.Data;
 using CukoosApi.Data.Models;
 using System;
 using System.Collections.Generic;
@@ -11,10 +12,8 @@ using System.Web.Http.Description;
 
 namespace CukoosApi.Controllers
 {
-    public class LikesController : ApiController
+    public class LikesController : BaseApiController
 	{
-		private CukoosContext _db = new CukoosContext();
-
 		#region Post
 		public IHttpActionResult PostLike(int userUploadId)
 		{
@@ -23,7 +22,7 @@ namespace CukoosApi.Controllers
 			if (!ModelState.IsValid)
 				return BadRequest(ModelState);
 
-			Upload userUpload = _db.Uploads.Find(userUploadId);
+			Upload userUpload = __db.Uploads.Find(userUploadId);
 			if (userUpload == null)
 				return NotFound();
 
@@ -34,8 +33,8 @@ namespace CukoosApi.Controllers
 			{
 				UserId = userId
 			});
-			
-			_db.SaveChanges();
+
+			__db.SaveChanges();
 
 			return Ok();
 		}
@@ -46,7 +45,7 @@ namespace CukoosApi.Controllers
 		{
 			var userId = 17; // Should be changed to the user who is currently connected to the server
 
-			Upload userUpload = _db.Uploads.Find(userUploadId);
+			Upload userUpload = __db.Uploads.Find(userUploadId);
 
 			if (userUpload == null)
 				return NotFound();
@@ -58,18 +57,12 @@ namespace CukoosApi.Controllers
 
 			userUpload.Likes.Remove(like);
 
-			_db.Entry(like).State = EntityState.Deleted;
+			__db.Entry(like).State = EntityState.Deleted;
 
-			_db.SaveChanges();
+			__db.SaveChanges();
 
 			return Ok();
 		}
 		#endregion
-
-		protected override void Dispose(bool disposing)
-		{
-			_db.Dispose();
-			base.Dispose(disposing);
-		}
 	}
 }

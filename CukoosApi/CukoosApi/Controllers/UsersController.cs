@@ -1,4 +1,6 @@
-﻿using CukoosApi.Data;
+﻿using CukoosApi.Controllers.Base;
+using CukoosApi.Data;
+using CukoosApi.Data.Models;
 using CukoosApi.Models;
 using System;
 using System.Collections.Generic;
@@ -12,47 +14,39 @@ using System.Web.Http.Description;
 
 namespace CukoosApi.Controllers
 {
-	public class UsersController : ApiController
+	public class UsersController : BaseApiController
 	{
 		#region Get
 		[ResponseType(typeof(UserModel))]
 		public IHttpActionResult GetUsers()
 		{
-			using (var db = new CukoosContext())
-			{
-				return Ok(db.Users.ToList().Select(x => new UserModel(x)));
-			}
+			return Ok(__db.Users.ToList().Select(x => new UserModel(x)));
 		}
 
 		[ResponseType(typeof(UserModel))]
 		public IHttpActionResult GetUser(int id)
 		{
-			using (var db = new CukoosContext())
-			{
-				var user = db.Users.Find(id);
+			User entity = __db.Users.Find(id);
 
-				if (user == null)
-					return NotFound();
+			if (entity == null)
+				return NotFound();
 
-				return Ok(new UserModel(user));
-			}
+			return Ok(new UserModel(entity));
 		}
 
 		[ResponseType(typeof(UserModel))]
 		public IHttpActionResult GetUsers(long fb_id)
 		{
-			using (var db = new CukoosContext())
-			{
-				var user = db.Users.FirstOrDefault(x => x.FacebookId == fb_id);
+			User entity = __db.Users.FirstOrDefault(x => x.FacebookId == fb_id);
 
-				if (user == null)
-					return NotFound();
+			if (entity == null)
+				return NotFound();
 
-				return Ok(new UserModel(user));
-			}
+			return Ok(new UserModel(entity));
 		}
 		#endregion
 
+		#region Put
 		[ResponseType(typeof(void))]
 		public IHttpActionResult PutUser(int id, UserModel userModel)
 		{
@@ -62,70 +56,65 @@ namespace CukoosApi.Controllers
 			if (userModel.id != id)
 				return BadRequest();
 
-			using (var db = new CukoosContext())
+			var entity = userModel.ToEntity();
+
+			__db.Entry(entity).State = EntityState.Modified;
+
+			try
 			{
-				var entity = userModel.ToEntity();
-
-				db.Entry(entity).State = EntityState.Modified;
-
-				try
-				{
-					db.SaveChanges();
-				}
-				catch (DbUpdateConcurrencyException)
-				{
-					if (!UserExists(id))
-						return NotFound();
-					else
-						throw;
-				}
-
-				return StatusCode(HttpStatusCode.OK);
+				__db.SaveChanges();
 			}
-		}
+			catch (DbUpdateConcurrencyException)
+			{
+				if (!UserExists(id))
+					return NotFound();
+				else
+					throw;
+			}
 
+			return StatusCode(HttpStatusCode.OK);
+		}
+		#endregion
+
+		#region Post
 		[ResponseType(typeof(PhotoModel))]
-		public IHttpActionResult PostUser([FromBody] UserModel userModel)
+		public IHttpActionResult PostUser([FromBody] UserModel model)
 		{
 			if (!ModelState.IsValid)
 				return BadRequest(ModelState);
 
-			var entity = userModel.ToEntity();
+			var entity = model.ToEntity();
 
-			using (var db = new CukoosContext())
-			{
-				db.Users.Add(entity);
-				db.SaveChanges();
+			__db.Users.Add(entity);
+			__db.SaveChanges();
 
-				userModel = new UserModel(db.Users.Single(x => x.Id == entity.Id));
-			}
+			model = new UserModel(__db.Users.Single(x => x.Id == entity.Id));
 
-			return CreatedAtRoute("CukoosApi", new { id = userModel.id }, userModel);
+			return CreatedAtRoute("CukoosApi", new { id = model.id }, model);
 		}
+		#endregion
 
+		#region Delete
 		[ResponseType(typeof(UserModel))]
 		public IHttpActionResult DeleteUser(int id)
 		{
-			using (var db = new CukoosContext())
-			{
-				var user = db.Users.Find(id);
+			User entity = __db.Users.Find(id);
 
-				if (user == null)
-					return NotFound();
+			if (entity == null)
+				return NotFound();
 
-				db.Users.Remove(user);
-				db.SaveChanges();
+			__db.Users.Remove(entity);
+			__db.SaveChanges();
 
-				return Ok(new UserModel(user));
-			}
+			return Ok(new UserModel(entity));
 		}
+		#endregion
 
+		#region Private Methods
 		private bool UserExists(int id)
 		{
-			using (var db = new CukoosContext())
-			{
-				return db.Users.Count(e => e.Id == id) > 0;
-			}
+			return __db.Users.Any(e => e.Id == id);
 		}
+		#endregion
 	}
 }

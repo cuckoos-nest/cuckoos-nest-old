@@ -9,24 +9,23 @@ using System.Web.Http;
 using System.Web.Http.Description;
 using System.Data.Entity;
 using CukoosApi.Data.Models;
+using CukoosApi.Controllers.Base;
 
 namespace CukoosApi.Controllers
 {
-	public class NotificationsController : ApiController
+	public class NotificationsController : BaseApiController
 	{
-		private CukoosContext _db = new CukoosContext(); 
-
 		#region Get
 		[ResponseType(typeof(NotificationModel))]
 		public IHttpActionResult GetNotifications()
 		{
-			return Ok(_db.Notifications.ToList().Select(x => new NotificationModel(x)));
+			return Ok(__db.Notifications.ToList().Select(x => new NotificationModel(x)));
 		}
 
 		[ResponseType(typeof(NotificationModel))]
 		public IHttpActionResult GetNotifications(int userId)
 		{
-			User user = _db.Users.Find(userId);
+			User user = __db.Users.Find(userId);
 			if (user == null)
 				return NotFound();
 
@@ -42,45 +41,39 @@ namespace CukoosApi.Controllers
 				return BadRequest(ModelState);
 
 			var entity = model.ToEntity();
-			_db.Notifications.Add(entity);
-			_db.SaveChanges();
+			__db.Notifications.Add(entity);
+			__db.SaveChanges();
 
 			return CreatedAtRoute("CukoosApi", new { id = model.id }, model);
 		}
-    #endregion
+		#endregion
 
-    #region Put
-    /// <summary>
-    /// Mark all notifications as read
-    /// </summary>
-    /// <param name="userId"></param>
-    /// <returns></returns>
-    [ResponseType(typeof(NotificationModel))]
-    public IHttpActionResult PutNotification(int userId)
-    {
-      if (!ModelState.IsValid)
-        return BadRequest(ModelState);
-
-      User user = _db.Users.Find(userId);
-      if (user == null)
-        return NotFound();
-
-        foreach (Notification notification in user.Notifications) 
-        {
-          notification.IsRead = true;
-          _db.Entry(notification).State = EntityState.Modified;
-        }
-
-      _db.SaveChanges();
-
-      return Ok("CukoosApi");
-    }
-    #endregion
-
-    protected override void Dispose(bool disposing)
+		#region Put
+		/// <summary>
+		/// Mark all notifications as read
+		/// </summary>
+		/// <param name="userId"></param>
+		/// <returns></returns>
+		[ResponseType(typeof(NotificationModel))]
+		public IHttpActionResult PutNotification(int userId)
 		{
-			_db.Dispose();
-			base.Dispose(disposing);
+			if (!ModelState.IsValid)
+				return BadRequest(ModelState);
+
+			User user = __db.Users.Find(userId);
+			if (user == null)
+				return NotFound();
+
+			foreach (Notification notification in user.Notifications)
+			{
+				notification.IsRead = true;
+				__db.Entry(notification).State = EntityState.Modified;
+			}
+
+			__db.SaveChanges();
+
+			return Ok();
 		}
+		#endregion
 	}
 }
