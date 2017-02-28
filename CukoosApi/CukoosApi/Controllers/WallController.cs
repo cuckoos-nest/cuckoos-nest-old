@@ -1,4 +1,5 @@
-﻿using CukoosApi.Data;
+﻿using CukoosApi.Controllers.Base;
+using CukoosApi.Data;
 using CukoosApi.Data.Models;
 using CukoosApi.Models;
 using System;
@@ -12,30 +13,22 @@ using System.Web.Http.Description;
 
 namespace CukoosApi.Controllers
 {
-	public class WallController : ApiController
+	public class WallController : BaseApiController
 	{
-		private CukoosContext _db = new CukoosContext();
-
 		#region Get
 		[ResponseType(typeof(UserUploadModel))]
 		public IHttpActionResult GetWall(int userId)
 		{
-			User user = _db.Users.Find(userId);
+			User userEntity = __db.Users.Find(userId);
 
-			if (user == null)
+			if (userEntity == null)
 				return NotFound();
 
-			IEnumerable<Upload> wall = user.Categories.SelectMany(x => x.Photos).SelectMany(x => x.Uploads);
+			IEnumerable<Upload> wall = userEntity.Categories.SelectMany(x => x.Photos).SelectMany(x => x.Uploads);
 
 			return Ok(wall.ToList().Select(x => new UserUploadModel(x)));
 
 		}
 		#endregion
-
-		protected override void Dispose(bool disposing)
-		{
-			_db.Dispose();
-			base.Dispose(disposing);
-		}
 	}
 }
