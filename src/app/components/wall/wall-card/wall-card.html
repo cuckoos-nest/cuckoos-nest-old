@@ -4,7 +4,7 @@
   </div>
 
 <ion-card>
-  <img src="{{ userUpload.imageUrl }}"/>
+  <img src="{{ userUpload.imageUrl }}" (click)="goToImage(userUpload)" />
 
   <a href="#" (click)="goToUser(userUpload.user)" class="user">{{ userUpload.user.displayName }}</a>
 

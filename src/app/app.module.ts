@@ -12,6 +12,7 @@ import { CategoryDetailComponent } from './components/categories/category-detail
 import { GalleryComponent } from './components/gallery/gallery.component'
 import { UserProfileComponent } from './components/user-profile/user-profile.component'
 import { NotificationsComponent } from './components/notifications/notifications.component'
+import { FullscreenImageComponent } from './components/fullscreen-image/fullscreen-image.component';
 
 import { PhotosService } from './services/photos.service';
 import { CategoriesService } from './services/categories.service';
@@ -35,6 +36,7 @@ import { TranslateModule, TranslateStaticLoader, TranslateLoader } from 'ng2-tra
     GalleryComponent,
     UserProfileComponent,
     NotificationsComponent,
+    FullscreenImageComponent,
     ],
   imports: [
     IonicModule.forRoot(MyApp),
@@ -56,6 +58,7 @@ import { TranslateModule, TranslateStaticLoader, TranslateLoader } from 'ng2-tra
     GalleryComponent,
     UserProfileComponent,
     NotificationsComponent,
+    FullscreenImageComponent,
   ],
   providers: [
     {provide: ErrorHandler, useClass: IonicErrorHandler},

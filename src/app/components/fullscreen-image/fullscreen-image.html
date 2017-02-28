@@ -1,0 +1,32 @@
+<div class="fullscreen-image">
+    <ion-header>
+    <ion-navbar>
+        <ion-toolbar class="dark-toolbar">
+        <ion-buttons start>
+            <button ion-button icon-only>
+            <ion-icon name="thumbs-up"></ion-icon>
+            </button>
+        </ion-buttons>
+
+        <ion-title>
+            {{ _userUpload.user.displayName }}
+        </ion-title>
+        </ion-toolbar>
+    </ion-navbar>
+    </ion-header>
+
+    <ion-content>
+        <div class="background">
+            <img class="image-viewer" [src]="_userUpload.imageUrl" />
+
+            <div class="footer">
+                <div class="description">
+                    {{ _userUpload.description }}
+                </div>
+                <div class="dateTime">
+                    {{ _userUpload.dateTime | date: 'MMM d, HH:mm' }}
+                </div>
+            </div>
+        </div>
+    </ion-content>
+</div>  
