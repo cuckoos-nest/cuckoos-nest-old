@@ -2,5 +2,6 @@
     "host": "http://cukooapi.azurewebsites.net/api/",
     "facebookAppId": 1852328261703414,
     "debugMode": true,
-    "checkNotificationsDelay": 5000
+    "checkNotificationsDelay": 5000,
+    "defaultLanguage": "en"
 }
