@@ -8,7 +8,7 @@
       </ion-buttons>
 
       <ion-title>
-        Profile
+        {{'PROFILE' | translate}}
       </ion-title>
     </ion-toolbar>
   </ion-navbar>
@@ -17,17 +17,17 @@
 <ion-content>
   <ion-list no-border>
       <ion-item>
-        Display Name
+        {{'DISPLAY_NAME' | translate}}
         <ion-note item-right>{{ _user.displayName }}</ion-note>
       </ion-item>
 
       <ion-item>
-        Email
+        {{'EMAIL' | translate}}
         <ion-note item-right>{{ _user.email }}</ion-note>
       </ion-item>
 
-      <button ion-item>View My Uploads</button>
+      <button ion-item>{{'VIEW_MY_UPLOADS' | translate}}</button>
 
-      <button ion-item>Categories I'm following</button>
+      <button ion-item>{{'CATEGORIES_IM_FOLLOWING' | translate}}</button>
   </ion-list>
 </ion-content>

@@ -1,13 +1,13 @@
 <ion-header>
   <ion-navbar>
     <ion-title>
-      Categories
+      {{'CATEGORIES' | translate}}
     </ion-title>
   </ion-navbar>
 </ion-header>
 
 <ion-content>
-  <ion-searchbar (ionInput)="filter($event)"></ion-searchbar>
+  <ion-searchbar (ionInput)="filter($event)" placeholder="{{'SEARCH' | translate}}"></ion-searchbar>
 
   <ion-list>
     <button ion-item *ngFor="let category of filteredCategories" (click)="goToCategory(category)">{{category.name}}</button>
