@@ -1,4 +1,4 @@
-﻿using CukoosApi.Data.Models;
+﻿using CukoosApi.Data.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,15 +18,15 @@ namespace CukoosApi.Models
 		{
 		}
 
-		public CategoryModel(Category entity)
+		public CategoryModel(CategoryEntity entity)
 		{
 			this.id = entity.Id;
 			this.name = entity.Name;
 		}
 
-		public Category ToEntity()
+		public CategoryEntity ToEntity()
 		{
-			return new Category
+			return new CategoryEntity
 			{
 				Id = this.id,
 				Name = this.name

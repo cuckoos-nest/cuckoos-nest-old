@@ -1,6 +1,6 @@
 ﻿using CukoosApi.Controllers.Base;
 using CukoosApi.Data;
-using CukoosApi.Data.Models;
+using CukoosApi.Data.Entities;
 using CukoosApi.Models;
 using System;
 using System.Collections.Generic;
@@ -26,7 +26,7 @@ namespace CukoosApi.Controllers
 		[ResponseType(typeof(PhotoModel))]
 		public IHttpActionResult GetPhoto(int id)
 		{
-			Photo entity = __db.Photos.Include(p => p.Category).SingleOrDefault(p => p.Id == id);
+			PhotoEntity entity = __db.Photos.Include(p => p.Category).SingleOrDefault(p => p.Id == id);
 
 			if (entity == null)
 				return NotFound();
@@ -90,7 +90,7 @@ namespace CukoosApi.Controllers
 		[ResponseType(typeof(PhotoModel))]
 		public IHttpActionResult DeletePhoto(int id)
 		{
-			Photo model = __db.Photos.Find(id);
+			PhotoEntity model = __db.Photos.Find(id);
 
 			if (model == null)
 				return NotFound();

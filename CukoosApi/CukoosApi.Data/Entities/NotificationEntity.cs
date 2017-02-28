@@ -7,10 +7,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace CukoosApi.Data.Models
+namespace CukoosApi.Data.Entities
 {
 	[Table("Notifications")]
-	public class Notification
+	public class NotificationEntity
 	{
 		[Key]
 		[Column("id")]
@@ -40,7 +40,7 @@ namespace CukoosApi.Data.Models
 		public int ReceivingUserId { get; set; }
 
 		[ForeignKey("ReceivingUserId")]
-		public User ReceivingUser { get; set; }
+		public UserEntity ReceivingUser { get; set; }
 
 		[Column("sentByUser")]
 		[Required]

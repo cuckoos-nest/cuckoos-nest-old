@@ -1,6 +1,6 @@
 ﻿using CukoosApi.Controllers.Base;
 using CukoosApi.Data;
-using CukoosApi.Data.Models;
+using CukoosApi.Data.Entities;
 using CukoosApi.Models;
 using System;
 using System.Collections.Generic;
@@ -19,12 +19,12 @@ namespace CukoosApi.Controllers
 		[ResponseType(typeof(UserUploadModel))]
 		public IHttpActionResult GetWall(int userId)
 		{
-			User userEntity = __db.Users.Find(userId);
+			UserEntity userEntity = __db.Users.Find(userId);
 
 			if (userEntity == null)
 				return NotFound();
 
-			IEnumerable<Upload> wall = userEntity.Categories.SelectMany(x => x.Photos).SelectMany(x => x.Uploads);
+			IEnumerable<UploadEntity> wall = userEntity.Categories.SelectMany(x => x.Photos).SelectMany(x => x.Uploads);
 
 			return Ok(wall.ToList().Select(x => new UserUploadModel(x)));
 

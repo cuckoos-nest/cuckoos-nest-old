@@ -7,10 +7,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace CukoosApi.Data.Models
+namespace CukoosApi.Data.Entities
 {
 	[Table("Photos")]
-	public class Photo : IEntity
+	public class PhotoEntity : IEntity
 	{
 		[Key]
 		[Column("id")]
@@ -25,7 +25,7 @@ namespace CukoosApi.Data.Models
 		public int CategoryId { get; set; }
 
 		[ForeignKey("CategoryId")]
-		public virtual Category Category { get; set; }
-		public virtual ICollection<Upload> Uploads { get; set; }
+		public virtual CategoryEntity Category { get; set; }
+		public virtual ICollection<UploadEntity> Uploads { get; set; }
 	}
 }

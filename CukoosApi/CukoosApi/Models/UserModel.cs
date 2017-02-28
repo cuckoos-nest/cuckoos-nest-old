@@ -1,4 +1,4 @@
-﻿using CukoosApi.Data.Models;
+﻿using CukoosApi.Data.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -20,7 +20,7 @@ namespace CukoosApi.Models
 		{
 		}
 
-		public UserModel(User entity)
+		public UserModel(UserEntity entity)
 		{
 			this.id = entity.Id;
 			this.fb_id = entity.FacebookId;
@@ -28,9 +28,9 @@ namespace CukoosApi.Models
 			this.displayName = entity.DisplayName;
 		}
 
-		public User ToEntity()
+		public UserEntity ToEntity()
 		{
-			return new User()
+			return new UserEntity()
 			{
 				Id = this.id,
 				FacebookId = this.fb_id,

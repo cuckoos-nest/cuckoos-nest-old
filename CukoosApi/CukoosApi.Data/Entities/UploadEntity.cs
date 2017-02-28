@@ -6,10 +6,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace CukoosApi.Data.Models
+namespace CukoosApi.Data.Entities
 {
 	[Table("UserUploads")]
-	public class Upload
+	public class UploadEntity
 	{
 		[Key]
 		[Column("id")]
@@ -21,14 +21,14 @@ namespace CukoosApi.Data.Models
 
 		[ForeignKey("UserId")]
 		[Required]
-		public virtual User User { get; set; }
+		public virtual UserEntity User { get; set; }
 
 		[Column("photo")]
 		public int PhotoId { get; set; }
 
 		[ForeignKey("PhotoId")]
 		[Required]
-		public virtual Photo Photo { get; set; }
+		public virtual PhotoEntity Photo { get; set; }
 
 		[Column("description")]
 		[Required]
@@ -39,6 +39,6 @@ namespace CukoosApi.Data.Models
 		public DateTime DateCreated { get; set; }
 		
 		[InverseProperty("Upload")]
-		public virtual ICollection<Like> Likes { get; set; }
+		public virtual ICollection<LikeEntity> Likes { get; set; }
 	}
 }

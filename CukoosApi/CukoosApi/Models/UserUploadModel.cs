@@ -1,4 +1,4 @@
-﻿using CukoosApi.Data.Models;
+﻿using CukoosApi.Data.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -37,7 +37,7 @@ namespace CukoosApi.Models
 		{
 		}
 
-		public UserUploadModel(Upload entity)
+		public UserUploadModel(UploadEntity entity)
 		{
 			this.id = entity.Id;
 			this.photo = new PhotoModel(entity.Photo);
@@ -48,9 +48,9 @@ namespace CukoosApi.Models
 			this.dateTime = entity.DateCreated;
 		}
 
-		public Upload ToEntity()
+		public UploadEntity ToEntity()
 		{
-			return new Upload()
+			return new UploadEntity()
 			{
 				Id = this.id,
 				Photo = this.photo.ToEntity(),

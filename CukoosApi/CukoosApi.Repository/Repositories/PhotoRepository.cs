@@ -1,4 +1,4 @@
-﻿using CukoosApi.Data.Models;
+﻿using CukoosApi.Data.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,7 +11,7 @@ using CukoosApi.Data;
 
 namespace CukoosApi.Repository.Repositories
 {
-  public class PhotoRepository : BaseRepository<Photo>, IPhotoRepository
+  public class PhotoRepository : BaseRepository<PhotoEntity>, IPhotoRepository
   {
     public CukoosContext CukoosContext { get { return base.Context as CukoosContext; } }
 

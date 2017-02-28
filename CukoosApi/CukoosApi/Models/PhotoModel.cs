@@ -1,4 +1,4 @@
-﻿using CukoosApi.Data.Models;
+﻿using CukoosApi.Data.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -29,7 +29,7 @@ namespace CukoosApi.Models
 		{
 		}
 
-		public PhotoModel(Photo entity)
+		public PhotoModel(PhotoEntity entity)
 		{
 			this.id = entity.Id;
 			this.title = entity.Title;
@@ -38,9 +38,9 @@ namespace CukoosApi.Models
 				this.Category = new CategoryModel(entity.Category);
 		}
 
-		public Photo ToEntity()
+		public PhotoEntity ToEntity()
 		{
-			return new Photo()
+			return new PhotoEntity()
 			{
 				Id = this.id,
 				Title = this.title,

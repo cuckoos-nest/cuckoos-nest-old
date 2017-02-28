@@ -1,6 +1,6 @@
 ﻿using CukoosApi.Controllers.Base;
 using CukoosApi.Data;
-using CukoosApi.Data.Models;
+using CukoosApi.Data.Entities;
 using CukoosApi.Models;
 using System;
 using System.Collections.Generic;
@@ -26,7 +26,7 @@ namespace CukoosApi.Controllers
 		[ResponseType(typeof(CategoryModel))]
 		public IHttpActionResult GetCategory(int id)
 		{
-			Category category = __db.Categories.Find(id);
+			CategoryEntity category = __db.Categories.Find(id);
 
 			if (category == null)
 				return NotFound();
@@ -37,7 +37,7 @@ namespace CukoosApi.Controllers
 		[ResponseType(typeof(CategoryModel))]
 		public IHttpActionResult GetCategories(int followedBy)
 		{
-			User follower = __db.Users.Include(u => u.Categories).SingleOrDefault(x => x.Id == followedBy);
+			UserEntity follower = __db.Users.Include(u => u.Categories).SingleOrDefault(x => x.Id == followedBy);
 
 			if (follower == null)
 				return NotFound();
@@ -56,7 +56,7 @@ namespace CukoosApi.Controllers
 			if (categoryModel.id != id)
 				return BadRequest();
 
-			Category entity = categoryModel.ToEntity();
+			CategoryEntity entity = categoryModel.ToEntity();
 
 			__db.Entry(entity).State = EntityState.Modified;
 
@@ -84,7 +84,7 @@ namespace CukoosApi.Controllers
 			if (!ModelState.IsValid)
 				return BadRequest(ModelState);
 
-			Category entity = categoryModel.ToEntity();
+			CategoryEntity entity = categoryModel.ToEntity();
 
 			__db.Categories.Add(entity);
 			__db.SaveChanges();
@@ -97,7 +97,7 @@ namespace CukoosApi.Controllers
 		[ResponseType(typeof(PhotoModel))]
 		public IHttpActionResult DeleteCategory(int id)
 		{
-			Category entity = __db.Categories.Find(id);
+			CategoryEntity entity = __db.Categories.Find(id);
 
 			if (entity == null)
 				return NotFound();

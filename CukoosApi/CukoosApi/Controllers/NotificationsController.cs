@@ -8,7 +8,7 @@ using System.Net.Http;
 using System.Web.Http;
 using System.Web.Http.Description;
 using System.Data.Entity;
-using CukoosApi.Data.Models;
+using CukoosApi.Data.Entities;
 using CukoosApi.Controllers.Base;
 
 namespace CukoosApi.Controllers
@@ -25,7 +25,7 @@ namespace CukoosApi.Controllers
 		[ResponseType(typeof(NotificationModel))]
 		public IHttpActionResult GetNotifications(int userId)
 		{
-			User user = __db.Users.Find(userId);
+			UserEntity user = __db.Users.Find(userId);
 			if (user == null)
 				return NotFound();
 
@@ -60,11 +60,11 @@ namespace CukoosApi.Controllers
 			if (!ModelState.IsValid)
 				return BadRequest(ModelState);
 
-			User user = __db.Users.Find(userId);
+			UserEntity user = __db.Users.Find(userId);
 			if (user == null)
 				return NotFound();
 
-			foreach (Notification notification in user.Notifications)
+			foreach (NotificationEntity notification in user.Notifications)
 			{
 				notification.IsRead = true;
 				__db.Entry(notification).State = EntityState.Modified;

@@ -7,10 +7,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace CukoosApi.Data.Models
+namespace CukoosApi.Data.Entities
 {
 	[Table("Categories")]
-	public class Category : IEntity
+	public class CategoryEntity : IEntity
 	{
 		[Column("id")]
 		[Key()]
@@ -21,8 +21,8 @@ namespace CukoosApi.Data.Models
 		[Required]
 		public string Name { get; set; }
 
-		public virtual ICollection<User> Users { get; set; }
+		public virtual ICollection<UserEntity> Users { get; set; }
 
-		public virtual ICollection<Photo> Photos { get; set; }
+		public virtual ICollection<PhotoEntity> Photos { get; set; }
 	}
 }
