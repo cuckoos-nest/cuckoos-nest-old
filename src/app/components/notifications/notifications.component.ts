@@ -16,15 +16,6 @@ export class NotificationsComponent {
     constructor(private usersService: UsersService, private notificationsService: NotificationsService) {
         this.notificationsService.listen(this.usersService.loggedInUser.id).subscribe(newNotification => {
             this._notifications.push(newNotification);
-            console.log("Received notification in notifiations.component");
         });
-    }
-
-    public onTabSelection() {
-        if (Config.debugMode) {
-            console.log("notifications tab has been selected");
-        }
-        
-        //this.newNotifications = 0;
     }
 }

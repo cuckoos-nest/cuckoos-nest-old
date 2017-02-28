@@ -33,7 +33,6 @@ export class MainMenuComponent {
 
         this.notificationsService.listen(this.usersService.loggedInUser.id).subscribe(() => {
             this._newNotifications++;
-            console.log("Received notification in main-menu.component");
         });
     }
 

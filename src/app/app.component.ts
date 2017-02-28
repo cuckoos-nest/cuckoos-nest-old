@@ -36,7 +36,7 @@ export class MyApp implements OnInit{
       this.loginService.login().subscribe(loginResult => {
         if (loginResult == LoginResult.Succeed) {
           // Login successed
-          this.rootPage = MainMenuComponent;
+          this.rootPage = MainMenuComponent ;
           Splashscreen.hide();
         }
         else {
