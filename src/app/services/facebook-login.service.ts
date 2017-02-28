@@ -7,9 +7,11 @@ import 'rxjs/add/operator/map';
 
 import {FacebookService, FacebookLoginResponse, FacebookInitParams, FacebookLoginOptions} from 'ng2-facebook-sdk';
 
-import { BaseLoginService, LoginResult } from './base/base-login.service';
+import { BaseLoginService } from './base/base-login.service';
 
 import { UserModel } from '../models/user.model';
+
+import { LoginResult } from '../enums/login-result.enum';
 
 import { UsersService } from './users.service';
 
@@ -56,7 +58,7 @@ export class FacebookLoginService extends BaseLoginService {
                             console.error("Facebook login error:", error);
                         }
 
-                        observer.next(LoginResult.failed);
+                        observer.next(LoginResult.Failed);
                         observer.complete();
                     });
                 }
@@ -79,11 +81,11 @@ export class FacebookLoginService extends BaseLoginService {
             if (userModel) {
                 // Facebook user exists, or created successfuly
                 this.usersService.loggedInUser = userModel;
-                observer.next(LoginResult.success);
+                observer.next(LoginResult.Succeed);
             }
             else {
                 // Unable to create facebook user
-                observer.next(LoginResult.failed);
+                observer.next(LoginResult.Failed);
             }
 
             observer.complete();

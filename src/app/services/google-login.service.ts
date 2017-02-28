@@ -6,9 +6,11 @@ import 'rxjs/add/operator/map';
 
 import {FacebookService, FacebookLoginResponse, FacebookInitParams, FacebookLoginOptions} from 'ng2-facebook-sdk';
 
-import { BaseLoginService, LoginResult } from './base/base-login.service';
+import { BaseLoginService } from './base/base-login.service';
 
 import { UserModel } from '../models/user.model';
+
+import { LoginResult } from '../enums/login-result.enum';
 
 import { UsersService } from './users.service';
 
