@@ -1,4 +1,5 @@
 import { NgModule, ErrorHandler } from '@angular/core';
+import { Http } from '@angular/http';
 import { IonicApp, IonicModule, IonicErrorHandler } from 'ionic-angular';
 
 import { MyApp } from './app.component';
@@ -20,6 +21,7 @@ import { NotificationsService } from './services/notifications.service';
 import { FacebookLoginService } from './services/facebook-login.service';
 
 import { FacebookService } from 'ng2-facebook-sdk';
+import { TranslateModule, TranslateStaticLoader, TranslateLoader } from 'ng2-translate';
 
 @NgModule({
   declarations: [
@@ -35,7 +37,12 @@ import { FacebookService } from 'ng2-facebook-sdk';
     NotificationsComponent,
     ],
   imports: [
-    IonicModule.forRoot(MyApp)
+    IonicModule.forRoot(MyApp),
+    TranslateModule.forRoot({
+        provide: TranslateLoader,
+        useFactory: (http: Http) => new TranslateStaticLoader(http, '/assets/i18n', '.json'),
+        deps: [Http]
+    })
   ],
   bootstrap: [IonicApp],
   entryComponents: [
