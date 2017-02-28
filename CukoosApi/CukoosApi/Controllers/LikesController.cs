@@ -17,8 +17,6 @@ namespace CukoosApi.Controllers
 		#region Post
 		public IHttpActionResult PostLike(int userUploadId)
 		{
-			var userId = 17; // Should be changed to the user who is currently connected to the server
-
 			if (!ModelState.IsValid)
 				return BadRequest(ModelState);
 
@@ -26,12 +24,12 @@ namespace CukoosApi.Controllers
 			if (userUpload == null)
 				return NotFound();
 
-			if (userUpload.Likes.Any(x => x.UserId == userId))
+			if (userUpload.Likes.Any(x => x.UserId == __currentUser.Id))
 				return BadRequest("User already likes this upload");
 
 			userUpload.Likes.Add(new LikeEntity()
 			{
-				UserId = userId
+				UserId = __currentUser.Id
 			});
 
 			__db.SaveChanges();
@@ -43,16 +41,14 @@ namespace CukoosApi.Controllers
 		#region Delete
 		public IHttpActionResult DeleteLike(int userUploadId)
 		{
-			var userId = 17; // Should be changed to the user who is currently connected to the server
-
 			UploadEntity userUpload = __db.Uploads.Find(userUploadId);
 
 			if (userUpload == null)
 				return NotFound();
 
-			LikeEntity like = userUpload.Likes.SingleOrDefault(x => x.UserId == userId);
+			LikeEntity like = userUpload.Likes.SingleOrDefault(x => x.UserId == __currentUser.Id);
 
-			if (userUpload.Likes.Any(x => x.UserId == userId) == false)
+			if (userUpload.Likes.Any(x => x.UserId == __currentUser.Id) == false)
 				return BadRequest("User does not like this upload");
 
 			userUpload.Likes.Remove(like);
