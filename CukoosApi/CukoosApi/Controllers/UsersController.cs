@@ -74,6 +74,18 @@ namespace CukoosApi.Controllers
 
 			return StatusCode(HttpStatusCode.OK);
 		}
+
+		[ResponseType(typeof(void))]
+		public IHttpActionResult PutUser(string imageUrl)
+		{
+			if (!ModelState.IsValid)
+				return BadRequest(ModelState);
+
+			using (WebClient client = new WebClient())
+				client.DownloadFile(imageUrl, $"../assets/userImages/{__currentUser.Id}.png");
+
+			return StatusCode(HttpStatusCode.OK);
+		}
 		#endregion
 
 		#region Post

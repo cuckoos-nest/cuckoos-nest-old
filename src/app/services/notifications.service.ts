@@ -23,37 +23,29 @@ export class NotificationsService extends BaseService {
         this._intervals = new Map<number, number>();
     }
 
-    public getNotifications(userId: number): Observable<NotificationModel[]> {
-        return this.http.get(`${this.notificationDirectory}?userId=${userId}`)
+    public getNotifications(): Observable<NotificationModel[]> {
+        return this.http.get(`${this.notificationDirectory}`)
                 .map(bodyResponse => bodyResponse.json());
     }
 
-    public markNotificationsAsRead(userId: number) {
-        this.http.put(`${this.notificationDirectory}?userId=${userId}`, null);
+    public markNotificationsAsRead() {
+        this.http.put(`${this.notificationDirectory}`, null);
     }
 
-    public listen(userId: number): Observable<NotificationModel> {
-        if (this._observables.has(userId)) {
-            return this._observables.get(userId);
-        }
-        else {
-            if (Config.debugMode) {
-                console.log(`New notification observer has been created for user: ${userId}`);
-            }
-
-            let observable: Observable<NotificationModel> = new Observable<NotificationModel>((observer: Observer<NotificationModel>) => {
+    public listen(): Observable<NotificationModel> {
+        return new Observable<NotificationModel>((observer: Observer<NotificationModel>) => {
                 let previousNotifications: NotificationModel[] = new Array<NotificationModel>();
 
                 let intervalFunction = () => {
                     if (Config.debugMode) {
-                        console.log(`Notifications interval cycle for user ${userId}`);
+                        console.log(`Notifications interval cycle`);
                     }
 
-                    this.getNotifications(userId).subscribe(notifications => {
+                    this.getNotifications().subscribe(notifications => {
                         notifications.forEach(notification => {
                             if (!previousNotifications.find(x => x.id == notification.id)) {
                                 if (Config.debugMode) {
-                                    console.log(`User ${userId} received new notification`);
+                                    console.log(`User received new notification`);
                                 }
 
                                 observer.next(notification);
@@ -66,11 +58,6 @@ export class NotificationsService extends BaseService {
                 intervalFunction();
                 setInterval(intervalFunction, Config.checkNotificationsDelay);
             });
-
-            this._observables.set(userId, observable);
-
-            return observable;
-        }
     }
 
     public stopListening(userId: number) {

@@ -31,13 +31,13 @@ export class MainMenuComponent {
         this._profileTab = UserProfileComponent;
         this._notificationsTab = NotificationsComponent;
 
-        this.notificationsService.listen(this.usersService.loggedInUser.id).subscribe(() => {
+        this.notificationsService.listen().subscribe(() => {
             this._newNotifications++;
         });
     }
 
     private resetNotifications() {
         this._newNotifications = 0;
-        this.notificationsService.markNotificationsAsRead(this.usersService.loggedInUser.id);
+        this.notificationsService.markNotificationsAsRead();
     }
 }

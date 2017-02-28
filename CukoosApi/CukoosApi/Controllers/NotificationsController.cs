@@ -19,8 +19,7 @@ namespace CukoosApi.Controllers
 		[ResponseType(typeof(NotificationModel))]
 		public IHttpActionResult GetNotifications()
 		{
-			UserEntity user = __db.Users.Find(__currentUser.Id);
-			return Ok(user.Notifications.Select(x => new NotificationModel(x)));
+			return Ok(__currentUser.Notifications.Select(x => new NotificationModel(x)));
 		}
 		#endregion
 
@@ -54,9 +53,7 @@ namespace CukoosApi.Controllers
 			if (!ModelState.IsValid)
 				return BadRequest(ModelState);
 
-			UserEntity user = __db.Users.Find(__currentUser.Id);
-
-			foreach (NotificationEntity notification in user.Notifications)
+			foreach (NotificationEntity notification in __currentUser.Notifications)
 			{
 				notification.IsRead = true;
 				__db.Entry(notification).State = EntityState.Modified;

@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 
 namespace CukoosApi.Data.Entities
 {
+	[Table("Users")]
 	public class UserEntity
 	{
 		[Key]

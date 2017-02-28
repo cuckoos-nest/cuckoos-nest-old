@@ -16,8 +16,8 @@ export class WallService extends BaseService {
         super();
     }
 
-    public getWallByUser(userId: number): Observable<UserUploadModel[]> {
-        return this.http.get(`${this.wallDirectory}?userId=${userId}`)
+    public getWallByUser(): Observable<UserUploadModel[]> {
+        return this.http.get(`${this.wallDirectory}`)
             .map(bodyResponse => bodyResponse.json());
     }
 

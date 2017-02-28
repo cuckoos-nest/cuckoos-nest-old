@@ -19,9 +19,7 @@ namespace CukoosApi.Controllers
 		[ResponseType(typeof(UserUploadModel))]
 		public IHttpActionResult GetWall()
 		{
-			UserEntity userEntity = __db.Users.Find(__currentUser.Id);
-
-			IEnumerable<UploadEntity> wall = userEntity.Categories.SelectMany(x => x.Photos).SelectMany(x => x.Uploads);
+			IEnumerable<UploadEntity> wall = __currentUser.Categories.SelectMany(x => x.Photos).SelectMany(x => x.Uploads);
 
 			return Ok(wall.ToList().Select(x => new UserUploadModel(x)));
 

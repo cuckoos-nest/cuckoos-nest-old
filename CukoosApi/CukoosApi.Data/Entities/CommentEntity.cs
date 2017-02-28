@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 
 namespace CukoosApi.Data.Entities
 {
+	[Table("UserUploadsComments")]
 	public class CommentEntity
 	{
 		[Key]
