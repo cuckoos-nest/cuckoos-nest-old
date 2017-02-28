@@ -15,14 +15,7 @@ namespace CukoosApi.Controllers.Base
 		#region Fields
 		protected CukoosContext __db = new CukoosContext();
 
-		// Should be changed to the user who is currently connected to the server
-		protected UserEntity __currentUser
-		{
-			get
-			{
-				return __db.Users.Find(17); 
-			}
-		}
+		protected UserEntity __currentUser;
 		#endregion
 
 		#region Methods
@@ -30,6 +23,14 @@ namespace CukoosApi.Controllers.Base
 		{
 			__db.Dispose();
 			base.Dispose(disposing);
+		}
+
+		protected override void Initialize(HttpControllerContext controllerContext)
+		{
+			// Should be changed to the user who is currently connected to the server
+			__currentUser = __db.Users.Find(17); 
+
+			base.Initialize(controllerContext);
 		}
 		#endregion
 	}
