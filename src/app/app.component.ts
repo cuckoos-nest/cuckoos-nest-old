@@ -5,7 +5,7 @@ import { StatusBar, Splashscreen } from 'ionic-native';
 import { MainMenuComponent } from './components/main-menu/main-menu.component';
 
 import { FacebookLoginService } from './services/facebook-login.service';
-import { LoginResult } from './services/base/base-login.service';
+import { LoginResult } from './enums/login-result.enum';
 
 import * as Config from './config.json';
 
@@ -29,7 +29,7 @@ export class MyApp implements OnInit{
 
     ngOnInit() {
       this.loginService.login().subscribe(loginResult => {
-        if (loginResult == LoginResult.success) {
+        if (loginResult == LoginResult.Succeed) {
           // Login successed
           this.rootPage = MainMenuComponent;
           Splashscreen.hide();

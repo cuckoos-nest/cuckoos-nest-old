@@ -6,20 +6,9 @@ import 'rxjs/add/operator/catch';
 import 'rxjs/add/operator/map';
 
 import { BaseService } from './base.service';
+import { LoginResult } from '../../enums/login-result.enum';
 
 @Injectable()
 export abstract class BaseLoginService extends BaseService {
     public abstract login(): Observable<LoginResult>;
-}
-
-export class LoginResult {
-
-    public readonly code: number;
-
-    private constructor(code: number) {
-        this.code = code;
-    }
-
-    public static success = new LoginResult(0);
-    public static failed = new LoginResult(1);
 }
