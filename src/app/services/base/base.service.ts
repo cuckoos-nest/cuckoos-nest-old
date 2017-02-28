@@ -16,7 +16,7 @@ export abstract class BaseService {
     protected readonly wallDirectory = this.host + "wall";
     protected readonly notificationDictionary = this.host + "notifications";
 
-    protected handleError (error: Response | any) {
+    protected handleError (error: Response) {
         // log error
     }
 }

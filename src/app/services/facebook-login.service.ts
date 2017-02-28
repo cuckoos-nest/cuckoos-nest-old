@@ -74,7 +74,7 @@ export class FacebookLoginService extends BaseLoginService {
         return result;
     }
 
-    private setLoggedInUser(fb_id: number, observer: any) {
+    private setLoggedInUser(fb_id: number, observer: Observer<LoginResult>) {
          this.getUserModel(Number(fb_id)).subscribe(userModel => {
             if (userModel) {
                 // Facebook user exists, or created successfuly
