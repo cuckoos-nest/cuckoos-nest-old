@@ -114,6 +114,8 @@ export class FacebookLoginService extends BaseLoginService {
                         newUser.fb_id = fb_id;
                         newUser.displayName = me.name;
                         newUser.email = me.email;
+                        debugger;
+                        newUser.imageUrl = me.picture.data.url;
                         // Picture: me.picture.data.url
 
                         this.usersService.createUser(newUser)
@@ -121,9 +123,9 @@ export class FacebookLoginService extends BaseLoginService {
                                 if (Config.debugMode) {
                                     console.log("New Facebook User has been created", userModel);
                                 }
+                                
                                 observer.next(userModel);
                                 observer.complete();
-                                
                             },
                             err => {
                                 if (Config.debugMode) {

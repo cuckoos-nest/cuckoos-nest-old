@@ -28,7 +28,7 @@ namespace CukoosApi.Controllers.Base
 		protected override void Initialize(HttpControllerContext controllerContext)
 		{
 			// Should be changed to the user who is currently connected to the server
-			__currentUser = __db.Users.Find(17); 
+			__currentUser = __db.Users.Find(21); 
 
 			base.Initialize(controllerContext);
 		}

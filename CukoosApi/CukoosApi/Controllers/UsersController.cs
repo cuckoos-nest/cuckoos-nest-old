@@ -4,11 +4,13 @@ using CukoosApi.Data.Entities;
 using CukoosApi.Models;
 using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Data.Entity;
 using System.Data.Entity.Infrastructure;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Web;
 using System.Web.Http;
 using System.Web.Http.Description;
 
@@ -48,41 +50,21 @@ namespace CukoosApi.Controllers
 
 		#region Put
 		[ResponseType(typeof(void))]
-		public IHttpActionResult PutUser(int id, UserModel userModel)
+		public IHttpActionResult PutUser(UserModel model)
 		{
 			if (!ModelState.IsValid)
 				return BadRequest(ModelState);
 
-			if (userModel.id != id)
+			if (model.id != __currentUser.Id)
 				return BadRequest();
 
-			var entity = userModel.ToEntity();
+			if (string.IsNullOrEmpty(model.imageUrl) == false)
+				SetUserImageByUrl(__currentUser.Id, model.imageUrl);
+			// Other changes...
 
-			__db.Entry(entity).State = EntityState.Modified;
+			__db.Entry(__currentUser).State = EntityState.Modified;
 
-			try
-			{
-				__db.SaveChanges();
-			}
-			catch (DbUpdateConcurrencyException)
-			{
-				if (!UserExists(id))
-					return NotFound();
-				else
-					throw;
-			}
-
-			return StatusCode(HttpStatusCode.OK);
-		}
-
-		[ResponseType(typeof(void))]
-		public IHttpActionResult PutUser(string imageUrl)
-		{
-			if (!ModelState.IsValid)
-				return BadRequest(ModelState);
-
-			using (WebClient client = new WebClient())
-				client.DownloadFile(imageUrl, $"../assets/userImages/{__currentUser.Id}.png");
+			__db.SaveChanges();
 
 			return StatusCode(HttpStatusCode.OK);
 		}
@@ -99,6 +81,9 @@ namespace CukoosApi.Controllers
 
 			__db.Users.Add(entity);
 			__db.SaveChanges();
+
+			if (string.IsNullOrEmpty(model.imageUrl) == false)
+				model.imageUrl = SetUserImageByUrl(entity.Id, model.imageUrl);
 
 			model = new UserModel(__db.Users.Single(x => x.Id == entity.Id));
 
@@ -126,6 +111,24 @@ namespace CukoosApi.Controllers
 		private bool UserExists(int id)
 		{
 			return __db.Users.Any(e => e.Id == id);
+		}
+
+		private string SetUserImageByUrl(int id, string imageUrl)
+		{
+			string localPath = HttpRuntime.AppDomainAppPath + $"assets/userImages/{id}.png";
+			using (WebClient client = new WebClient())
+			{
+				client.DownloadProgressChanged += (object sender, DownloadProgressChangedEventArgs e) =>
+				{
+					if (e.TotalBytesToReceive > int.Parse(ConfigurationManager.AppSettings["MaxImageSize"]))
+					{
+						client.CancelAsync();
+					}
+				};
+				client.DownloadFile(imageUrl, localPath);
+			}
+
+			return localPath;
 		}
 		#endregion
 	}
