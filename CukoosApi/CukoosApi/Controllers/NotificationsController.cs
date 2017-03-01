@@ -10,6 +10,7 @@ using System.Web.Http.Description;
 using System.Data.Entity;
 using CukoosApi.Data.Entities;
 using CukoosApi.Controllers.Base;
+using System.Collections;
 
 namespace CukoosApi.Controllers
 {
@@ -17,9 +18,14 @@ namespace CukoosApi.Controllers
 	{
 		#region Get
 		[ResponseType(typeof(NotificationModel))]
-		public IHttpActionResult GetNotifications()
+		public IHttpActionResult GetNotifications(bool? isRead = null)
 		{
-			return Ok(__currentUser.Notifications.Select(x => new NotificationModel(x)));
+			IEnumerable<NotificationEntity> notifications = __currentUser.Notifications;
+
+			if (isRead != null)
+				notifications = notifications.Where(x => x.IsRead == isRead);
+
+			return Ok(notifications.OrderByDescending(x => x.CreationDate).Select(x => new NotificationModel(x)));
 		}
 		#endregion
 
@@ -30,10 +36,14 @@ namespace CukoosApi.Controllers
 			if (!ModelState.IsValid)
 				return BadRequest(ModelState);
 
-			if (model.sentByUserId != __currentUser.Id)
+			if (model.sentByUser.id != __currentUser.Id)
 				return BadRequest("User authentication failed");
 
 			var entity = model.ToEntity();
+
+			entity.SentByUser = __currentUser;
+			entity.SentByUserId = __currentUser.Id;
+
 			__db.Notifications.Add(entity);
 			__db.SaveChanges();
 
@@ -45,7 +55,6 @@ namespace CukoosApi.Controllers
 		/// <summary>
 		/// Mark all notifications as read
 		/// </summary>
-		/// <param name="userId"></param>
 		/// <returns></returns>
 		[ResponseType(typeof(NotificationModel))]
 		public IHttpActionResult PutNotification()

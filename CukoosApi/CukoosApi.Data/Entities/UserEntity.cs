@@ -21,6 +21,7 @@ namespace CukoosApi.Data.Entities
 
 		public virtual ICollection<CategoryEntity> Categories { get; set; }
 
+		[InverseProperty("ReceivingUser")]
 		public virtual ICollection<NotificationEntity> Notifications { get; set; }
 
 		[Column("email")]

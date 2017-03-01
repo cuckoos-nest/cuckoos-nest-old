@@ -41,11 +41,11 @@
     <ion-list>
         <ion-item *ngFor="let notification of _notifications">
             <ion-avatar item-left>
-                <img src="https://scontent.ftlv1-1.fna.fbcdn.net/v/t1.0-1/p160x160/15355682_10211502961593266_577133296298561573_n.jpg?oh=471cba7d138f2f99f1347d10edf44d56&oe=592B2047">
+                <img [src]="notification.sentByUser.imageUrl">
             </ion-avatar>
-            <h2>Eliran Pe'er</h2>
-            <p>{{ notification.type }}</p>
-            <ion-note item-right>05:43 am</ion-note>
+            <h2>{{ notification.sentByUser.displayName }}</h2>
+            <p>{{ notificationTypeToResource(notification.type) | translate }}</p>
+            <ion-note item-right>{{ notification.creationDate | date: 'MMM d, HH:mm' }}</ion-note>
         </ion-item>
     </ion-list>
 </ion-content>

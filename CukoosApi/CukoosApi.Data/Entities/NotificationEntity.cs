@@ -40,11 +40,14 @@ namespace CukoosApi.Data.Entities
 		public int ReceivingUserId { get; set; }
 
 		[ForeignKey("ReceivingUserId")]
-		public UserEntity ReceivingUser { get; set; }
+		public virtual UserEntity ReceivingUser { get; set; }
 
 		[Column("sentByUser")]
 		[Required]
 		public int SentByUserId { get; set; }
+
+		[ForeignKey("SentByUserId")]
+		public virtual UserEntity SentByUser { get; set; }
 
 		//[ForeignKey("SentByUserId")]
 		//public User SentByUser { get; set; }
