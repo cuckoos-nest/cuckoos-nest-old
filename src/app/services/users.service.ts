@@ -41,4 +41,9 @@ export class UsersService extends BaseService {
         return this.http.post(`${this.userDirectory}`, userModel)
                 .map(bodyResponse => bodyResponse.json());
     }
-}
+
+    public setUserImageByUrl(imageUrl: string) {
+        return this.http.put(`${this.userDirectory}`, imageUrl)
+                .map(bodyResponse => bodyResponse.json());
+    }
+}   

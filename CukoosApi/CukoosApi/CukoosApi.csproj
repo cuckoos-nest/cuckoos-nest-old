@@ -152,6 +152,7 @@
     <Content Include="Assets\Photos\2.png" />
     <Content Include="Assets\Photos\6.png" />
     <Content Include="Assets\Photos\4.png" />
+    <Content Include="Assets\UserImages\17.png" />
     <Content Include="Assets\UserUploads\2.png" />
     <Content Include="Global.asax" />
     <Content Include="scripts\ai.0.15.0-build58334.js" />
@@ -189,6 +190,7 @@
     <Content Include="Metadata\deploymentTemplates\apiappconfig.azureresource.json" />
     <Content Include="apiapp.json" />
     <Content Include="Service Capabilities\Application Insights\ConnectedService.json" />
+    <Content Include="appSettings.config" />
     <None Include="Properties\PublishProfiles\cukooApi - Web Deploy.pubxml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
@@ -199,7 +201,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Assets\UserImages\" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
