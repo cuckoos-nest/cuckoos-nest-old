@@ -16,7 +16,7 @@ namespace CukoosApi.Models
 
 		public int recivingUserId { get; set; }
 
-		public int sentByUserId { get; set; }
+		public UserModel sentByUser { get; set; }
 
 		public string creationDate { get; set; }
 
@@ -33,7 +33,7 @@ namespace CukoosApi.Models
 			this.id = entity.Id;
 			this.type = (int)entity.Type;
 			this.recivingUserId = entity.ReceivingUserId;
-			this.sentByUserId = entity.SentByUserId;
+			this.sentByUser = new UserModel(entity.SentByUser);
 			this.creationDate = entity.CreationDate.ToString();
             this.isRead = entity.IsRead;
         }
@@ -46,7 +46,7 @@ namespace CukoosApi.Models
 				Id = this.id,
 				Type = (NotificationType)this.type,
 				ReceivingUserId = this.recivingUserId,
-				SentByUserId = this.sentByUserId,
+				SentByUserId = this.sentByUser.id,
 				CreationDate = DateTime.Parse(this.creationDate),
                 IsRead = this.isRead,
             };

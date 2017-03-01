@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 
 import Config from '../../config.json';
+import { NotificationType } from '../../enums/notification-type.enum';
 
 import { NotificationModel } from '../../models/notification.model';
 import { UsersService } from '../../services/users.service';
@@ -17,5 +18,9 @@ export class NotificationsComponent {
         this.notificationsService.listen().subscribe(newNotification => {
             this._notifications.push(newNotification);
         });
+    }
+
+    private notificationTypeToResource(type: NotificationType) {
+        return "NOTIFICATION_" + NotificationType[type].toUpperCase();
     }
 }

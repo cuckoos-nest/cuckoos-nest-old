@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Http } from '@angular/http';
+import { Http, Response } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
 import { Observer } from 'rxjs/Observer';
 import 'rxjs/add/operator/map';
@@ -23,25 +23,37 @@ export class NotificationsService extends BaseService {
         this._intervals = new Map<number, number>();
     }
 
-    public getNotifications(): Observable<NotificationModel[]> {
+    public getAllNotifications(): Observable<NotificationModel[]> {
         return this.http.get(`${this.notificationDirectory}`)
                 .map(bodyResponse => bodyResponse.json());
     }
 
-    public markNotificationsAsRead() {
-        this.http.put(`${this.notificationDirectory}`, null);
+    public getNewNotifications(): Observable<NotificationModel[]> {
+        return this.http.get(`${this.notificationDirectory}?isRead=false`)
+                .map(bodyResponse => bodyResponse.json());
+    }
+
+    public markNotificationsAsRead(): Observable<Response> {
+        return this.http.put(`${this.notificationDirectory}`, null);
     }
 
     public listen(): Observable<NotificationModel> {
         return new Observable<NotificationModel>((observer: Observer<NotificationModel>) => {
                 let previousNotifications: NotificationModel[] = new Array<NotificationModel>();
 
-                let intervalFunction = () => {
+                let intervalFunction = (isInitialize: Boolean = false) => {
                     if (Config.debugMode) {
                         console.log(`Notifications interval cycle`);
                     }
 
-                    this.getNotifications().subscribe(notifications => {
+                    let notifications: Observable<NotificationModel[]>;
+
+                    if (isInitialize)
+                        notifications = this.getAllNotifications();
+                    else
+                        notifications = this.getNewNotifications();
+
+                    notifications.subscribe(notifications => {
                         notifications.forEach(notification => {
                             if (!previousNotifications.find(x => x.id == notification.id)) {
                                 if (Config.debugMode) {
@@ -55,7 +67,7 @@ export class NotificationsService extends BaseService {
                     });
                 };
 
-                intervalFunction();
+                intervalFunction(true);
                 setInterval(intervalFunction, Config.checkNotificationsDelay);
             });
     }
