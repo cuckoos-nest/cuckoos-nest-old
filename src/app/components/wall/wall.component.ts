@@ -13,12 +13,24 @@ import { WallService } from '../../services/wall.service';
 export class WallComponent {
 
     private _loggedInUser: UserModel;
-    private _currentWall: UserUploadModel[];
+    private _currentWall: UserUploadModel[] = new Array<UserUploadModel>();
 
     constructor(private usersService: UsersService, private wallService: WallService) {
         this._loggedInUser = this.usersService.loggedInUser;
         
-        this.wallService.getWallByUser()
-            .subscribe(wall => this._currentWall = wall);
+        this.wallService.getWallListener()
+            .subscribe(userUpload => {
+                this._currentWall.push(userUpload);
+                this._currentWall = this._currentWall.sort((a: UserUploadModel, b: UserUploadModel) => {
+                    if (a.id < b.id) {
+                        return 1; 
+                    }
+                    if (b.id > a.id) {
+                        return -1;
+                    }
+
+                    return 0;
+                });
+            });
     }  
 }

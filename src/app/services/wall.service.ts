@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { Http, Response } from '@angular/http';
 import { Category, Photo } from '../models/photo.models';
 import { Observable } from 'rxjs/Observable';
+import { Observer } from 'rxjs/Observer';
 import 'rxjs/add/operator/map';
 
 import { BaseService } from './base/base.service';
@@ -16,9 +17,29 @@ export class WallService extends BaseService {
         super();
     }
 
-    public getWallByUser(): Observable<UserUploadModel[]> {
-        return this.http.get(`${this.wallDirectory}`)
-            .map(bodyResponse => bodyResponse.json());
+    public getWallListener(): Observable<UserUploadModel> {
+        return new Observable<UserUploadModel>((observer: Observer<UserUploadModel>) => {
+            let lastUploadId: number = 0;
+            
+            let intervalFunction = () => {
+                this.http.get(`${this.wallDirectory}`)
+                .map(bodyResponse => bodyResponse.json()).subscribe((wall: UserUploadModel[]) => {
+                    for (let userUpload of wall.reverse()) {
+                        if (userUpload.id > lastUploadId) {
+                            lastUploadId = userUpload.id;
+                            observer.next(userUpload);
+                        }
+                    }
+                });
+            };
+            intervalFunction();
+            setInterval(intervalFunction, Config.checkNotificationsDelay);
+        });
+    }
+
+    public share(userUpload: UserUploadModel): Observable<UserUploadModel> {
+        return this.http.post(`${this.userUploadDirectory}`, userUpload)
+                .map(bodyResponse => bodyResponse.json());
     }
 
     public like(userUploadId: number): Observable<Response> {

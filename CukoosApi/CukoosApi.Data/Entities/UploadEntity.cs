@@ -34,9 +34,9 @@ namespace CukoosApi.Data.Entities
 		[Required]
 		public string Description { get; set; }
 
-		[Column("dateTime")]
-		[Required]
-		public DateTime DateCreated { get; set; }
+		//[Column("dateTime")]
+		//[Required]
+		//public DateTime DateCreated { get; set; }
 		
 		[InverseProperty("Upload")]
 		public virtual ICollection<LikeEntity> Likes { get; set; }

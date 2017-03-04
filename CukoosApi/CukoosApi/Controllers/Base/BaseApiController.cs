@@ -7,10 +7,12 @@ using System.Net;
 using System.Net.Http;
 using System.Web.Http;
 using System.Web.Http.Controllers;
+using System.Web.Http.Cors;
 
 namespace CukoosApi.Controllers.Base
 {
-    public abstract class BaseApiController : ApiController
+	[EnableCors(origins: "*", headers: "*", methods: "*")]
+	public abstract class BaseApiController : ApiController
     {
 		#region Fields
 		protected CukoosContext __db = new CukoosContext();

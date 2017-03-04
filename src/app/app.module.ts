@@ -13,15 +13,20 @@ import { GalleryComponent } from './components/gallery/gallery.component'
 import { UserProfileComponent } from './components/user-profile/user-profile.component'
 import { NotificationsComponent } from './components/notifications/notifications.component'
 import { FullscreenImageComponent } from './components/fullscreen-image/fullscreen-image.component';
+import { EditUserUploadComponent } from './components/edit-user-upload/edit-user-upload.component';
 
 import { PhotosService } from './services/photos.service';
 import { CategoriesService } from './services/categories.service';
 import { UsersService } from './services/users.service';
 import { WallService } from './services/wall.service';
 import { NotificationsService } from './services/notifications.service';
-import { FacebookLoginService } from './services/facebook-login.service';
+import { UserUploadService } from './services/user-upload.service';
+
+import { FacebookWebLoginService } from './services/facebook-web-login.service';
+import { FacebookNativeLoginService } from './services/facebook-native-login.service';
 
 import { FacebookService } from 'ng2-facebook-sdk';
+
 import { TranslateModule, TranslateStaticLoader, TranslateLoader } from 'ng2-translate';
 
 @NgModule({
@@ -37,13 +42,14 @@ import { TranslateModule, TranslateStaticLoader, TranslateLoader } from 'ng2-tra
     UserProfileComponent,
     NotificationsComponent,
     FullscreenImageComponent,
-    ],
+    EditUserUploadComponent,
+  ],
   imports: [
     IonicModule.forRoot(MyApp),
     TranslateModule.forRoot({
-        provide: TranslateLoader,
-        useFactory: (http: Http) => new TranslateStaticLoader(http, '/assets/i18n', '.json'),
-        deps: [Http]
+      provide: TranslateLoader,
+      useFactory: (http: Http) => new TranslateStaticLoader(http, '/assets/i18n', '.json'),
+      deps: [Http]
     })
   ],
   bootstrap: [IonicApp],
@@ -59,16 +65,19 @@ import { TranslateModule, TranslateStaticLoader, TranslateLoader } from 'ng2-tra
     UserProfileComponent,
     NotificationsComponent,
     FullscreenImageComponent,
+    EditUserUploadComponent,
   ],
   providers: [
-    {provide: ErrorHandler, useClass: IonicErrorHandler},
+    { provide: ErrorHandler, useClass: IonicErrorHandler },
     PhotosService,
     CategoriesService,
     UsersService,
     FacebookService,
-    FacebookLoginService,
+    FacebookNativeLoginService,
+    FacebookWebLoginService,
     WallService,
-    NotificationsService
-    ]
+    NotificationsService,
+    UserUploadService
+  ]
 })
-export class AppModule {}
+export class AppModule { }

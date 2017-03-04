@@ -24,6 +24,9 @@ namespace CukoosApi.Data.Entities
 		[InverseProperty("ReceivingUser")]
 		public virtual ICollection<NotificationEntity> Notifications { get; set; }
 
+		[InverseProperty("User")]
+		public virtual ICollection<UploadEntity> Uploads { get; set; }
+
 		[Column("email")]
 		[Required]
 		public string Email { get; set; }
