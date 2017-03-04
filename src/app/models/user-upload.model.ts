@@ -9,6 +9,7 @@ export class UserUploadModel {
      description: string;
      user: UserModel;
      imageUrl: string;
+     imageBase64: string;
      dateTime: string;
      likeCount: number;
      isLiked: Boolean;

@@ -45,6 +45,7 @@ namespace CukoosApi.Models
 				Id = this.id,
 				Title = this.title,
 				Category = this.Category.ToEntity(),
+				CategoryId = this.Category.id,
 			};
 		}
 		#endregion

@@ -16,6 +16,7 @@ export abstract class BaseService {
     protected readonly wallDirectory = this.host + "wall";
     protected readonly notificationDirectory = this.host + "notifications";
     protected readonly likeDirectory = this.host + "likes";
+    protected readonly userUploadDirectory = this.host + "userUploads";
 
     protected handleError (error: Response) {
         // log error

@@ -21,6 +21,8 @@ namespace CukoosApi.Models
 			}
 		}
 
+		public string imageBase64 { get; set; }
+
 		public string description { get; set; }
 			
 		public UserModel user { get; set; }
@@ -43,9 +45,12 @@ namespace CukoosApi.Models
 			this.photo = new PhotoModel(entity.Photo);
 			this.description = entity.Description;
 			this.user = new UserModel(entity.User);
-			this.likeCount = entity.Likes.Count;
-			this.isLiked = entity.Likes.Any(x => x.UserId == 17);
-			this.dateTime = entity.DateCreated;
+			if (entity.Likes != null)
+			{
+				this.likeCount = entity.Likes.Count;
+				this.isLiked = entity.Likes.Any(x => x.UserId == 17);
+			}
+			//this.dateTime = entity.DateCreated;
 		}
 
 		public UploadEntity ToEntity()
@@ -54,8 +59,11 @@ namespace CukoosApi.Models
 			{
 				Id = this.id,
 				Photo = this.photo.ToEntity(),
+				PhotoId = this.photo.id,
 				Description = this.description,
 				User = this.user.ToEntity(),
+				UserId = this.user.id,
+				//DateCreated = dateTime,
 			};
 		}
 		#endregion

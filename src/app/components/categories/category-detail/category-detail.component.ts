@@ -1,11 +1,15 @@
 import { Component } from '@angular/core';
-import { NavParams } from 'ionic-angular';
-import { Camera } from 'ionic-native';
+import { NavController, NavParams } from 'ionic-angular';
+import { Camera, CameraOptions } from 'ionic-native';
 
 import { PhotoModel } from '../../../models/photo.model';
 import { CategoryModel } from '../../../models/category.model';
+import { UserUploadModel } from '../../../models/user-upload.model';
 
 import { PhotosService } from '../../../services/photos.service';
+import { UsersService } from '../../../services/users.service';
+
+import { EditUserUploadComponent } from '../../edit-user-upload/edit-user-upload.component';
 
 @Component({
     selector: 'category-detail',
@@ -16,18 +20,26 @@ export class CategoryDetailComponent {
     photos : PhotoModel[];
     category : CategoryModel;
 
-    constructor(private navParams: NavParams, private photosService: PhotosService) {
+    constructor(private navController: NavController, private navParams: NavParams, private photosService: PhotosService, private usersService: UsersService) {
         this.category = navParams.get('category');
          this.photosService.getPhotosByCategory(this.category.id)
             .subscribe(photos => this.photos = photos); 
     }    
 
     private takePhoto(item : string) : void {
+        Camera.getPicture({
+            destinationType: 0
+        }).then((imageData) => {
+            let base64Image = imageData;
+            
+            let userUpload: UserUploadModel = new UserUploadModel();
+            userUpload.photo = this.photos[0];
+            userUpload.user = this.usersService.loggedInUser;
+            userUpload.imageBase64 = base64Image;
 
-        Camera.getPicture().then((imageData) => {
-            // imageData is either a base64 encoded string or a file URI
-            // If it's base64:
-            let base64Image = 'data:image/jpeg;base64,' + imageData;
+            this.navController.push(EditUserUploadComponent, {
+                userUpload: userUpload
+            });
         }, (err) => {
             // Handle error
         });
