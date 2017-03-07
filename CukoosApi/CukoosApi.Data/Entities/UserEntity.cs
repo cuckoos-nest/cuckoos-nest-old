@@ -1,4 +1,5 @@
-﻿using System;
+﻿using CukoosApi.Data.Interfaces;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -9,7 +10,7 @@ using System.Threading.Tasks;
 namespace CukoosApi.Data.Entities
 {
 	[Table("Users")]
-	public class UserEntity
+	public class UserEntity : IEntity
 	{
 		[Key]
 		[Column("id")]

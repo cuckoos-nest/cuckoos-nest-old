@@ -1,0 +1,30 @@
+<ion-header>
+    <ion-navbar>
+        <ion-toolbar>
+            <ion-buttons start>
+                <button ion-button icon-only (click)="share()">
+                    <ion-icon name="checkmark"></ion-icon>
+                </button>
+            </ion-buttons>
+
+            <ion-title>
+                Edit Image
+            </ion-title>
+        </ion-toolbar>
+    </ion-navbar>
+</ion-header>
+
+<ion-content ngClass="edit-user-upload">
+    <div ngClass="preview">
+        <img [src]="'data:image/jpeg;base64,' + _userUpload.imageBase64" ngClass="user-image" />
+        <img [src]="_userUpload.photo.imageUrl" ngClass="photo-image" />
+    </div>
+
+    <ion-list>
+        <ion-item>
+            <ion-label floating>Description</ion-label>
+            <ion-textarea rows="4" [(ngModel)]="_userUpload.description"></ion-textarea>
+        </ion-item>
+    </ion-list>
+  
+</ion-content>
