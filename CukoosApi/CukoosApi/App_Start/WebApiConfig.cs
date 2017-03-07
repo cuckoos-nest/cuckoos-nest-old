@@ -16,7 +16,7 @@ namespace CukoosApi
 			// Web API routes
 			config.MapHttpAttributeRoutes();
 
-            config.Routes.MapHttpRoute(
+			config.Routes.MapHttpRoute(
                 name: "CukoosApi",
                 routeTemplate: "api/{controller}/{id}",
                 defaults: new { id = RouteParameter.Optional }

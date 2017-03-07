@@ -9,6 +9,8 @@ import { BaseService } from './base/base.service';
 
 import { UserUploadModel } from '../models/user-upload.model';
 
+import { WebSocketHelper, WebSocketResponse, WebSocketResponseType } from '../helpers/websocket.helper';
+
 import Config from '../config.json';
 
 @Injectable()
@@ -34,6 +36,12 @@ export class WallService extends BaseService {
             };
             intervalFunction();
             setInterval(intervalFunction, Config.checkNotificationsDelay);
+        });
+    }
+
+    public getWallListenerWs() {
+        WebSocketHelper.listen<UserUploadModel>().subscribe((response: WebSocketResponse<UserUploadModel>) => {
+            console.log("new wall item", response);
         });
     }
 

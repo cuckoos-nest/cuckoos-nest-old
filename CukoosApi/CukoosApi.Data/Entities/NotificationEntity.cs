@@ -1,4 +1,5 @@
 ﻿using CukoosApi.Data.Enums;
+using CukoosApi.Data.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -10,12 +11,12 @@ using System.Threading.Tasks;
 namespace CukoosApi.Data.Entities
 {
 	[Table("Notifications")]
-	public class NotificationEntity
+	public class NotificationEntity : IEntity
 	{
 		[Key]
 		[Column("id")]
 		[Required]
-		public long Id { get; set; }
+		public int Id { get; set; }
 
 		[Column("type")]
 		[Required]

@@ -29,6 +29,15 @@ import { FacebookService } from 'ng2-facebook-sdk';
 
 import { TranslateModule, TranslateStaticLoader, TranslateLoader } from 'ng2-translate';
 
+import { SignalRModule, SignalRConfiguration } from 'ng2-signalr';
+
+import Config from './config.json';
+
+const config = new SignalRConfiguration();
+config.hubName = 'Wall';
+config.qs = { };
+config.url = Config.host + '/WallWs/';
+
 @NgModule({
   declarations: [
     MyApp,
@@ -46,6 +55,7 @@ import { TranslateModule, TranslateStaticLoader, TranslateLoader } from 'ng2-tra
   ],
   imports: [
     IonicModule.forRoot(MyApp),
+    SignalRModule.configure(config),
     TranslateModule.forRoot({
       provide: TranslateLoader,
       useFactory: (http: Http) => new TranslateStaticLoader(http, '/assets/i18n', '.json'),
