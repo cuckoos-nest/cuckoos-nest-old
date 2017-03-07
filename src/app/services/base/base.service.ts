@@ -9,7 +9,7 @@ import Config from '../../config.json';
 
 @Injectable()
 export abstract class BaseService {
-    protected readonly host = Config.host + "/";
+    protected readonly host = (Config.useLocalHost ? Config.localHost : Config.host) + "/" + Config.apiPrefix + "/";
     protected readonly categoriesDirectory = this.host + "categories";
     protected readonly photoesDirectory = this.host + "photos";
     protected readonly userDirectory = this.host + "users";

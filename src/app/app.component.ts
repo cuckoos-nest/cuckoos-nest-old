@@ -24,6 +24,8 @@ export class MyApp implements OnInit {
   private rootPage: Component = null;
 
   constructor(private webLoginService: FacebookWebLoginService, private nativeLoginService: FacebookNativeLoginService, private platform: Platform, translate: TranslateService) {
+    Splashscreen.show();
+
     if (Config.debugMode) {
       console.log("Platform", platform);
     }
@@ -45,13 +47,13 @@ export class MyApp implements OnInit {
     if (this.platform.is("cordova")) {
       loginService = this.nativeLoginService;
       if (Config.debugMode) {
-        console.log("Using native (cordova) login service");
+        console.warn("Native mode");
       }
     }
     else {
       loginService = this.webLoginService;
       if (Config.debugMode) {
-        console.log("Using web login service");
+        console.warn("Broswer mode");
       }
     }
 

@@ -1,21 +1,15 @@
 ﻿using Microsoft.AspNet.SignalR;
+using Microsoft.AspNet.SignalR.Hubs;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using System.Threading.Tasks;
 
 namespace CukoosApi.Hubs
 {
+	[HubName("wall")]
 	public class WallHub : Hub
 	{
-		public void Subscribe(string customerId)
-		{
-			Groups.Add(Context.ConnectionId, customerId);
-		}
-
-		public void Unsubscribe(string customerId)
-		{
-			Groups.Remove(Context.ConnectionId, customerId);
-		}
 	}
 }

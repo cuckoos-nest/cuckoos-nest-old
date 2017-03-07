@@ -1,4 +1,6 @@
 ﻿using CukoosApi.Controllers.Base;
+using CukoosApi.Data.Entities;
+using CukoosApi.Hubs;
 using CukoosApi.Models;
 using System;
 using System.Collections.Generic;
@@ -12,8 +14,15 @@ using System.Web.Http.Description;
 
 namespace CukoosApi.Controllers
 {
-	public class UserUploadsController : BaseApiController
+	public class UserUploadsController : ApiControllerWithHub<WallHub>
 	{
+		#region Get
+		public IHttpActionResult GetUserUploads(int from, int take)
+		{
+			return Ok(__db.Uploads.OrderByDescending(x => x.Id).Skip(from).Take(take).ToList().Select(x => new UserUploadModel(x)));
+		}
+		#endregion
+
 		#region Post
 		[ResponseType(typeof(UserUploadModel))]
 		public IHttpActionResult PostUserUpload(UserUploadModel model)
@@ -37,6 +46,8 @@ namespace CukoosApi.Controllers
 			File.WriteAllBytes(localPath, imageBytes);
 
 			model = new UserUploadModel(__db.Uploads.Find(entity.Id));
+
+			PublishResponse(new WebSocketResponse<UserUploadModel>(model, WebSocketResponseType.Add));
 
 			return CreatedAtRoute("CukoosApi", new { id = model.id }, model);
 		}

@@ -4,10 +4,11 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using CukoosApi.Models.Interfaces;
 
 namespace CukoosApi.Models
 {
-	public class NotificationModel
+	public class NotificationModel : IModel
 	{
 		#region Properties
 		public long id { get; set; }

@@ -1,4 +1,5 @@
 ﻿using CukoosApi.Data.Interfaces;
+using CukoosApi.Models.Interfaces;
 using Microsoft.AspNet.SignalR;
 using Microsoft.AspNet.SignalR.Hubs;
 using System;
@@ -10,7 +11,7 @@ using System.Web.Http;
 
 namespace CukoosApi.Controllers.Base
 {
-	public abstract class ApiControllerWithHub<THub> : ApiController
+	public abstract class ApiControllerWithHub<THub> : BaseApiController
 		where THub : IHub
 	{
 		private Lazy<IHubContext> hub = new Lazy<IHubContext>(
@@ -22,15 +23,21 @@ namespace CukoosApi.Controllers.Base
 			get { return hub.Value; }
 		}
 
-		protected void PublishResponse<T>(string group, WebSocketResponse<T> response)
-			where T : IEntity
+		protected void PublishResponse<T>(WebSocketResponse<T> response)
+			where T : IModel
+		{
+			Hub.Clients.All.onResponse(response);
+		}
+
+		protected void PublishResponse<T>(WebSocketResponse<T> response, string group)
+			where T : IModel
 		{
 			Hub.Clients.Group(group).onResponse(response);
 		}
 	}
 
 	public class WebSocketResponse<T>
-		where T : IEntity
+		where T : IModel
 	{
 		public T Entity { get; set; }
 		public WebSocketResponseType ResponseType { get; set; }
