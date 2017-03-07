@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { NavController, NavParams } from 'ionic-angular';
+import { NavController, NavParams, LoadingController } from 'ionic-angular';
 import { Camera, CameraOptions } from 'ionic-native';
 
 import { PhotoModel } from '../../../models/photo.model';
@@ -20,13 +20,28 @@ export class CategoryDetailComponent {
     photos : PhotoModel[];
     category : CategoryModel;
 
-    constructor(private navController: NavController, private navParams: NavParams, private photosService: PhotosService, private usersService: UsersService) {
+    constructor(private navController: NavController, private navParams: NavParams, private photosService: PhotosService, private usersService: UsersService, private loadingCtrl: LoadingController) {
         this.category = navParams.get('category');
+        
+        let loader = this.loadingCtrl.create({
+            content: `Loading ${this.category.name}`
+        });
+        loader.present();
+
          this.photosService.getPhotosByCategory(this.category.id)
-            .subscribe(photos => this.photos = photos); 
+            .subscribe(photos => { 
+                this.photos = photos;
+                loader.dismiss();
+            }); 
     }    
 
     private takePhoto(item : string) : void {
+        let loader = this.loadingCtrl.create({
+            content: "Preparing your camera...",
+            dismissOnPageChange: true
+        });
+        loader.present();
+
         Camera.getPicture({
             destinationType: 0
         }).then((imageData) => {

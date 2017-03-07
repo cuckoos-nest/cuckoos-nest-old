@@ -1,7 +1,11 @@
 {
-    "host": "http://cukooapi.azurewebsites.net/api/",
+    "host": "http://cukooapi.azurewebsites.net/",
+    "localHost": "http://localhost:49744/",
+    "useLocalHost": false,
+    "apiPrefix": "api/",
     "facebookAppId": 1852328261703414,
     "debugMode": true,
     "checkNotificationsDelay": 5000,
-    "defaultLanguage": "en"
+    "defaultLanguage": "en",
+    "defaultNumberOfUserUploadsPerLoad": 10
 }

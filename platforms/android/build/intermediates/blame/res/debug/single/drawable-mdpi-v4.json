@@ -8,12 +8,12 @@
         "source": "C:\\projets\\cuckoo\\platforms\\android\\build\\intermediates\\exploded-aar\\com.facebook.android\\facebook-android-sdk\\4.14.1\\res\\drawable-mdpi-v4\\com_facebook_profile_picture_blank_square.png"
     },
     {
-        "merged": "C:\\projets\\cuckoo\\platforms\\android\\build\\intermediates\\res\\merged\\debug\\drawable-mdpi-v4\\com_facebook_tooltip_black_background.9.png",
-        "source": "C:\\projets\\cuckoo\\platforms\\android\\build\\intermediates\\exploded-aar\\com.facebook.android\\facebook-android-sdk\\4.14.1\\res\\drawable-mdpi-v4\\com_facebook_tooltip_black_background.9.png"
-    },
-    {
         "merged": "C:\\projets\\cuckoo\\platforms\\android\\build\\intermediates\\res\\merged\\debug\\drawable-mdpi-v4\\com_facebook_profile_picture_blank_portrait.png",
         "source": "C:\\projets\\cuckoo\\platforms\\android\\build\\intermediates\\exploded-aar\\com.facebook.android\\facebook-android-sdk\\4.14.1\\res\\drawable-mdpi-v4\\com_facebook_profile_picture_blank_portrait.png"
+    },
+    {
+        "merged": "C:\\projets\\cuckoo\\platforms\\android\\build\\intermediates\\res\\merged\\debug\\drawable-mdpi-v4\\com_facebook_tooltip_black_background.9.png",
+        "source": "C:\\projets\\cuckoo\\platforms\\android\\build\\intermediates\\exploded-aar\\com.facebook.android\\facebook-android-sdk\\4.14.1\\res\\drawable-mdpi-v4\\com_facebook_tooltip_black_background.9.png"
     },
     {
         "merged": "C:\\projets\\cuckoo\\platforms\\android\\build\\intermediates\\res\\merged\\debug\\drawable-mdpi-v4\\com_facebook_tooltip_blue_bottomnub.png",

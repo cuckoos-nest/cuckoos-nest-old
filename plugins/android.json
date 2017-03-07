@@ -17,6 +17,12 @@
             "APP_ID": "1852328261703414",
             "APP_NAME": "Cukoos Nest",
             "PACKAGE_NAME": "com.cukoos.nest"
+        },
+        "cordova-plugin-statusbar": {
+            "PACKAGE_NAME": "com.cukoos.nest"
+        },
+        "cordova-plugin-splashscreen": {
+            "PACKAGE_NAME": "com.cukoos.nest"
         }
     },
     "dependent_plugins": {

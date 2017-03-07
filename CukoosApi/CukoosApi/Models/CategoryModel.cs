@@ -1,4 +1,5 @@
 ﻿using CukoosApi.Data.Entities;
+using CukoosApi.Models.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -6,7 +7,7 @@ using System.Web;
 
 namespace CukoosApi.Models
 {
-	public class CategoryModel
+	public class CategoryModel : IModel
 	{
 		#region Properties
 		public int id { get; set; }

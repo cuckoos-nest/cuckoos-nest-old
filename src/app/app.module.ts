@@ -21,6 +21,7 @@ import { UsersService } from './services/users.service';
 import { WallService } from './services/wall.service';
 import { NotificationsService } from './services/notifications.service';
 import { UserUploadService } from './services/user-upload.service';
+import { WebSocketService } from './services/websocket.service';
 
 import { FacebookWebLoginService } from './services/facebook-web-login.service';
 import { FacebookNativeLoginService } from './services/facebook-native-login.service';
@@ -34,9 +35,9 @@ import { SignalRModule, SignalRConfiguration } from 'ng2-signalr';
 import Config from './config.json';
 
 const config = new SignalRConfiguration();
-config.hubName = 'Wall';
+config.hubName = 'wall';
 config.qs = { };
-config.url = Config.host + '/WallWs/';
+config.url = (Config.useLocalHost ? Config.localHost : Config.host) + "/"
 
 @NgModule({
   declarations: [
@@ -87,7 +88,8 @@ config.url = Config.host + '/WallWs/';
     FacebookWebLoginService,
     WallService,
     NotificationsService,
-    UserUploadService
+    UserUploadService,
+    WebSocketService
   ]
 })
 export class AppModule { }
