@@ -8,5 +8,5 @@
 
 <ion-content>
   <button (click)="takePhoto()"><h1>Test camera</h1></button>
-  <gallery [items]="photos" [titleMember]="getPhotoTitle" [imageMember]="getPhotoImage"></gallery>
+  <gallery [items]="photos" [titleMember]="getPhotoTitle" [imageMember]="getPhotoImage" (onItemClicked)="photoClicked($event)"></gallery>
 </ion-content>

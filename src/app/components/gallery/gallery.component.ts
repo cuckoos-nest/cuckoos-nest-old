@@ -1,4 +1,6 @@
-import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
+import { Component, Input, Output, EventEmitter, OnChanges, SimpleChanges } from '@angular/core';
+
+import { PhotoModel } from '../../models/photo.model';
 
 @Component({
     selector: 'gallery',
@@ -37,6 +39,13 @@ export class GalleryComponent implements OnChanges {
     
     @Input()
     titleMember : (item : any) => string;
+
+    @Output()
+    onItemClicked = new EventEmitter<any>();
+
+    itemClicked(item: any) {
+        this.onItemClicked.emit(item);
+    }
 
     constructor() {        
         
