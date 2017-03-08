@@ -1,4 +1,5 @@
 ﻿using CukoosApi.Data.Entities;
+using CukoosApi.Helpers;
 using CukoosApi.Models.Interfaces;
 using System;
 using System.Collections.Generic;
@@ -14,7 +15,7 @@ namespace CukoosApi.Models
 		public long fb_id { get; set; }
 		public string email { get; set; }
 		public string displayName { get; set; }
-		public string imageUrl { get; set; }
+		public string image { get; set; }
 		#endregion
 
 		#region Consturctors
@@ -28,7 +29,7 @@ namespace CukoosApi.Models
 			this.fb_id = entity.FacebookId;
 			this.email = entity.Email;
 			this.displayName = entity.DisplayName;
-			this.imageUrl =  $"http://cukooapi.azurewebsites.net/assets/userImages/{this.id}.png";
+			this.image = AssetsHelper.Get(Enums.AssetType.UserImage, this.id);
 		}
 
 		public UserEntity ToEntity()

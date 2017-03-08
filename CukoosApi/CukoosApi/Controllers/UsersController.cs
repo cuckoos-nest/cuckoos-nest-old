@@ -1,12 +1,14 @@
 ﻿using CukoosApi.Controllers.Base;
 using CukoosApi.Data;
 using CukoosApi.Data.Entities;
+using CukoosApi.Helpers;
 using CukoosApi.Models;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Data.Entity;
 using System.Data.Entity.Infrastructure;
+using System.IO;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
@@ -58,9 +60,7 @@ namespace CukoosApi.Controllers
 			if (model.id != __currentUser.Id)
 				return BadRequest();
 
-			if (string.IsNullOrEmpty(model.imageUrl) == false)
-				SetUserImageByUrl(__currentUser.Id, model.imageUrl);
-			// Other changes...
+			AssetsHelper.Save(Enums.AssetType.UserImage, model.id, model.image);
 
 			__db.Entry(__currentUser).State = EntityState.Modified;
 
@@ -82,8 +82,7 @@ namespace CukoosApi.Controllers
 			__db.Users.Add(entity);
 			__db.SaveChanges();
 
-			if (string.IsNullOrEmpty(model.imageUrl) == false)
-				model.imageUrl = SetUserImageByUrl(entity.Id, model.imageUrl);
+			AssetsHelper.Save(Enums.AssetType.UserImage, entity.Id, model.image);
 
 			model = new UserModel(__db.Users.Single(x => x.Id == entity.Id));
 

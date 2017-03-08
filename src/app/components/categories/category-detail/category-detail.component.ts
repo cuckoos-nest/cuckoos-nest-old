@@ -60,7 +60,7 @@ export class CategoryDetailComponent {
             let userUpload: UserUploadModel = new UserUploadModel();
             userUpload.photo = this.photos[0];
             userUpload.user = this.usersService.loggedInUser;
-            userUpload.imageBase64 = base64Image;
+            userUpload.image = base64Image;
 
             this.navController.push(EditUserUploadComponent, {
                 userUpload: userUpload
@@ -81,6 +81,6 @@ export class CategoryDetailComponent {
     }
 
     private getPhotoImage(photo: PhotoModel) {
-        return photo.imageUrl;
+        return 'data:image/jpeg;base64,' +  photo.image;
     }
 }

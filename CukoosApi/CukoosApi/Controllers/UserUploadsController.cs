@@ -1,5 +1,6 @@
 ﻿using CukoosApi.Controllers.Base;
 using CukoosApi.Data.Entities;
+using CukoosApi.Helpers;
 using CukoosApi.Hubs;
 using CukoosApi.Models;
 using System;
@@ -41,9 +42,7 @@ namespace CukoosApi.Controllers
 			__db.Uploads.Add(entity);
 			__db.SaveChanges();
 
-			string localPath = HttpRuntime.AppDomainAppPath + $"assets/userUploads/{entity.Id}.png";
-			byte[] imageBytes = Convert.FromBase64String(model.imageBase64.Trim('\0'));
-			File.WriteAllBytes(localPath, imageBytes);
+			AssetsHelper.Save(Enums.AssetType.UserUpload, entity.Id, model.image);
 
 			model = new UserUploadModel(__db.Uploads.Find(entity.Id));
 

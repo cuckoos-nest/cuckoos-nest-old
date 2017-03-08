@@ -7,5 +7,5 @@
     "debugMode": true,
     "checkNotificationsDelay": 5000,
     "defaultLanguage": "en",
-    "defaultNumberOfUserUploadsPerLoad": 10
+    "defaultNumberOfUserUploadsPerLoad": 4
 }

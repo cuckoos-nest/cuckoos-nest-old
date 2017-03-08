@@ -1,4 +1,5 @@
 ﻿using CukoosApi.Data.Entities;
+using CukoosApi.Helpers;
 using CukoosApi.Models.Interfaces;
 using System;
 using System.Collections.Generic;
@@ -14,15 +15,7 @@ namespace CukoosApi.Models
 
 		public PhotoModel photo { get; set; }
 
-		public string imageUrl
-		{
-			get
-			{
-				return $"http://cukooapi.azurewebsites.net/assets/userUploads/{this.id}.png";
-			}
-		}
-
-		public string imageBase64 { get; set; }
+		public string image { get; set; }
 
 		public string description { get; set; }
 			
@@ -51,6 +44,7 @@ namespace CukoosApi.Models
 				this.likeCount = entity.Likes.Count;
 				this.isLiked = entity.Likes.Any(x => x.UserId == 17);
 			}
+			this.image = AssetsHelper.Get(Enums.AssetType.UserUpload, this.id);
 			//this.dateTime = entity.DateCreated;
 		}
 

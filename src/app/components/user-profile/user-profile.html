@@ -20,7 +20,7 @@
         {{'DISPLAY_NAME' | translate}}
         <ion-note item-right>{{ _user.displayName }}</ion-note>
         <ion-avatar item-right>
-          <img [src]="_user.imageUrl">
+          <img [src]="'data:image/jpeg;base64,' + _user.image">
         </ion-avatar>
       </ion-item>
 

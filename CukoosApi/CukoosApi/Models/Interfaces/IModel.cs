@@ -8,5 +8,6 @@ namespace CukoosApi.Models.Interfaces
 {
 	public interface IModel
 	{
+		//int id { get; set; }
 	}
 }

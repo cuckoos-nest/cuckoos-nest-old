@@ -43,7 +43,7 @@ export class WebcamComponent implements AfterViewInit {
         let userUpload: UserUploadModel = new UserUploadModel();
         userUpload.photo = this.photo;
         userUpload.user = this.usersService.loggedInUser;
-        userUpload.imageBase64 = base64Image;
+        userUpload.image = base64Image;
 
         this.navController.push(EditUserUploadComponent, {
             userUpload: userUpload
