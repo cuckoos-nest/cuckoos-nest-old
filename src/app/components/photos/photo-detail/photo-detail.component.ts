@@ -28,13 +28,4 @@ export class PhotoDetailComponent {
             console.log('no picture. error occured.', err);
         });
     }
-    
 }
-
-
-
-
-// id : number;
-// title : string;
-// imageUrl : string;
-// category : CategoryModel;
