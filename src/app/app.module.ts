@@ -14,6 +14,7 @@ import { UserProfileComponent } from './components/user-profile/user-profile.com
 import { NotificationsComponent } from './components/notifications/notifications.component'
 import { FullscreenImageComponent } from './components/fullscreen-image/fullscreen-image.component';
 import { EditUserUploadComponent } from './components/edit-user-upload/edit-user-upload.component';
+import { WebcamComponent } from './components/webcam/webcam.component';
 
 import { PhotosService } from './services/photos.service';
 import { CategoriesService } from './services/categories.service';
@@ -53,6 +54,7 @@ config.url = (Config.useLocalHost ? Config.localHost : Config.host) + "/"
     NotificationsComponent,
     FullscreenImageComponent,
     EditUserUploadComponent,
+    WebcamComponent
   ],
   imports: [
     IonicModule.forRoot(MyApp),
@@ -77,6 +79,7 @@ config.url = (Config.useLocalHost ? Config.localHost : Config.host) + "/"
     NotificationsComponent,
     FullscreenImageComponent,
     EditUserUploadComponent,
+    WebcamComponent
   ],
   providers: [
     { provide: ErrorHandler, useClass: IonicErrorHandler },
