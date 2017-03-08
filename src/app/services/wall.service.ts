@@ -3,45 +3,34 @@ import { Http, Response } from '@angular/http';
 import { Category, Photo } from '../models/photo.models';
 import { Observable } from 'rxjs/Observable';
 import { Observer } from 'rxjs/Observer';
-import 'rxjs/add/operator/map';
+import 'rxjs/add/operator/map'; 
 
 import { BaseService } from './base/base.service';
 
 import { UserUploadModel } from '../models/user-upload.model';
 
-import { WebSocketHelper, WebSocketResponse, WebSocketResponseType } from '../helpers/websocket.helper';
+import { WebSocketService, WebSocketResponse, WebSocketResponseType } from '../services/websocket.service';
 
 import Config from '../config.json';
 
 @Injectable()
 export class WallService extends BaseService {
-    constructor(private http: Http) {
+    constructor(private http: Http, private websocketService: WebSocketService) {
         super();
     }
 
-    public getWallListener(): Observable<UserUploadModel> {
-        return new Observable<UserUploadModel>((observer: Observer<UserUploadModel>) => {
-            let lastUploadId: number = 0;
-            
-            let intervalFunction = () => {
-                this.http.get(`${this.wallDirectory}`)
-                .map(bodyResponse => bodyResponse.json()).subscribe((wall: UserUploadModel[]) => {
-                    for (let userUpload of wall.reverse()) {
-                        if (userUpload.id > lastUploadId) {
-                            lastUploadId = userUpload.id;
-                            observer.next(userUpload);
-                        }
-                    }
-                });
-            };
-            intervalFunction();
-            setInterval(intervalFunction, Config.checkNotificationsDelay);
-        });
+    public getWallItems(from: number, take: number): Observable<UserUploadModel[]> {
+        return this.http.get(`${this.userUploadDirectory}?from=${from}&take=${take}`)
+                .map(bodyResponse => bodyResponse.json());
     }
 
-    public getWallListenerWs() {
-        WebSocketHelper.listen<UserUploadModel>().subscribe((response: WebSocketResponse<UserUploadModel>) => {
-            console.log("new wall item", response);
+    public getWallListener(): Observable<WebSocketResponse<UserUploadModel>> {
+        return new Observable<WebSocketResponse<UserUploadModel>>((observer: Observer<WebSocketResponse<UserUploadModel>>) => {
+            this.websocketService.listen<UserUploadModel>().subscribe((response: WebSocketResponse<UserUploadModel>) => {
+                if (response.ResponseType == WebSocketResponseType.Add) {
+                    observer.next(response);
+                }
+            });
         });
     }
 
