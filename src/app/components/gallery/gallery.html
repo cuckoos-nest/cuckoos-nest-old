@@ -2,7 +2,7 @@
     <ion-grid>
         <ion-row *ngFor="let row of rows">
             <ion-col width-33 *ngFor="let item of row">
-                <img src="{{ imageMember(item) }}" />
+                <img src="{{ imageMember(item) }}" (click)="itemClicked(item)"/>
                 <div class="title">{{ titleMember(item) }}</div>
             </ion-col>
         </ion-row>

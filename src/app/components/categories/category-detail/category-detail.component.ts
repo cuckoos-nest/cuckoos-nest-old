@@ -9,6 +9,7 @@ import { UserUploadModel } from '../../../models/user-upload.model';
 import { PhotosService } from '../../../services/photos.service';
 import { UsersService } from '../../../services/users.service';
 
+import { PhotoDetailComponent } from '../../photos/photo-detail/photo-detail.component';
 import { EditUserUploadComponent } from '../../edit-user-upload/edit-user-upload.component';
 import { WebcamComponent } from '../../webcam/webcam.component';
 
@@ -66,6 +67,12 @@ export class CategoryDetailComponent {
             });
         }, (err) => {
             // Handle error
+        });
+    }
+
+    photoClicked(photo : PhotoModel) {
+        this.navController.push(PhotoDetailComponent, {
+            photo: photo
         });
     }
 

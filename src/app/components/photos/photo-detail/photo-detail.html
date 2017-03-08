@@ -1,0 +1,15 @@
+<ion-header>
+  <ion-navbar>
+    <ion-title>{{ photo.title }}</ion-title>
+  </ion-navbar>
+  <ion-toolbar>
+    <ion-title> <img src="{{photo.imageUrl}}" /> </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <gallery [items]="photos" [titleMember]="getPhotoTitle" [imageMember]="getPhotoImage"></gallery>
+  <ion-fab center bottom>
+    <button ion-fab color="light" (click)="openCamera()"><ion-icon name="camera"></ion-icon></button>
+  </ion-fab>
+</ion-content>

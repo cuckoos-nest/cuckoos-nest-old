@@ -14,6 +14,7 @@ import { UserProfileComponent } from './components/user-profile/user-profile.com
 import { NotificationsComponent } from './components/notifications/notifications.component'
 import { FullscreenImageComponent } from './components/fullscreen-image/fullscreen-image.component';
 import { EditUserUploadComponent } from './components/edit-user-upload/edit-user-upload.component';
+import { PhotoDetailComponent } from './components/photos/photo-detail/photo-detail.component';
 import { WebcamComponent } from './components/webcam/webcam.component';
 
 import { PhotosService } from './services/photos.service';
@@ -54,6 +55,7 @@ config.url = (Config.useLocalHost ? Config.localHost : Config.host) + "/"
     NotificationsComponent,
     FullscreenImageComponent,
     EditUserUploadComponent,
+    PhotoDetailComponent,
     WebcamComponent
   ],
   imports: [
@@ -79,6 +81,7 @@ config.url = (Config.useLocalHost ? Config.localHost : Config.host) + "/"
     NotificationsComponent,
     FullscreenImageComponent,
     EditUserUploadComponent,
+    PhotoDetailComponent,
     WebcamComponent
   ],
   providers: [
