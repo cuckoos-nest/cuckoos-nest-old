@@ -10,6 +10,7 @@ import { PhotosService } from '../../../services/photos.service';
 import { UsersService } from '../../../services/users.service';
 
 import { EditUserUploadComponent } from '../../edit-user-upload/edit-user-upload.component';
+import { WebcamComponent } from '../../webcam/webcam.component';
 
 @Component({
     selector: 'category-detail',
@@ -35,13 +36,21 @@ export class CategoryDetailComponent {
             }); 
     }    
 
-    private takePhoto(item : string) : void {
-        let loader = this.loadingCtrl.create({
-            content: "Preparing your camera...",
-            dismissOnPageChange: true
-        });
-        loader.present();
+    private onSuccess(test: any) {
+        console.log("yay", test);
+    }
 
+    private takePhoto(item : string) : void {
+        this.takePhotoFromBroswer();
+    }
+
+    private takePhotoFromBroswer() {
+        this.navController.push(WebcamComponent, {
+            photo: this.photos[0]
+        });
+    }
+
+    private takePhotoFromNative() {
         Camera.getPicture({
             destinationType: 0
         }).then((imageData) => {
