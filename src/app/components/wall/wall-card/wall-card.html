@@ -1,10 +1,10 @@
 <div class="title">
-    <img src="{{ userUpload.photo.imageUrl }}" /> 
+    <img [src]="'data:image/jpeg;base64,' + userUpload.photo.image" /> 
     {{ userUpload.photo.title }}
   </div>
 
 <ion-card>
-  <img src="{{ userUpload.imageUrl }}" (click)="goToImage()" />
+  <img [src]="'data:image/jpeg;base64,' + userUpload.image" (click)="goToImage()" />
 
   <a href="#" (click)="goToUser(userUpload.user)" class="user">{{ userUpload.user.displayName }}</a>
 

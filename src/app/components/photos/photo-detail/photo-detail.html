@@ -3,7 +3,7 @@
     <ion-title>{{ photo.title }}</ion-title>
   </ion-navbar>
   <ion-toolbar>
-    <ion-title> <img src="{{photo.imageUrl}}" /> </ion-title>
+    <ion-title> <img [src]="'data:image/jpeg;base64,' + photo.image" /> </ion-title>
   </ion-toolbar>
 </ion-header>
 

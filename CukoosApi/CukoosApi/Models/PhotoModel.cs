@@ -1,4 +1,5 @@
 ﻿using CukoosApi.Data.Entities;
+using CukoosApi.Helpers;
 using CukoosApi.Models.Interfaces;
 using System;
 using System.Collections.Generic;
@@ -14,15 +15,9 @@ namespace CukoosApi.Models
 
 		public string title { get; set; }
 
-		public string imageUrl
-		{
-			get
-			{
-				return $"http://cukooapi.azurewebsites.net/assets/photos/{this.id}.png";
-			}
-		}
-
 		public CategoryModel Category { get; set; }
+
+		public string image { get; set; }
 		#endregion
 
 		#region Consturctors
@@ -34,9 +29,8 @@ namespace CukoosApi.Models
 		{
 			this.id = entity.Id;
 			this.title = entity.Title;
-
-			if (entity.Category != null)
-				this.Category = new CategoryModel(entity.Category);
+			this.Category = new CategoryModel(entity.Category);
+			this.image = AssetsHelper.Get(Enums.AssetType.Photo, this.id);
 		}
 
 		public PhotoEntity ToEntity()

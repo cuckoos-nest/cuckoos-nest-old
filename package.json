@@ -29,6 +29,7 @@
     "ng2-translate": "^5.0.0",
     "rxjs": "*",
     "signalr": "^2.2.1",
+    "sw-toolbox": "3.4.0",
     "zone.js": "0.6.26"
   },
   "devDependencies": {

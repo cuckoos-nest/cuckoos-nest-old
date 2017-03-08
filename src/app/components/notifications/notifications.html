@@ -41,7 +41,7 @@
     <ion-list>
         <ion-item *ngFor="let notification of _notifications">
             <ion-avatar item-left>
-                <img [src]="notification.sentByUser.imageUrl">
+                <img [src]="'data:image/jpeg;base64,' + notification.sentByUser.image">
             </ion-avatar>
             <h2>{{ notification.sentByUser.displayName }}</h2>
             <p>{{ notificationTypeToResource(notification.type) | translate }}</p>

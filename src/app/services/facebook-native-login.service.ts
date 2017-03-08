@@ -79,6 +79,20 @@ export class FacebookNativeLoginService extends BaseLoginService {
         });
     }
 
+    private toDataUrl(url: string, callback: any) {
+        var xhr = new XMLHttpRequest();
+        xhr.onload = function() {
+            var reader = new FileReader();
+            reader.onloadend = function() {
+                callback(reader.result);
+            }
+            reader.readAsDataURL(xhr.response);
+        };
+        xhr.open('GET', url);
+        xhr.responseType = 'blob';
+        xhr.send();
+    }
+
     private getUserModel(fb_id: number): Observable<UserModel> {
         let result: Observable<UserModel> = new Observable<UserModel>((observer: Observer<UserModel>) => {
             this.usersService.getUserByFbId(fb_id)
@@ -101,26 +115,26 @@ export class FacebookNativeLoginService extends BaseLoginService {
                         newUser.fb_id = fb_id;
                         newUser.displayName = me.name;
                         newUser.email = me.email;
-                        debugger;
-                        newUser.imageUrl = me.picture.data.url;
-                        // Picture: me.picture.data.url
+                        this.toDataUrl(me.picture.data.url, (data: string) => {
+                            newUser.image = data.substring('data:image/jpeg;base64,'.length);
 
-                        this.usersService.createUser(newUser)
-                            .subscribe(userModel => {
-                                if (Config.debugMode) {
-                                    console.log("New Facebook User has been created", userModel);
-                                }
-                                
-                                observer.next(userModel);
-                                observer.complete();
-                            },
-                            err => {
-                                if (Config.debugMode) {
-                                    console.log("error", err);
-                                }
-                                observer.next(null);
-                                observer.complete();
-                            });
+                            this.usersService.createUser(newUser)
+                                .subscribe(userModel => {
+                                    if (Config.debugMode) {
+                                        console.log("New Facebook User has been created", userModel);
+                                    }
+                                    
+                                    observer.next(userModel);
+                                    observer.complete();
+                                },
+                                err => {
+                                    if (Config.debugMode) {
+                                        console.log("error", err);
+                                    }
+                                    observer.next(null);
+                                    observer.complete();
+                                });
+                        });
                     });
                 });
         });

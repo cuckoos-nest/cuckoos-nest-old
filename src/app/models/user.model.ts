@@ -6,5 +6,5 @@ export class UserModel {
      fb_id : number;
      email : string;
      displayName : string;
-     imageUrl: string;
+     image: string;
 }

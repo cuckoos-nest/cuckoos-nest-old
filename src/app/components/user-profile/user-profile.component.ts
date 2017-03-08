@@ -26,6 +26,5 @@ export class UserProfileComponent {
 
         
         this._isMyProfile = (this._user.id == this.usersService.loggedInUser.id);
-        console.log((this._user.id == this.usersService.loggedInUser.id));
     }    
 }
