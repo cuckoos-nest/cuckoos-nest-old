@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { NavController, NavParams, LoadingController } from 'ionic-angular';
+import { NavController, NavParams, LoadingController, Platform } from 'ionic-angular';
 import { Camera, CameraOptions } from 'ionic-native';
 
 import { PhotoModel } from '../../../models/photo.model';
@@ -22,7 +22,7 @@ export class CategoryDetailComponent {
     photos : PhotoModel[];
     category : CategoryModel;
 
-    constructor(private navController: NavController, private navParams: NavParams, private photosService: PhotosService, private usersService: UsersService, private loadingCtrl: LoadingController) {
+    constructor(private platform: Platform, private navController: NavController, private navParams: NavParams, private photosService: PhotosService, private usersService: UsersService, private loadingCtrl: LoadingController) {
         this.category = navParams.get('category');
         
         let loader = this.loadingCtrl.create({
@@ -42,7 +42,12 @@ export class CategoryDetailComponent {
     }
 
     private takePhoto(item : string) : void {
-        this.takePhotoFromBroswer();
+        if (this.platform.is("cordova")) {
+            this.takePhotoFromNative();
+        }
+        else {
+            this.takePhotoFromBroswer();
+        }
     }
 
     private takePhotoFromBroswer() {
