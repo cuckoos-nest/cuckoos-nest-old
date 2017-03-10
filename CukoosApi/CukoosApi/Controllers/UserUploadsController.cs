@@ -17,15 +17,32 @@ namespace CukoosApi.Controllers
 {
 	public class UserUploadsController : ApiControllerWithHub<WallHub>
 	{
-		#region Get
-		public IHttpActionResult GetUserUploads(int from, int take)
+        #region Get
+        public IHttpActionResult GetUserUploads()
+        {
+          return Ok(__db.Uploads.OrderByDescending(x => x.Id).ToList().Select(x => new UserUploadModel(x)));
+        }
+        public IHttpActionResult GetUserUploads(int from, int take)
 		{
 			return Ok(__db.Uploads.OrderByDescending(x => x.Id).Skip(from).Take(take).ToList().Select(x => new UserUploadModel(x)));
 		}
-		#endregion
+        [Route("api/useruploads/popular/photos")]
+        public IHttpActionResult GetMoustPopularPhotos()
+        {
+            return Ok(__db.Uploads.OrderByDescending(upload => upload.Likes.Count).ToList().Select(upload => new UserUploadModel(upload)));
+        }
+        [Route("api/useruploads/popular/photos/{photoId:int}/{from:int?}/{take:int?}")]
+        public IHttpActionResult GetMoustPopularPhotosById(int photoId, int from = 0, int take = 0)
+        {
+            if (take == 0)
+              return Ok(__db.Uploads.OrderByDescending(upload => upload.Likes.Count).Where(upload => upload.PhotoId == photoId).Skip(from).ToList().Select(upload => new UserUploadModel(upload)));
+            else
+              return Ok(__db.Uploads.OrderByDescending(upload => upload.Likes.Count).Where(upload => upload.PhotoId == photoId).Skip(from).Take(take).ToList().Select(upload => new UserUploadModel(upload)));
+        }
+    #endregion
 
-		#region Post
-		[ResponseType(typeof(UserUploadModel))]
+    #region Post
+    [ResponseType(typeof(UserUploadModel))]
 		public IHttpActionResult PostUserUpload(UserUploadModel model)
 		{
 			if (!ModelState.IsValid)
