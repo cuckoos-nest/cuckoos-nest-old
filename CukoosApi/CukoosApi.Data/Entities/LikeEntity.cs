@@ -26,6 +26,6 @@ namespace CukoosApi.Data.Entities
 		public int UploadId { get; set; }
 
 		[ForeignKey("UploadId")]
-		public virtual UploadEntity Upload { get; set; }
+		public virtual UserUploadEntity Upload { get; set; }
 	}
 }

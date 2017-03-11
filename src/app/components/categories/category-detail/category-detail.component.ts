@@ -75,7 +75,7 @@ export class CategoryDetailComponent {
         });
     }
 
-    photoClicked(photo : PhotoModel) {
+    private photoClicked(photo : PhotoModel) {
         this.navController.push(PhotoDetailComponent, {
             photo: photo
         });

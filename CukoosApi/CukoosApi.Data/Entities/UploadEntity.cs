@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 namespace CukoosApi.Data.Entities
 {
 	[Table("UserUploads")]
-	public class UploadEntity : IEntity
+	public class UserUploadEntity : IEntity
 	{
 		[Key]
 		[Column("id")]

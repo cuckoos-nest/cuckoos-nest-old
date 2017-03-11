@@ -21,19 +21,29 @@ namespace CukoosApi.Data
 		public virtual DbSet<CategoryEntity> Categories { get; set; }
 		public virtual DbSet<PhotoEntity> Photos { get; set; }
 		public virtual DbSet<UserEntity> Users { get; set; }
-		public virtual DbSet<UploadEntity> Uploads { get; set; }
+		public virtual DbSet<UserUploadEntity> Uploads { get; set; }
 		public virtual DbSet<NotificationEntity> Notifications { get; set; }
 
 		protected override void OnModelCreating(DbModelBuilder modelBuilder)
 		{
 			modelBuilder.Entity<UserEntity>()
-			.HasMany(a => a.Categories)
+			.HasMany(a => a.UsersImFollowing)
+			.WithMany(p => p.UsersFollowMe)
+			.Map(x =>
+			{
+				x.MapLeftKey("follower");
+				x.MapRightKey("user");
+				x.ToTable("UserFollowsUsers");
+			});
+
+			modelBuilder.Entity<UserEntity>()
+			.HasMany(a => a.CategoriesImFollowing)
 			.WithMany(p => p.Users)
 			.Map(x =>
 			{
 				x.MapLeftKey("user");
 				x.MapRightKey("category");
-				x.ToTable("UserCategories");
+				x.ToTable("UserFollowsCategories");
 			});
 
 			base.OnModelCreating(modelBuilder);

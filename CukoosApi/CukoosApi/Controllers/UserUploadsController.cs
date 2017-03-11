@@ -3,6 +3,7 @@ using CukoosApi.Data.Entities;
 using CukoosApi.Helpers;
 using CukoosApi.Hubs;
 using CukoosApi.Models;
+using CukoosApi.Repository.Repositories;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -15,34 +16,45 @@ using System.Web.Http.Description;
 
 namespace CukoosApi.Controllers
 {
-	public class UserUploadsController : ApiControllerWithHub<WallHub>
+	public class UserUploadsController : ApiControllerWithHub<WallHub, UserUploadRepository>
 	{
-        #region Get
-        public IHttpActionResult GetUserUploads()
-        {
-          return Ok(__db.Uploads.OrderByDescending(x => x.Id).ToList().Select(x => new UserUploadModel(x)));
-        }
-        public IHttpActionResult GetUserUploads(int from, int take)
+		#region Get
+		public IHttpActionResult GetUserUploads()
 		{
-			return Ok(__db.Uploads.OrderByDescending(x => x.Id).Skip(from).Take(take).ToList().Select(x => new UserUploadModel(x)));
+			return Ok(__db.Uploads.OrderByDescending(x => x.Id).ToList().Select(x => new UserUploadModel(x)));
 		}
-        [Route("api/useruploads/popular/photos")]
-        public IHttpActionResult GetMoustPopularPhotos()
-        {
-            return Ok(__db.Uploads.OrderByDescending(upload => upload.Likes.Count).ToList().Select(upload => new UserUploadModel(upload)));
-        }
-        [Route("api/useruploads/popular/photos/{photoId:int}/{from:int?}/{take:int?}")]
-        public IHttpActionResult GetMoustPopularPhotosById(int photoId, int from = 0, int take = 0)
-        {
-            if (take == 0)
-              return Ok(__db.Uploads.OrderByDescending(upload => upload.Likes.Count).Where(upload => upload.PhotoId == photoId).Skip(from).ToList().Select(upload => new UserUploadModel(upload)));
-            else
-              return Ok(__db.Uploads.OrderByDescending(upload => upload.Likes.Count).Where(upload => upload.PhotoId == photoId).Skip(from).Take(take).ToList().Select(upload => new UserUploadModel(upload)));
-        }
-    #endregion
+		public IHttpActionResult GetUserUploads(int from, int take)
+		{
+			IEnumerable<UserUploadEntity> wall = this.Repository().GetWallFor(__currentUser);
+			wall = wall.Skip(from).Take(take);
+			return Ok(wall.ToList().Select(x => new UserUploadModel(x)));
+		}
 
-    #region Post
-    [ResponseType(typeof(UserUploadModel))]
+		public IHttpActionResult GetUserUploads(int userId)
+		{
+			IEnumerable<UserUploadEntity> wall = this.Repository<UserUploadRepository>().GetWallFor(__currentUser);
+			wall = wall.Where(x => x.UserId == userId);
+			return Ok(wall.ToList().Select(x => new UserUploadModel(x)));
+		}
+
+		[Route("api/useruploads/popular/photos")]
+		public IHttpActionResult GetMoustPopularPhotos()
+		{
+			return Ok(__db.Uploads.OrderByDescending(upload => upload.Likes.Count).ToList().Select(upload => new UserUploadModel(upload)));
+		}
+
+		[Route("api/useruploads/popular/photos/{photoId:int}/{from:int?}/{take:int?}")]
+		public IHttpActionResult GetMoustPopularPhotosById(int photoId, int from = 0, int take = 0)
+		{
+			if (take == 0)
+				return Ok(__db.Uploads.OrderByDescending(upload => upload.Likes.Count).Where(upload => upload.PhotoId == photoId).Skip(from).ToList().Select(upload => new UserUploadModel(upload)));
+			else
+				return Ok(__db.Uploads.OrderByDescending(upload => upload.Likes.Count).Where(upload => upload.PhotoId == photoId).Skip(from).Take(take).ToList().Select(upload => new UserUploadModel(upload)));
+		}
+		#endregion
+
+		#region Post
+		[ResponseType(typeof(UserUploadModel))]
 		public IHttpActionResult PostUserUpload(UserUploadModel model)
 		{
 			if (!ModelState.IsValid)

@@ -23,6 +23,15 @@
         },
         "cordova-plugin-splashscreen": {
             "PACKAGE_NAME": "com.cukoos.nest"
+        },
+        "cordova-plugin-console": {
+            "PACKAGE_NAME": "com.cukoos.nest"
+        },
+        "cordova-plugin-device": {
+            "PACKAGE_NAME": "com.cukoos.nest"
+        },
+        "ionic-plugin-keyboard": {
+            "PACKAGE_NAME": "com.cukoos.nest"
         }
     },
     "dependent_plugins": {

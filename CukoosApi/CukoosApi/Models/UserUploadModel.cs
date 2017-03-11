@@ -1,18 +1,18 @@
 ﻿using CukoosApi.Data.Entities;
 using CukoosApi.Helpers;
-using CukoosApi.Models.Interfaces;
+using CukoosApi.Models.Base;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using CukoosApi.Models.Base;
+using CukoosApi.Enums;
 
 namespace CukoosApi.Models
 {
-	public class UserUploadModel : IModel
+	public class UserUploadModel : BaseModel<UserUploadEntity>, IModelWithImage
 	{
 		#region Properties
-		public int id { get; set; }
-
 		public PhotoModel photo { get; set; }
 
 		public string image { get; set; }
@@ -26,14 +26,30 @@ namespace CukoosApi.Models
 		public bool isLiked { get; set; }
 
 		public DateTime dateTime { get; set; }
+
+		public AssetType imageType
+		{
+			get
+			{
+				return AssetType.UserUpload;
+			}
+		}
 		#endregion
 
-		#region Consturctors
+		#region Constructor
 		public UserUploadModel()
+			: base()
 		{
 		}
 
-		public UserUploadModel(UploadEntity entity)
+		public UserUploadModel(UserUploadEntity entity)
+			: base(entity)
+		{
+		}
+		#endregion
+
+		#region Methods
+		public override void FromEntity(UserUploadEntity entity)
 		{
 			this.id = entity.Id;
 			this.photo = new PhotoModel(entity.Photo);
@@ -48,9 +64,9 @@ namespace CukoosApi.Models
 			//this.dateTime = entity.DateCreated;
 		}
 
-		public UploadEntity ToEntity()
+		public override UserUploadEntity ToEntity()
 		{
-			return new UploadEntity()
+			return new UserUploadEntity()
 			{
 				Id = this.id,
 				Photo = this.photo.ToEntity(),

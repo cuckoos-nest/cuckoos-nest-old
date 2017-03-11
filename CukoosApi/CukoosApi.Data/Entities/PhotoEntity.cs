@@ -26,6 +26,6 @@ namespace CukoosApi.Data.Entities
 
 		[ForeignKey("CategoryId")]
 		public virtual CategoryEntity Category { get; set; }
-		public virtual ICollection<UploadEntity> Uploads { get; set; }
+		public virtual ICollection<UserUploadEntity> UserUploads { get; set; }
 	}
 }

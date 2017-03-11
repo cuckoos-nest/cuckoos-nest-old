@@ -3,6 +3,7 @@ using CukoosApi.Data;
 using CukoosApi.Data.Entities;
 using CukoosApi.Helpers;
 using CukoosApi.Models;
+using CukoosApi.Repository;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
@@ -18,19 +19,19 @@ using System.Web.Http.Description;
 
 namespace CukoosApi.Controllers
 {
-	public class UsersController : BaseApiController
+	public class UsersController : BaseApiController<UsersRepository, UserEntity>
 	{
 		#region Get
 		[ResponseType(typeof(UserModel))]
 		public IHttpActionResult GetUsers()
 		{
-			return Ok(__db.Users.ToList().Select(x => new UserModel(x)));
+			return Ok(Repository().All().ToList().Select(x => new UserModel(x)));
 		}
 
 		[ResponseType(typeof(UserModel))]
 		public IHttpActionResult GetUser(int id)
 		{
-			UserEntity entity = __db.Users.Find(id);
+			UserEntity entity = Repository().Get(id);
 
 			if (entity == null)
 				return NotFound();
@@ -41,7 +42,7 @@ namespace CukoosApi.Controllers
 		[ResponseType(typeof(UserModel))]
 		public IHttpActionResult GetUsers(long fb_id)
 		{
-			UserEntity entity = __db.Users.FirstOrDefault(x => x.FacebookId == fb_id);
+			UserEntity entity = Repository().GetByFbId(fb_id);
 
 			if (entity == null)
 				return NotFound();
@@ -54,19 +55,7 @@ namespace CukoosApi.Controllers
 		[ResponseType(typeof(void))]
 		public IHttpActionResult PutUser(UserModel model)
 		{
-			if (!ModelState.IsValid)
-				return BadRequest(ModelState);
-
-			if (model.id != __currentUser.Id)
-				return BadRequest();
-
-			AssetsHelper.Save(Enums.AssetType.UserImage, model.id, model.image);
-
-			__db.Entry(__currentUser).State = EntityState.Modified;
-
-			__db.SaveChanges();
-
-			return StatusCode(HttpStatusCode.OK);
+			return HandlePut(model);
 		}
 		#endregion
 
@@ -74,60 +63,48 @@ namespace CukoosApi.Controllers
 		[ResponseType(typeof(PhotoModel))]
 		public IHttpActionResult PostUser([FromBody] UserModel model)
 		{
-			if (!ModelState.IsValid)
-				return BadRequest(ModelState);
+			return HandlePost(model);
+		}
 
-			var entity = model.ToEntity();
+		[Route("api/users/follow")]
+		public IHttpActionResult PostFollow(int userId)
+		{
+			UserEntity user = __db.Users.Find(userId);
+			if (user == null)
+				return NotFound();
 
-			__db.Users.Add(entity);
+			this.__currentUser.UsersImFollowing.Add(user);
+
+			__db.Entry(this.__currentUser).State = EntityState.Modified;
+
 			__db.SaveChanges();
 
-			AssetsHelper.Save(Enums.AssetType.UserImage, entity.Id, model.image);
-
-			model = new UserModel(__db.Users.Single(x => x.Id == entity.Id));
-
-			return CreatedAtRoute("CukoosApi", new { id = model.id }, model);
+			return Ok();
 		}
+
+		[Route("api/users/unfollow")]
+		public IHttpActionResult DeleteFollow(int userId)
+		{
+			UserEntity user = __db.Users.Find(userId);
+			if (user == null)
+				return NotFound();
+
+			this.__currentUser.UsersImFollowing.Remove(user);
+
+			__db.Entry(this.__currentUser).State = EntityState.Modified;
+
+			__db.SaveChanges();
+
+			return Ok();
+		}
+
 		#endregion
 
 		#region Delete
 		[ResponseType(typeof(UserModel))]
 		public IHttpActionResult DeleteUser(int id)
 		{
-			UserEntity entity = __db.Users.Find(id);
-
-			if (entity == null)
-				return NotFound();
-
-			__db.Users.Remove(entity);
-			__db.SaveChanges();
-
-			return Ok(new UserModel(entity));
-		}
-		#endregion
-
-		#region Private Methods
-		private bool UserExists(int id)
-		{
-			return __db.Users.Any(e => e.Id == id);
-		}
-
-		private string SetUserImageByUrl(int id, string imageUrl)
-		{
-			string localPath = HttpRuntime.AppDomainAppPath + $"assets/userImages/{id}.png";
-			using (WebClient client = new WebClient())
-			{
-				client.DownloadProgressChanged += (object sender, DownloadProgressChangedEventArgs e) =>
-				{
-					if (e.TotalBytesToReceive > int.Parse(ConfigurationManager.AppSettings["MaxImageSize"]))
-					{
-						client.CancelAsync();
-					}
-				};
-				client.DownloadFile(imageUrl, localPath);
-			}
-
-			return localPath;
+			return HandleDelete(id);
 		}
 		#endregion
 	}
