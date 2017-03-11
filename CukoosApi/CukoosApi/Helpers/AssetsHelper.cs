@@ -32,5 +32,10 @@ namespace CukoosApi.Helpers
 			byte[] imageBytes = File.ReadAllBytes(localPath);
 			return Convert.ToBase64String(imageBytes);
 		}
+
+		internal static void Save(object imageType, int id, string image)
+		{
+			throw new NotImplementedException();
+		}
 	}
 }

@@ -2,6 +2,8 @@
 using CukoosApi.Data;
 using CukoosApi.Data.Entities;
 using CukoosApi.Models;
+using CukoosApi.Repository;
+using CukoosApi.Repository.Repositories;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
@@ -14,19 +16,19 @@ using System.Web.Http.Description;
 
 namespace CukoosApi.Controllers
 {
-	public class PhotosController : BaseApiController
+	public class PhotosController : BaseApiController<PhotosRepository, PhotoEntity>
 	{
 		#region Get
 		[ResponseType(typeof(PhotoModel))]
 		public IHttpActionResult GetPhotos()
 		{
-			return Ok(__db.Photos.Include(p => p.Category).ToList().Select(x => new PhotoModel(x)));
+			return Ok(Repository().All().ToList().Select(x => new PhotoModel(x)));
 		}
 
 		[ResponseType(typeof(PhotoModel))]
 		public IHttpActionResult GetPhoto(int id)
 		{
-			PhotoEntity entity = __db.Photos.Include(p => p.Category).SingleOrDefault(p => p.Id == id);
+			PhotoEntity entity = Repository().Get(id);
 
 			if (entity == null)
 				return NotFound();
@@ -36,37 +38,15 @@ namespace CukoosApi.Controllers
 
 		public IHttpActionResult GetPhotos(int category)
 		{
-			return Ok(__db.Photos.Where(x => x.Category.Id == category).ToList().Select(x => new PhotoModel(x)));
+			return Ok(Repository<CategoriesRepository>().Get(category).Photos.ToList().Select(x => new PhotoModel(x)));
 		}
 		#endregion
 
 		#region Put
 		[ResponseType(typeof(void))]
-		public IHttpActionResult PutPhoto(int id, PhotoModel model)
+		public IHttpActionResult PutPhoto(PhotoModel model)
 		{
-			if (!ModelState.IsValid)
-				return BadRequest(ModelState);
-
-			if (model.id != id)
-				return BadRequest();
-
-			var entity = model.ToEntity();
-
-			__db.Entry(entity).State = EntityState.Modified;
-
-			try
-			{
-				__db.SaveChanges();
-			}
-			catch (DbUpdateConcurrencyException)
-			{
-				if (!PhotoExists(id))
-					return NotFound();
-				else
-					throw;
-			}
-
-			return StatusCode(HttpStatusCode.OK);
+			return HandlePut(model);
 		}
 		#endregion
 
@@ -74,15 +54,7 @@ namespace CukoosApi.Controllers
 		[ResponseType(typeof(PhotoModel))]
 		public IHttpActionResult PostPhoto(PhotoModel model)
 		{
-			if (!ModelState.IsValid)
-				return BadRequest(ModelState);
-
-			var entity = model.ToEntity();
-
-			__db.Photos.Add(entity);
-			__db.SaveChanges();
-
-			return CreatedAtRoute("CukoosApi", new { id = model.id }, model);
+			return HandlePost(model);
 		}
 		#endregion
 
@@ -90,22 +62,7 @@ namespace CukoosApi.Controllers
 		[ResponseType(typeof(PhotoModel))]
 		public IHttpActionResult DeletePhoto(int id)
 		{
-			PhotoEntity model = __db.Photos.Find(id);
-
-			if (model == null)
-				return NotFound();
-
-			__db.Photos.Remove(model);
-			__db.SaveChanges();
-
-			return Ok(new PhotoModel(model));
-		}
-		#endregion
-
-		#region Private Method
-		private bool PhotoExists(int id)
-		{
-			return __db.Photos.Any(e => e.Id == id);
+			return HandleDelete(id);
 		}
 		#endregion
 	}

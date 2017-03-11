@@ -4,15 +4,14 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
-using CukoosApi.Models.Interfaces;
+using CukoosApi.Models.Base;
+using CukoosApi.Models.Base;
 
 namespace CukoosApi.Models
 {
-	public class NotificationModel : IModel
+	public class NotificationModel : BaseModel<NotificationEntity>
 	{
 		#region Properties
-		public long id { get; set; }
-
 		public int type { get; set; }
 
 		public int recivingUserId { get; set; }
@@ -24,12 +23,21 @@ namespace CukoosApi.Models
         public bool isRead { get; set; }
 		#endregion
 
-		#region Consturctors
+		#region Constructor
 		public NotificationModel()
+			: base()
 		{
 		}
 
 		public NotificationModel(NotificationEntity entity)
+			: base(entity)
+		{
+		}
+		#endregion
+
+		#region Methods
+
+		public override void FromEntity(NotificationEntity entity)
 		{
 			this.id = entity.Id;
 			this.type = (int)entity.Type;
@@ -38,9 +46,8 @@ namespace CukoosApi.Models
 			this.creationDate = entity.CreationDate.ToString();
             this.isRead = entity.IsRead;
         }
-		#endregion
 
-		public NotificationEntity ToEntity()
+		public override NotificationEntity ToEntity()
 		{
 			return new NotificationEntity()
 			{
@@ -52,5 +59,6 @@ namespace CukoosApi.Models
                 IsRead = this.isRead,
             };
 		}
+		#endregion
 	}
 }

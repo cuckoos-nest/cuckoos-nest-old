@@ -44,6 +44,10 @@ export class MyApp implements OnInit {
 
     let loginService: BaseLoginService;
 
+    if (Config.debugMode && Config.useLocalHost) {
+      console.warn("Warning: Using local server");
+    }
+
     if (this.platform.is("cordova")) {
       loginService = this.nativeLoginService;
       if (Config.debugMode) {
@@ -57,7 +61,6 @@ export class MyApp implements OnInit {
       }
     }
 
-    // this.rootPage = MainMenuComponent ;
     loginService.login().subscribe(loginResult => {
       if (loginResult == LoginResult.Succeed) {
         // Login successed
@@ -67,7 +70,7 @@ export class MyApp implements OnInit {
       else {
         // Login failed
         // Temp alert
-        alert("Login failed");
+        alert("Login failed. Reload to try again. (Temp message)");
       }
     });
   }

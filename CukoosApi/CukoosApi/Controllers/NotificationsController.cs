@@ -11,10 +11,11 @@ using System.Data.Entity;
 using CukoosApi.Data.Entities;
 using CukoosApi.Controllers.Base;
 using System.Collections;
+using CukoosApi.Repository;
 
 namespace CukoosApi.Controllers
 {
-	public class NotificationsController : BaseApiController
+	public class NotificationsController : BaseApiController<NotificationsRepository, NotificationEntity>
 	{
 		#region Get
 		[ResponseType(typeof(NotificationModel))]
@@ -44,7 +45,7 @@ namespace CukoosApi.Controllers
 			entity.SentByUser = __currentUser;
 			entity.SentByUserId = __currentUser.Id;
 
-			__db.Notifications.Add(entity);
+			Repository().Add(entity);
 			__db.SaveChanges();
 
 			return CreatedAtRoute("CukoosApi", new { id = model.id }, model);

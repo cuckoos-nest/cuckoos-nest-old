@@ -7,4 +7,9 @@ export class UserModel {
      email : string;
      displayName : string;
      image: string;
+     categoriesImFollowing: number[];
+     usersImFollowing: number[];
+     numberOfFollowers: number;
+     numberOfFollowing: number;
+     numberOfUploads: number;
 }

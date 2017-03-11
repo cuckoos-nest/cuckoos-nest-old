@@ -1,31 +1,47 @@
 ﻿using CukoosApi.Data.Entities;
 using CukoosApi.Helpers;
-using CukoosApi.Models.Interfaces;
+using CukoosApi.Models.Base;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using CukoosApi.Models.Base;
+using CukoosApi.Enums;
 
 namespace CukoosApi.Models
 {
-	public class PhotoModel : IModel
+	public class PhotoModel : BaseModel<PhotoEntity>, IModelWithImage
 	{
 		#region Properties
-		public int id { get; set; }
-
 		public string title { get; set; }
 
 		public CategoryModel Category { get; set; }
 
 		public string image { get; set; }
+
+		public AssetType imageType
+		{
+			get
+			{
+				return AssetType.Photo;
+			}
+		}
 		#endregion
 
-		#region Consturctors
+		#region Constructor
 		public PhotoModel()
+			: base()
 		{
 		}
 
 		public PhotoModel(PhotoEntity entity)
+			: base(entity)
+		{
+		}
+		#endregion
+
+		#region Methods
+		public override void FromEntity(PhotoEntity entity)
 		{
 			this.id = entity.Id;
 			this.title = entity.Title;
@@ -33,7 +49,7 @@ namespace CukoosApi.Models
 			this.image = AssetsHelper.Get(Enums.AssetType.Photo, this.id);
 		}
 
-		public PhotoEntity ToEntity()
+		public override PhotoEntity ToEntity()
 		{
 			return new PhotoEntity()
 			{

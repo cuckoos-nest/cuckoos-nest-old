@@ -1,5 +1,6 @@
 ﻿using CukoosApi.Data.Interfaces;
-using CukoosApi.Models.Interfaces;
+using CukoosApi.Models.Base;
+using CukoosApi.Repository.Base;
 using Microsoft.AspNet.SignalR;
 using Microsoft.AspNet.SignalR.Hubs;
 using System;
@@ -33,6 +34,16 @@ namespace CukoosApi.Controllers.Base
 			where T : IModel
 		{
 			Hub.Clients.Group(group).onResponse(response);
+		}
+	}
+
+	public abstract class ApiControllerWithHub<THub, TRepository> : ApiControllerWithHub<THub>
+		where THub : IHub
+		where TRepository : IRepository
+	{
+		public TRepository Repository()
+		{
+			return Repository<TRepository>();
 		}
 	}
 

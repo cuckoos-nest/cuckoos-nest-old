@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Http } from '@angular/http';
+import { Http, Response } from '@angular/http';
 import { Category, Photo } from '../models/photo.models';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/map';
@@ -40,5 +40,13 @@ export class UsersService extends BaseService {
     public createUser(userModel: UserModel): Observable<UserModel> {
         return this.http.post(`${this.userDirectory}`, userModel)
                 .map(bodyResponse => bodyResponse.json());
+    }
+
+    public follow(userId: number): Observable<Response> {
+        return this.http.post(`${this.userDirectory}/follow?userId=${userId}`, null);
+    }
+
+    public unfollow(userId: number): Observable<Response> {
+        return this.http.post(`${this.userDirectory}/unfollow?userId=${userId}`, null);
     }
 }   

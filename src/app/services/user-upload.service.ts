@@ -4,9 +4,8 @@ import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/map';
 
 import { BaseService } from './base/base.service';
-
-import { UserUploadModel } from '../models/user-upload.model';
 import { PhotoModel } from '../models/photo.model';
+import { UserUploadModel } from './../models/user-upload.model';
 
 import Config from '../config.json';
 
@@ -17,12 +16,17 @@ export class UserUploadService extends BaseService {
         super();
     }
 
-    getMostPopularPhotosByPhotoId(id : number, from?: number, take?: number) : Observable<UserUploadModel[]> {
+    public getMostPopularPhotosByPhotoId(id : number, from?: number, take?: number) : Observable<UserUploadModel[]> {
         if (from && from != 0 && take && take != 0)
             return this.http.get(`${this.userUploadDirectory}/popular/photos/${id}/${from}/${take}`).map(userUploads => userUploads.json());
         else if (from && from != 0)
             return this.http.get(`${this.userUploadDirectory}/popular/photos/${id}/${from}`).map(userUploads => userUploads.json());
         else
             return this.http.get(`${this.userUploadDirectory}/popular/photos/${id}`).map(userUploads => userUploads.json());
+    }
+
+    public getUploadsByUser(userId: number): Observable<UserUploadModel[]> {
+        return this.http.get(`${this.userUploadDirectory}?userId=${userId}`)
+            .map(userUploads => userUploads.json());
     }
 }

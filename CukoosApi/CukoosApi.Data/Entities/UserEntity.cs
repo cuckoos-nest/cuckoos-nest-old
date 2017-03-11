@@ -20,13 +20,17 @@ namespace CukoosApi.Data.Entities
 		[Column("fb_id")]
 		public long FacebookId { get; set; }
 
-		public virtual ICollection<CategoryEntity> Categories { get; set; }
+		public virtual ICollection<CategoryEntity> CategoriesImFollowing { get; set; }
+
+		public virtual ICollection<UserEntity> UsersImFollowing { get; set; }
+
+		public virtual ICollection<UserEntity> UsersFollowMe { get; set; }
 
 		[InverseProperty("ReceivingUser")]
 		public virtual ICollection<NotificationEntity> Notifications { get; set; }
 
 		[InverseProperty("User")]
-		public virtual ICollection<UploadEntity> Uploads { get; set; }
+		public virtual ICollection<UserUploadEntity> Uploads { get; set; }
 
 		[Column("email")]
 		[Required]

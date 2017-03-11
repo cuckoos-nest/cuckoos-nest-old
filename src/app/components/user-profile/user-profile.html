@@ -8,29 +8,39 @@
       </ion-buttons>
 
       <ion-title>
-        {{'PROFILE' | translate}}
+        {{ _user.displayName }}
       </ion-title>
     </ion-toolbar>
   </ion-navbar>
 </ion-header>
 
-<ion-content>
-  <ion-list no-border>
-      <ion-item>
-        {{'DISPLAY_NAME' | translate}}
-        <ion-note item-right>{{ _user.displayName }}</ion-note>
-        <ion-avatar item-right>
-          <img [src]="'data:image/jpeg;base64,' + _user.image">
-        </ion-avatar>
-      </ion-item>
+<ion-content ngClass="user-profile">
+  <ion-grid>
+    <ion-row>
+      <ion-col col-3 text-center>
+          <img [src]="'data:image/jpeg;base64,' + _user.image" ngClass="rounded-image" />
+      </ion-col>
+      <ion-col col-3 ngClass="counter">
+        <div ngClass="counter-value">{{ _user.numberOfUploads }}</div>
+        <div ngClass="counter-title">Posts</div>
+      </ion-col>
+      <ion-col col-3 ngClass="counter">
+        <div ngClass="counter-value">{{ _user.numberOfFollowers }}</div>
+        <div ngClass="counter-title">Followers</div>
+      </ion-col>
+      <ion-col col-3 ngClass="counter">
+        <div ngClass="counter-value">{{ _user.numberOfFollowing }}</div>
+        <div ngClass="counter-title">Following</div>
+      </ion-col>
+    </ion-row>
 
-      <ion-item>
-        {{'EMAIL' | translate}}
-        <ion-note item-right>{{ _user.email }}</ion-note>
-      </ion-item>
+    <ion-row>
+      <ion-col col-9 offset-3 text-center>
+        <button color="secondary" clear ion-button small (click)="follow()" *ngIf="!_isMyProfile && !_isFollowedByMe">Follow</button>
+        <button color="secondary" ion-button small (click)="unfollow()" *ngIf="!_isMyProfile && _isFollowedByMe">Following</button>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
 
-      <button ion-item>{{'VIEW_MY_UPLOADS' | translate}}</button>
-
-      <button ion-item>{{'CATEGORIES_IM_FOLLOWING' | translate}}</button>
-  </ion-list>
+  <gallery [items]="_userUploads" [imageMember]="getUploadImage" (onItemClicked)="uploadClicked($event)"></gallery>
 </ion-content>

@@ -1,6 +1,7 @@
 ﻿using CukoosApi.Controllers.Base;
 using CukoosApi.Data;
 using CukoosApi.Data.Entities;
+using CukoosApi.Repository.Repositories;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
@@ -20,7 +21,7 @@ namespace CukoosApi.Controllers
 			if (!ModelState.IsValid)
 				return BadRequest(ModelState);
 
-			UploadEntity userUpload = __db.Uploads.Find(userUploadId);
+			UserUploadEntity userUpload = Repository<UserUploadRepository>().Get(userUploadId);
 			if (userUpload == null)
 				return NotFound();
 
@@ -41,7 +42,7 @@ namespace CukoosApi.Controllers
 		#region Delete
 		public IHttpActionResult DeleteLike(int userUploadId)
 		{
-			UploadEntity userUpload = __db.Uploads.Find(userUploadId);
+			UserUploadEntity userUpload = Repository<UserUploadRepository>().Get(userUploadId);
 
 			if (userUpload == null)
 				return NotFound();
