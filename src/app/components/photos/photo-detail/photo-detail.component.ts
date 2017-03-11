@@ -1,9 +1,9 @@
+import { UserUploadModel } from './../../../models/user-upload.model';
 import { Component, OnInit } from '@angular/core';
 import { Http } from '@angular/http';
 import { NavParams, LoadingController } from 'ionic-angular';
 import { Camera } from 'ionic-native';
 import { PhotoModel } from '../../../models/photo.model';
-import { UserUploadModel } from '../../../models/user-upload.model'; 
 import { UserUploadService } from '../../../services/user-upload.service';
 
 @Component({
@@ -24,19 +24,19 @@ export class PhotoDetailComponent implements OnInit {
             content : 'Loading photos...'
         });
         load.present();
-        this.userUploadService.getMostPopularPhotosByPhotoId(this.mainPhoto.id, 1, 1)
+        this.userUploadService.getMostPopularPhotosByPhotoId(this.mainPhoto.id, 0, 9)
             .subscribe(useruploads => {
                 this.usersUploads = useruploads;
                 load.dismiss();
             });
     }
 
-    getPhotoTitle(userUpload: UserUploadModel) {
-        return 'image';
+    getPhotoImage(userUpload: UserUploadModel) {
+        return `data:image/jpeg;base64,${userUpload.image}`;
     }
 
-    getPhotoImage(userUpload: UserUploadModel) {
-        return userUpload.image;
+    getPhotoLabel(userUpload: UserUploadModel) {
+        return `By ${userUpload.user.displayName}`;
     }
 
     openCamera() {
