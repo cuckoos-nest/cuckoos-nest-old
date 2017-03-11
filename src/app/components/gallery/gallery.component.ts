@@ -40,6 +40,9 @@ export class GalleryComponent implements OnChanges {
     @Input()
     titleMember : (item : any) => string;
 
+    @Input()
+    labelMember : (item : any) => string;
+
     @Output()
     onItemClicked = new EventEmitter<any>();
 

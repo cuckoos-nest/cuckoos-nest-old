@@ -17,9 +17,9 @@ export class UserUploadService extends BaseService {
     }
 
     public getMostPopularPhotosByPhotoId(id : number, from?: number, take?: number) : Observable<UserUploadModel[]> {
-        if (from && from != 0 && take && take != 0)
+        if (from >= 0 && take >= 0)
             return this.http.get(`${this.userUploadDirectory}/popular/photos/${id}/${from}/${take}`).map(userUploads => userUploads.json());
-        else if (from && from != 0)
+        else if (from >= 0)
             return this.http.get(`${this.userUploadDirectory}/popular/photos/${id}/${from}`).map(userUploads => userUploads.json());
         else
             return this.http.get(`${this.userUploadDirectory}/popular/photos/${id}`).map(userUploads => userUploads.json());
