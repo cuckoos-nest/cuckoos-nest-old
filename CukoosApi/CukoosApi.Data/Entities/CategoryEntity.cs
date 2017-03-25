@@ -21,7 +21,7 @@ namespace CukoosApi.Data.Entities
 		[Required]
 		public string Name { get; set; }
 
-		public virtual ICollection<UserEntity> Users { get; set; }
+		public virtual ICollection<UserEntity> UsersFollowMe { get; set; }
 
 		public virtual ICollection<PhotoEntity> Photos { get; set; }
 	}

@@ -16,8 +16,8 @@
 
 <ion-content ngClass="edit-user-upload">
     <div ngClass="preview">
-        <img [src]="'data:image/jpeg;base64,' + _userUpload.image" ngClass="user-image" />
-        <img [src]="'data:image/jpeg;base64,' + _userUpload.photo.image" ngClass="photo-image" />
+        <img [src]=" _userUpload.image" ngClass="user-image" />
+        <img [src]="_userUpload.photo.image" ngClass="photo-image" />
     </div>
 
     <ion-list>

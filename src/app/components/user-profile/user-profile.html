@@ -18,7 +18,7 @@
   <ion-grid>
     <ion-row>
       <ion-col col-3 text-center>
-          <img [src]="'data:image/jpeg;base64,' + _user.image" ngClass="rounded-image" />
+          <img [src]="_user.image" ngClass="rounded-image" />
       </ion-col>
       <ion-col col-3 ngClass="counter">
         <div ngClass="counter-value">{{ _user.numberOfUploads }}</div>
@@ -42,5 +42,5 @@
     </ion-row>
   </ion-grid>
 
-  <gallery [items]="_userUploads" [imageMember]="getUploadImage" (onItemClicked)="uploadClicked($event)"></gallery>
+  <gallery [items]="_userUploads | async" [imageMember]="getUploadImage" (onItemClicked)="uploadClicked($event)"></gallery>
 </ion-content>

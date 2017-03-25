@@ -1,6 +1,7 @@
 import { NgModule, ErrorHandler } from '@angular/core';
 import { Http } from '@angular/http';
 import { IonicApp, IonicModule, IonicErrorHandler } from 'ionic-angular';
+import { AngularFireModule } from 'angularfire2';
 
 import { MyApp } from './app.component';
 import { MainMenuComponent } from './components/main-menu/main-menu.component';
@@ -19,27 +20,24 @@ import { WebcamComponent } from './components/webcam/webcam.component';
 
 import { PhotosService } from './services/photos.service';
 import { CategoriesService } from './services/categories.service';
-import { UsersService } from './services/users.service';
-import { WallService } from './services/wall.service';
 import { NotificationsService } from './services/notifications.service';
 import { UserUploadService } from './services/user-upload.service';
-import { WebSocketService } from './services/websocket.service';
-
-import { FacebookWebLoginService } from './services/facebook-web-login.service';
-import { FacebookNativeLoginService } from './services/facebook-native-login.service';
-
+import { AuthService } from './services/auth.service';
 import { FacebookService } from 'ng2-facebook-sdk';
 
 import { TranslateModule, TranslateStaticLoader, TranslateLoader } from 'ng2-translate';
 
-import { SignalRModule, SignalRConfiguration } from 'ng2-signalr';
-
 import Config from './config.json';
+import { UsersService } from './services/users.service';
 
-const config = new SignalRConfiguration();
-config.hubName = 'wall';
-config.qs = { };
-config.url = (Config.useLocalHost ? Config.localHost : Config.host) + "/"
+export const firebaseConfig = {
+  apiKey: 'AIzaSyBz1z_mA1sZsQNYTh8RK8p76aE_gU-xcGc',
+  authDomain: 'cuckoos-nest-7a4cf.firebaseapp.com',
+  databaseURL: 'https://cuckoos-nest-7a4cf.firebaseio.com',
+  storageBucket: 'cuckoos-nest-7a4cf.appspot.com',
+  messagingSenderId: '374424090153'
+};
+
 
 @NgModule({
   declarations: [
@@ -60,7 +58,7 @@ config.url = (Config.useLocalHost ? Config.localHost : Config.host) + "/"
   ],
   imports: [
     IonicModule.forRoot(MyApp),
-    SignalRModule.configure(config),
+    AngularFireModule.initializeApp(firebaseConfig),
     TranslateModule.forRoot({
       provide: TranslateLoader,
       useFactory: (http: Http) => new TranslateStaticLoader(http, 'assets/i18n', '.json'),
@@ -86,16 +84,13 @@ config.url = (Config.useLocalHost ? Config.localHost : Config.host) + "/"
   ],
   providers: [
     { provide: ErrorHandler, useClass: IonicErrorHandler },
+    UsersService,
     PhotosService,
     CategoriesService,
-    UsersService,
     FacebookService,
-    FacebookNativeLoginService,
-    FacebookWebLoginService,
-    WallService,
+    AuthService,
     NotificationsService,
     UserUploadService,
-    WebSocketService
   ]
 })
 export class AppModule { }

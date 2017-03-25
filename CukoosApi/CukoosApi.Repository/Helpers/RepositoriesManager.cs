@@ -1,6 +1,7 @@
 ﻿using CukoosApi.Repository.Base;
 using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -22,6 +23,14 @@ namespace CukoosApi.Repository.Helpers
 				_repositories.Add(typeof(T), instance);
 			}
 
+			return instance;
+		}
+
+		public static T GetInstance<T>(DbContext context)
+			where T : IRepository
+		{
+			T instance = GetInstance<T>();
+			instance.Context = context;
 			return instance;
 		}
 

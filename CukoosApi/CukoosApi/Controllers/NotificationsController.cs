@@ -21,7 +21,7 @@ namespace CukoosApi.Controllers
 		[ResponseType(typeof(NotificationModel))]
 		public IHttpActionResult GetNotifications(bool? isRead = null)
 		{
-			IEnumerable<NotificationEntity> notifications = __currentUser.Notifications;
+			IEnumerable<NotificationEntity> notifications = UserManager.CurrentUser.Notifications;
 
 			if (isRead != null)
 				notifications = notifications.Where(x => x.IsRead == isRead);
@@ -37,13 +37,13 @@ namespace CukoosApi.Controllers
 			if (!ModelState.IsValid)
 				return BadRequest(ModelState);
 
-			if (model.sentByUser.id != __currentUser.Id)
+			if (model.sentByUser.id != UserManager.CurrentUser.Id)
 				return BadRequest("User authentication failed");
 
 			var entity = model.ToEntity();
 
-			entity.SentByUser = __currentUser;
-			entity.SentByUserId = __currentUser.Id;
+			entity.SentByUser = UserManager.CurrentUser;
+			entity.SentByUserId = UserManager.CurrentUser.Id;
 
 			Repository().Add(entity);
 			__db.SaveChanges();
@@ -63,7 +63,7 @@ namespace CukoosApi.Controllers
 			if (!ModelState.IsValid)
 				return BadRequest(ModelState);
 
-			foreach (NotificationEntity notification in __currentUser.Notifications)
+			foreach (NotificationEntity notification in UserManager.CurrentUser.Notifications)
 			{
 				notification.IsRead = true;
 				__db.Entry(notification).State = EntityState.Modified;

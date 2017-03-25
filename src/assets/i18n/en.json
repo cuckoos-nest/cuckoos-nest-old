@@ -1,5 +1,5 @@
 {
-    "WELCOME": "{{displayName}}",
+    "WELCOME": "Hi, {{displayName}}",
     "SEARCH": "Search",
     "CATEGORIES": "Categories",
     "NOTIFICATIONS": "Notifications",

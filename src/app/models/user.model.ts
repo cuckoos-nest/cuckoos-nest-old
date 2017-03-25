@@ -1,15 +1,10 @@
-import { CategoryModel } from "./category.model";
-import { PhotoModel } from "./photo.model";
+import { BaseModel } from './base/base.model';
 
-export class UserModel {
-     id : number;
-     fb_id : number;
-     email : string;
-     displayName : string;
-     image: string;
-     categoriesImFollowing: number[];
-     usersImFollowing: number[];
-     numberOfFollowers: number;
+export class UserModel extends BaseModel {
+     displayName: string;
+     categoryFollowingCount: number;
      numberOfFollowing: number;
+     numberOfFollowers: number;
+     image: string;
      numberOfUploads: number;
 }

@@ -38,7 +38,7 @@ namespace CukoosApi.Data
 
 			modelBuilder.Entity<UserEntity>()
 			.HasMany(a => a.CategoriesImFollowing)
-			.WithMany(p => p.Users)
+			.WithMany(p => p.UsersFollowMe)
 			.Map(x =>
 			{
 				x.MapLeftKey("user");

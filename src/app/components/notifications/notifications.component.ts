@@ -14,9 +14,9 @@ import { NotificationsService } from '../../services/notifications.service';
 export class NotificationsComponent {
     private _notifications: NotificationModel[] = new Array<NotificationModel>();
 
-    constructor(private usersService: UsersService, private notificationsService: NotificationsService) {
-        this.notificationsService.listen().subscribe(newNotification => {
-            this._notifications.push(newNotification);
+    constructor(private notificationsService: NotificationsService) {
+        this.notificationsService.getNewNotifications().subscribe(newNotification => {
+            this._notifications = newNotification;
         });
     }
 

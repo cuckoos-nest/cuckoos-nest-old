@@ -1,13 +1,14 @@
 <ion-header>
   <ion-navbar>
     <ion-title>
-      {{'WELCOME' | translate:_loggedInUser}}
+      {{ 'WELCOME' | translate:_currentUser }}
     </ion-title>
   </ion-navbar>
 </ion-header>
 
 <ion-content>
-    <wall-card *ngFor="let userUpload of _currentWall" [data]="userUpload"></wall-card>
+    <wall-card *ngFor="let userUpload of _currentWall | async" [data]="userUpload"></wall-card>
+
      <ion-infinite-scroll (ionInfinite)="doInfinite($event)">
       <ion-infinite-scroll-content></ion-infinite-scroll-content>
     </ion-infinite-scroll>

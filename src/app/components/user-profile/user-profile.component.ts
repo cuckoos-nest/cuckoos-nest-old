@@ -1,51 +1,47 @@
+import { Observable } from 'rxjs/Observable';
+import { UserUploadService } from './../../services/user-upload.service';
+import { UserModel } from './../../models/user.model';
+import { AuthService } from './../../services/auth.service';
 import { FullscreenImageComponent } from './../fullscreen-image/fullscreen-image.component';
 import { UserUploadModel } from './../../models/user-upload.model';
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { NavParams, NavController, LoadingController } from 'ionic-angular';
-
-import { UserModel } from '../../models/user.model';
 import { UsersService } from './../../services/users.service';
-import { UserUploadService } from '../../services/user-upload.service';
 
 @Component({
     selector: 'user-profile',
     templateUrl: 'user-profile.html'
 })
-export class UserProfileComponent {
-
+export class UserProfileComponent implements OnInit {
     private _user: UserModel;
     private _isMyProfile: Boolean;
-    private _userUploads: UserUploadModel[];
+    private _userUploads: Observable<UserUploadModel[]>;
     private _isFollowedByMe: Boolean;
 
-    constructor(private navController: NavController, private navParams: NavParams, private usersService: UsersService, private userUploadService: UserUploadService, private loadingCtrl: LoadingController) {
-        let loader = this.loadingCtrl.create({
-            content: `Loading Profile`
-        });
-        loader.present();
-        
-        this._user = navParams.get('user');
-
-        if (navParams.get('user')) {
-            this._user = navParams.get('user');
-        }
-        else {
-            this._user = this.usersService.loggedInUser;
-        }
-
-        this._isFollowedByMe = this.usersService.loggedInUser.usersImFollowing.indexOf(this._user.id) != -1;
-
-        userUploadService.getUploadsByUser(this._user.id)
-            .subscribe((userUploads: UserUploadModel[]) => {
-                this._userUploads = userUploads;
-                loader.dismiss();
-            });
-        
-        this._isMyProfile = (this._user.id == this.usersService.loggedInUser.id);
+    constructor(private navController: NavController, private navParams: NavParams, private authService: AuthService, private usersService: UsersService, private userUploadsService: UserUploadService, private loadingCtrl: LoadingController) {
     }    
 
+    ngOnInit(): void {
+        if (this.navParams.get('user')) {
+            this._user = this.navParams.get('user');
+        }
+        else {
+            this._user = this.authService.currentUser;
+        }
+
+        // this.usersService.getUsersImFollowing(this.authService.currentUser.$key)
+        //         .subscribe(usersImFollowing => {
+        //             debugger;
+        //             this._isFollowedByMe = usersImFollowing.indexOf(this._user.$key) != -1;
+        //         });
+
+        this._userUploads = this.userUploadsService.getUserUploadsByUser(this._user.$key);
+
+        this._isMyProfile = (this._user.$key == this.authService.currentUser.$key);
+    }
+
     private getUploadImage(userUpload: UserUploadModel): string {
-        return 'data:image/jpeg;base64,' + userUpload.image;
+        return userUpload.image;
     }
 
     private uploadClicked(userUpload : UserUploadModel) {
@@ -55,14 +51,10 @@ export class UserProfileComponent {
     }
 
     private follow() {
-        this.usersService.follow(this._user.id).subscribe(() => {
-            this._isFollowedByMe = true;
-        });;
+        this.usersService.follow(this._user.$key);
     }
 
     private unfollow() {
-        this.usersService.unfollow(this._user.id).subscribe(() => {
-            this._isFollowedByMe = false;
-        });;
+        this.usersService.unfollow(this._user.$key);
     }
 }

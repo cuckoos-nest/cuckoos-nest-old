@@ -13,6 +13,8 @@ namespace CukoosApi.Models
 	{
 		#region Properties
 		public string name { get; set; }
+		public int numberOfUploads { get; set; }
+		public int numberOfFollowers { get; set; }
 		#endregion
 
 		#region Constructor
@@ -32,6 +34,8 @@ namespace CukoosApi.Models
 		{
 			this.id = entity.Id;
 			this.name = entity.Name;
+			this.numberOfUploads = entity.Photos.SelectMany(x => x.UserUploads).Count();
+			this.numberOfFollowers = entity.UsersFollowMe.Count;
 		}
 
 		public override CategoryEntity ToEntity()
