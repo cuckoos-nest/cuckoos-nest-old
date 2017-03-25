@@ -1,52 +1,30 @@
-import { Injectable } from '@angular/core';
-import { Http, Response } from '@angular/http';
-import { Category, Photo } from '../models/photo.models';
+import { AngularFire } from 'angularfire2';
+import { AuthService } from './auth.service';
 import { Observable } from 'rxjs/Observable';
-import 'rxjs/add/operator/map';
-
-import { BaseService } from './base/base.service';
-
-import { UserModel } from '../models/user.model';
-import { NotificationModel } from '../models/notification.model';
-
-import Config from '../config.json';
+import { UserModel } from './../models/user.model';
+import { Injectable } from '@angular/core';
 
 @Injectable()
-export class UsersService extends BaseService {
-
-    private _loggedInUser: UserModel;
-    public get loggedInUser(): UserModel {
-        return this._loggedInUser;
+export class UsersService {
+    constructor(private af: AngularFire, private authService: AuthService) {
     }
-    public set loggedInUser(value: UserModel) {
-        this._loggedInUser = value;
-
-        if (Config.debugMode) {
-            console.log("User logged in", this.loggedInUser);
-        }
-
-        // Log user enterance to the databaes
+    
+    public getUser(uid: string): Observable<UserModel> {
+        return this.af.database.object("/users/" + uid);
     }
 
-    constructor(private http: Http) {
-        super();
+    public getUsersImFollowing(uid: string): Observable<string[]> {
+        return this.af.database.list(`/user-followers/following/${this.authService.currentUser.$key}`)
+        .map(refArr => refArr.map(ref => ref.$key));
     }
 
-    public getUserByFbId(fb_id: number): Observable<UserModel> {
-        return this.http.get(`${this.userDirectory}/?fb_id=${fb_id}`)
-                .map(bodyResponse => bodyResponse.json());
+    public follow(uid: string): void {
+        this.af.database.object(`/user-followers/followers/${uid}/${this.authService.currentUser.$key}`).set(true);
+        this.af.database.object(`/user-followers/following/${this.authService.currentUser.$key}/${uid}`).set(true);
     }
 
-    public createUser(userModel: UserModel): Observable<UserModel> {
-        return this.http.post(`${this.userDirectory}`, userModel)
-                .map(bodyResponse => bodyResponse.json());
+    public unfollow(uid: string): void {
+        this.af.database.object(`/user-followers/followers/${uid}/${this.authService.currentUser.$key}`).set(null);
+        this.af.database.object(`/user-followers/following/${this.authService.currentUser.$key}/${uid}`).set(null);
     }
-
-    public follow(userId: number): Observable<Response> {
-        return this.http.post(`${this.userDirectory}/follow?userId=${userId}`, null);
-    }
-
-    public unfollow(userId: number): Observable<Response> {
-        return this.http.post(`${this.userDirectory}/unfollow?userId=${userId}`, null);
-    }
-}   
+}

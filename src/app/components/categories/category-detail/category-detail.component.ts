@@ -1,4 +1,6 @@
-import { Component } from '@angular/core';
+import { Observable } from 'rxjs/Observable';
+import { CategoriesService } from './../../../services/categories.service';
+import { Component, OnInit } from '@angular/core';
 import { NavController, NavParams, LoadingController, Platform } from 'ionic-angular';
 import { Camera, CameraOptions } from 'ionic-native';
 
@@ -12,67 +14,24 @@ import { UsersService } from '../../../services/users.service';
 import { PhotoDetailComponent } from '../../photos/photo-detail/photo-detail.component';
 import { EditUserUploadComponent } from '../../edit-user-upload/edit-user-upload.component';
 import { WebcamComponent } from '../../webcam/webcam.component';
+import { AuthService } from '../../../services/auth.service';
 
 @Component({
     selector: 'category-detail',
     templateUrl: 'category-detail.html'
 })
-export class CategoryDetailComponent {
-
-    photos : PhotoModel[];
+export class CategoryDetailComponent implements OnInit {
+    photos : Observable<PhotoModel[]>
     category : CategoryModel;
+    _isFollowedByMe: Boolean;
 
-    constructor(private platform: Platform, private navController: NavController, private navParams: NavParams, private photosService: PhotosService, private usersService: UsersService, private loadingCtrl: LoadingController) {
-        this.category = navParams.get('category');
-        
-        let loader = this.loadingCtrl.create({
-            content: `Loading ${this.category.name}`
-        });
-        loader.present();
-
-         this.photosService.getPhotosByCategory(this.category.id)
-            .subscribe(photos => { 
-                this.photos = photos;
-                loader.dismiss();
-            }); 
+    constructor(private authService: AuthService, private navController: NavController, private navParams: NavParams, private photosService: PhotosService, private categoriesService: CategoriesService, private loadingCtrl: LoadingController) {
     }    
 
-    private onSuccess(test: any) {
-        console.log("yay", test);
-    }
-
-    private takePhoto(item : string) : void {
-        if (this.platform.is("cordova")) {
-            this.takePhotoFromNative();
-        }
-        else {
-            this.takePhotoFromBroswer();
-        }
-    }
-
-    private takePhotoFromBroswer() {
-        this.navController.push(WebcamComponent, {
-            photo: this.photos[0]
-        });
-    }
-
-    private takePhotoFromNative() {
-        Camera.getPicture({
-            destinationType: 0
-        }).then((imageData) => {
-            let base64Image = imageData;
-            
-            let userUpload: UserUploadModel = new UserUploadModel();
-            userUpload.photo = this.photos[0];
-            userUpload.user = this.usersService.loggedInUser;
-            userUpload.image = base64Image;
-
-            this.navController.push(EditUserUploadComponent, {
-                userUpload: userUpload
-            });
-        }, (err) => {
-            // Handle error
-        });
+    ngOnInit(): void {
+        this.category = this.navParams.get('category');
+        this.photos = this.photosService.getPhotosByCategory(this.category.$key);
+        // this._isFollowedByMe = (this.usersService.loggedInUser.categoriesImFollowing.indexOf(this.category.id) != -1);
     }
 
     private photoClicked(photo : PhotoModel) {
@@ -86,6 +45,14 @@ export class CategoryDetailComponent {
     }
 
     private getPhotoImage(photo: PhotoModel) {
-        return 'data:image/jpeg;base64,' +  photo.image;
+        return photo.image;
+    }
+
+    private follow() {
+        this.categoriesService.follow(this.category.$key);
+    }
+
+    private unfollow() {
+        this.categoriesService.unfollow(this.category.$key);
     }
 }

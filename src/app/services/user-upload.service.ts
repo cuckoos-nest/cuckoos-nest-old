@@ -1,3 +1,7 @@
+import { UserUploadModel } from './../models/user-upload.model';
+import { Observer } from 'rxjs/Observer';
+import { AuthService } from './auth.service';
+import { AngularFire, FirebaseListObservable } from 'angularfire2';
 import { Injectable } from '@angular/core';
 import { Http } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
@@ -5,28 +9,54 @@ import 'rxjs/add/operator/map';
 
 import { BaseService } from './base/base.service';
 import { PhotoModel } from '../models/photo.model';
-import { UserUploadModel } from './../models/user-upload.model';
 
 import Config from '../config.json';
 
 @Injectable()
-export class UserUploadService extends BaseService {
+export class UserUploadService {
 
-    constructor(private http: Http) {
-        super();
+    constructor(private af: AngularFire, private authService: AuthService) {
     }
 
-    public getMostPopularPhotosByPhotoId(id : number, from?: number, take?: number) : Observable<UserUploadModel[]> {
-        if (from >= 0 && take >= 0)
-            return this.http.get(`${this.userUploadDirectory}/popular/photos/${id}/${from}/${take}`).map(userUploads => userUploads.json());
-        else if (from >= 0)
-            return this.http.get(`${this.userUploadDirectory}/popular/photos/${id}/${from}`).map(userUploads => userUploads.json());
-        else
-            return this.http.get(`${this.userUploadDirectory}/popular/photos/${id}`).map(userUploads => userUploads.json());
+    // public getMostPopularPhotosByPhotoId(id : number, from?: number, take?: number) : Observable<UserUploadModel[]> {
+    //     if (from && from != 0 && take && take != 0)
+    //         return this.http.get(`${this.userUploadDirectory}/popular/photos/${id}/${from}/${take}`).map(userUploads => userUploads.json());
+    //     else if (from && from != 0)
+    //         return this.http.get(`${this.userUploadDirectory}/popular/photos/${id}/${from}`).map(userUploads => userUploads.json());
+    //     else
+    //         return this.http.get(`${this.userUploadDirectory}/popular/photos/${id}`).map(userUploads => userUploads.json());
+    // }
+
+    public getUserUpload(key: string) : Observable<UserUploadModel> {
+        return this.af.database.object("/uploads/" + key);
     }
 
-    public getUploadsByUser(userId: number): Observable<UserUploadModel[]> {
-        return this.http.get(`${this.userUploadDirectory}?userId=${userId}`)
-            .map(userUploads => userUploads.json());
+    public getUserUploadsByPhoto(photoKey: string) : Observable<UserUploadModel[]> {
+        return this.af.database.list(`/photos/${photoKey}/uploads/`)
+                    .map(references => references.map(ref => ref.$key))
+                    .map(keys => keys.map(key => this.getUserUpload(key)))
+                    .map(userUploads => userUploads.reverse())
+                    .switchMap(x => Observable.combineLatest(x));
+    }
+
+    public getUserUploadsByUser(uid: string) : Observable<UserUploadModel[]> {
+        return this.af.database.list(`/users/${uid}/uploads/`)
+                    .map(references => references.map(ref => ref.$key))
+                    .map(keys => keys.map(key => this.getUserUpload(key)))
+                    .map(userUploads => userUploads.reverse())
+                    .switchMap(x => Observable.combineLatest(x));
+    }
+
+    public getWall(): Observable<UserUploadModel[]> {
+
+         return this.af.database.list(`/walls/${this.authService.currentUser.$key}`)
+                    .map(references => references.map(ref => ref.$key))
+                    .map(keys => keys.map(key => this.getUserUpload(key)))
+                    .map(userUploads => userUploads.reverse())
+                    .switchMap(x => Observable.combineLatest(x));
+    }
+
+    public createUpload(userUpload: UserUploadModel): void {
+        this.af.database.list("/uploads").push(userUpload);
     }
 }

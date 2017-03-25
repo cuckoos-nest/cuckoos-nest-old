@@ -30,9 +30,9 @@ namespace CukoosApi.Repository.Base
 			}
 		}
 
-		public virtual void Add(TEntity entity)
+		public virtual TEntity Add(TEntity entity)
 		{
-			this._dbSet.Add(entity);
+			return this._dbSet.Add(entity);
 		}
 
 		public virtual void AddRange(IEnumerable<TEntity> entities)
@@ -97,7 +97,7 @@ namespace CukoosApi.Repository.Base
 
 		public virtual void Dispose()
 		{
-			this._context.Dispose();
+			//this._context.Dispose();
 		}
 
 		protected T Repository<T>()

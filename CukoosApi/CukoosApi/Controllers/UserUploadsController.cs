@@ -4,19 +4,14 @@ using CukoosApi.Helpers;
 using CukoosApi.Hubs;
 using CukoosApi.Models;
 using CukoosApi.Repository.Repositories;
-using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
-using System.Net;
-using System.Net.Http;
-using System.Web;
 using System.Web.Http;
 using System.Web.Http.Description;
 
 namespace CukoosApi.Controllers
 {
-	public class UserUploadsController : ApiControllerWithHub<WallHub, UserUploadRepository>
+	public class UserUploadsController : BaseApiController<UserUploadRepository, UserUploadEntity>
 	{
 		#region Get
 		public IHttpActionResult GetUserUploads()
@@ -25,14 +20,14 @@ namespace CukoosApi.Controllers
 		}
 		public IHttpActionResult GetUserUploads(int from, int take)
 		{
-			IEnumerable<UserUploadEntity> wall = this.Repository().GetWallFor(__currentUser);
+			IEnumerable<UserUploadEntity> wall = this.Repository().GetWallFor(UserManager.CurrentUser);
 			wall = wall.Skip(from).Take(take);
 			return Ok(wall.ToList().Select(x => new UserUploadModel(x)));
 		}
 
 		public IHttpActionResult GetUserUploads(int userId)
 		{
-			IEnumerable<UserUploadEntity> wall = this.Repository<UserUploadRepository>().GetWallFor(__currentUser);
+			IEnumerable<UserUploadEntity> wall = this.Repository<UserUploadRepository>().GetWallFor(UserManager.CurrentUser);
 			wall = wall.Where(x => x.UserId == userId);
 			return Ok(wall.ToList().Select(x => new UserUploadModel(x)));
 		}
@@ -60,7 +55,7 @@ namespace CukoosApi.Controllers
 			if (!ModelState.IsValid)
 				return BadRequest(ModelState);
 
-			model.user = new UserModel(this.__currentUser);
+			model.user = new UserModel(UserManager.CurrentUser);
 
 			var entity = model.ToEntity();
 			entity.User = null;
@@ -75,7 +70,7 @@ namespace CukoosApi.Controllers
 
 			model = new UserUploadModel(__db.Uploads.Find(entity.Id));
 
-			PublishResponse(new WebSocketResponse<UserUploadModel>(model, WebSocketResponseType.Add));
+			WebSocketInterface.WallUpdate(model, WebSocketResponseType.Add);
 
 			return CreatedAtRoute("CukoosApi", new { id = model.id }, model);
 		}

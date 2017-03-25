@@ -25,12 +25,12 @@ namespace CukoosApi.Controllers
 			if (userUpload == null)
 				return NotFound();
 
-			if (userUpload.Likes.Any(x => x.UserId == __currentUser.Id))
+			if (userUpload.Likes.Any(x => x.UserId == UserManager.CurrentUser.Id))
 				return BadRequest("User already likes this upload");
 
 			userUpload.Likes.Add(new LikeEntity()
 			{
-				UserId = __currentUser.Id
+				UserId = UserManager.CurrentUser.Id
 			});
 
 			__db.SaveChanges();
@@ -47,9 +47,9 @@ namespace CukoosApi.Controllers
 			if (userUpload == null)
 				return NotFound();
 
-			LikeEntity like = userUpload.Likes.SingleOrDefault(x => x.UserId == __currentUser.Id);
+			LikeEntity like = userUpload.Likes.SingleOrDefault(x => x.UserId == UserManager.CurrentUser.Id);
 
-			if (userUpload.Likes.Any(x => x.UserId == __currentUser.Id) == false)
+			if (userUpload.Likes.Any(x => x.UserId == UserManager.CurrentUser.Id) == false)
 				return BadRequest("User does not like this upload");
 
 			userUpload.Likes.Remove(like);

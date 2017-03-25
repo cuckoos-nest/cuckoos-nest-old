@@ -1,6 +1,6 @@
-import { UserModel } from "./user.model";
+// import { UserModel } from "./user.model";
 
-export class LikeModel {
-     id : number;
-     user: UserModel;
-}
+// export class LikeModel {
+//      id : number;
+//      user: UserModel;
+// }

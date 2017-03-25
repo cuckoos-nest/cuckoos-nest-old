@@ -17,7 +17,7 @@ namespace CukoosApi.Repository.Base
 		IEnumerable<TEntity> Where(Expression<Func<TEntity, bool>> predicate);
 		bool Any(Expression<Func<TEntity, bool>> predicate);
 
-		void Add(TEntity entity);
+		TEntity Add(TEntity entity);
 		void AddRange(IEnumerable<TEntity> entities);
 
 		void Remove(TEntity entity);

@@ -2,7 +2,7 @@ import { Component, Input } from '@angular/core';
 import { NavParams } from 'ionic-angular';
 
 import { UserUploadModel } from '../../models/user-upload.model';
-import { UserModel } from '../../models/user.model';
+// import { UserModel } from '../../models/user.model';
 
 @Component({
     selector: 'fullcsreen-image',

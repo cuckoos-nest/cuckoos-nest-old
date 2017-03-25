@@ -1,15 +1,16 @@
 <ion-header>
   <ion-navbar>
-    <ion-title> {{mainPhoto.title}} </ion-title>
+    <ion-title> {{photo.title}} </ion-title>
   </ion-navbar>
   <ion-toolbar>
-    <ion-title> <img [src]="'data:image/jpeg;base64,' + mainPhoto.image" /> </ion-title>
+    <ion-title> <img [src]="photo.image" /> </ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
-  <gallery [items]="usersUploads" [imageMember]="getPhotoImage" [labelMember]="getPhotoLabel"></gallery>
+  <gallery [items]="userUploads | async" [imageMember]="getPhotoImage" (onItemClicked)="uploadClicked($event)"></gallery>
+
   <ion-fab center bottom>
-    <button ion-fab color="light" (click)="openCamera()"><ion-icon name="camera"></ion-icon></button>
+    <button ion-fab color="light" (click)="takePhoto()"><ion-icon name="camera"></ion-icon></button>
   </ion-fab>
 </ion-content>

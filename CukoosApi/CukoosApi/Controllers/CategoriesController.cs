@@ -62,6 +62,38 @@ namespace CukoosApi.Controllers
 		{
 			return HandlePost(categoryModel);
 		}
+
+		[Route("api/categories/follow")]
+		public IHttpActionResult PostFollow(int categoryId)
+		{
+			CategoryEntity category = Repository().Get(categoryId);
+			if (category == null)
+				return NotFound();
+
+			SessionManager.CurrentUser.CategoriesImFollowing.Add(category);
+
+			__db.Entry(SessionManager.CurrentUser).State = EntityState.Modified;
+
+			__db.SaveChanges();
+
+			return Ok();
+		}
+
+		[Route("api/categories/unfollow")]
+		public IHttpActionResult DeleteFollow(int categoryId)
+		{
+			CategoryEntity category = Repository().Get(categoryId);
+			if (category == null)
+				return NotFound();
+
+			SessionManager.CurrentUser.CategoriesImFollowing.Remove(category);
+
+			__db.Entry(SessionManager.CurrentUser).State = EntityState.Modified;
+
+			__db.SaveChanges();
+
+			return Ok();
+		}
 		#endregion
 
 		#region Delete

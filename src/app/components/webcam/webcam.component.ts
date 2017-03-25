@@ -1,3 +1,4 @@
+import { AuthService } from './../../services/auth.service';
 import { Component, ViewChild, AfterViewInit } from '@angular/core';
 import { NavController, NavParams } from 'ionic-angular';
 
@@ -25,7 +26,7 @@ export class WebcamComponent implements AfterViewInit {
 
     private _isStreaming: Boolean;
 
-    constructor(private navController: NavController, private navParams: NavParams, private usersService: UsersService) {
+    constructor(private navController: NavController, private navParams: NavParams, private authService: AuthService) {
         this.photo = navParams.get('photo');
     }
 
@@ -38,11 +39,11 @@ export class WebcamComponent implements AfterViewInit {
         canvas.height = video.videoHeight;
         context.drawImage(video, 0, 0, video.videoWidth, video.videoHeight);
 
-        var base64Image = canvas.toDataURL('image/jpeg').substring('data:image/jpeg;base64,'.length);
+        var base64Image = canvas.toDataURL('image/jpeg');
 
         let userUpload: UserUploadModel = new UserUploadModel();
-        userUpload.photo = this.photo;
-        userUpload.user = this.usersService.loggedInUser;
+        userUpload.photo = this.photo.$key;
+        userUpload.user = this.authService.currentUser.$key;
         userUpload.image = base64Image;
 
         this.navController.push(EditUserUploadComponent, {

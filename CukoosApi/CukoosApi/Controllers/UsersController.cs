@@ -1,19 +1,11 @@
 ﻿using CukoosApi.Controllers.Base;
-using CukoosApi.Data;
 using CukoosApi.Data.Entities;
 using CukoosApi.Helpers;
+using CukoosApi.Hubs;
 using CukoosApi.Models;
 using CukoosApi.Repository;
-using System;
-using System.Collections.Generic;
-using System.Configuration;
 using System.Data.Entity;
-using System.Data.Entity.Infrastructure;
-using System.IO;
 using System.Linq;
-using System.Net;
-using System.Net.Http;
-using System.Web;
 using System.Web.Http;
 using System.Web.Http.Description;
 
@@ -69,15 +61,22 @@ namespace CukoosApi.Controllers
 		[Route("api/users/follow")]
 		public IHttpActionResult PostFollow(int userId)
 		{
-			UserEntity user = __db.Users.Find(userId);
+			UserEntity user = Repository().Get(userId);
 			if (user == null)
 				return NotFound();
 
-			this.__currentUser.UsersImFollowing.Add(user);
+			SessionManager.CurrentUser.UsersImFollowing.Add(user);
 
-			__db.Entry(this.__currentUser).State = EntityState.Modified;
+			__db.Entry(SessionManager.CurrentUser).State = EntityState.Modified;
 
 			__db.SaveChanges();
+
+			WebSocketInterface.Notify(new NotificationEntity()
+			{
+				Type = Data.Enums.NotificationType.FollowingYou,
+				SentByUser = SessionManager.CurrentUser,
+				ReceivingUserId = userId
+			});
 
 			return Ok();
 		}
@@ -85,13 +84,13 @@ namespace CukoosApi.Controllers
 		[Route("api/users/unfollow")]
 		public IHttpActionResult DeleteFollow(int userId)
 		{
-			UserEntity user = __db.Users.Find(userId);
+			UserEntity user = Repository().Get(userId);
 			if (user == null)
 				return NotFound();
 
-			this.__currentUser.UsersImFollowing.Remove(user);
+			SessionManager.CurrentUser.UsersImFollowing.Remove(user);
 
-			__db.Entry(this.__currentUser).State = EntityState.Modified;
+			__db.Entry(SessionManager.CurrentUser).State = EntityState.Modified;
 
 			__db.SaveChanges();
 

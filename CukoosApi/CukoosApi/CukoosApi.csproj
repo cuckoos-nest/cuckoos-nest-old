@@ -203,13 +203,13 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="UserManager.cs" />
     <Compile Include="App_Start\SwaggerConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="DataAnnotations\StringValue.cs" />
     <Compile Include="Extentions\StringValueExtention.cs" />
     <Compile Include="Helpers\AssetsHelper.cs" />
     <Compile Include="Enums\AssetType.cs" />
-    <Compile Include="Controllers\Base\ApiControllerWithHub.cs" />
     <Compile Include="Controllers\Base\BaseApiController.cs" />
     <Compile Include="Controllers\CategoriesController.cs" />
     <Compile Include="Controllers\LikesController.cs" />
@@ -220,7 +220,11 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Hubs\WallHub.cs" />
+    <Compile Include="Helpers\NotificationsHelper.cs" />
+    <Compile Include="Hubs\HubManager.cs" />
+    <Compile Include="Hubs\WebSocketInterface.cs" />
+    <Compile Include="Hubs\MainHub.cs" />
+    <Compile Include="Hubs\WebSocketResponse.cs" />
     <Compile Include="Models\Base\BaseModel.cs" />
     <Compile Include="Models\Base\IModelWithImage.cs" />
     <Compile Include="Models\CategoryModel.cs" />

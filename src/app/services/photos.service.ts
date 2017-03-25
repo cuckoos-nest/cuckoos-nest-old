@@ -1,3 +1,5 @@
+import { Observer } from 'rxjs/Observer';
+import { AngularFire, FirebaseObjectObservable } from 'angularfire2';
 import { Injectable } from '@angular/core';
 import { Http } from '@angular/http';
 import { PhotoModel } from '../models/photo.model';
@@ -9,24 +11,20 @@ import { BaseService } from './base/base.service';
 import Config from '../config.json';
 
 @Injectable()
-export class PhotosService extends BaseService {
+export class PhotosService {
 
-    constructor(private http: Http) {
-        super();
+    constructor(private af: AngularFire) {
     }
 
-    public getPhotos() : Observable<PhotoModel[]> {
-        return this.http.get(`${this.photoesDirectory}`)
-            .map(bodyResponse => bodyResponse.json());
+    public getPhoto(key: string) : Observable<PhotoModel> {
+        return this.af.database.object("/photos/" + key);
     }
 
-    public getPhotoById(id: number) : Observable<PhotoModel> {
-        return this.http.get(`${this.photoesDirectory}`)
-            .map(bodyResponse => bodyResponse.json());
-    }
-
-    public getPhotosByCategory(categoryId: number) : Observable<PhotoModel[]> {
-        return this.http.get(`${this.photoesDirectory}?category=${categoryId}`)
-            .map(bodyResponse => bodyResponse.json());
+    public getPhotosByCategory(categoryKey: string) : Observable<PhotoModel[]> {
+        return this.af.database.list(`/categories/${categoryKey}/photos`)
+            .map(references => references.map(ref => ref.$key))
+            .map(key => this.getPhoto(key))
+            .map(x => Observable.from(x))
+            .switchMap(x => Observable.combineLatest(x));
     }
 }

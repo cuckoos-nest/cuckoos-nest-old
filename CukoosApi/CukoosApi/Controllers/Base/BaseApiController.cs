@@ -1,20 +1,13 @@
 ﻿using CukoosApi.Data;
-using CukoosApi.Data.Entities;
 using CukoosApi.Data.Interfaces;
 using CukoosApi.Models.Base;
 using CukoosApi.Repository.Base;
 using CukoosApi.Repository.Helpers;
-using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Net;
-using System.Net.Http;
 using System.Web.Http;
-using System.Web.Http.Controllers;
 using System.Web.Http.Cors;
-using CukoosApi.Models.Base;
 using CukoosApi.Helpers;
-using System.Data.Entity.Infrastructure;
 using System.Data.Entity;
 
 namespace CukoosApi.Controllers.Base
@@ -24,8 +17,6 @@ namespace CukoosApi.Controllers.Base
     {
 		#region Fields
 		protected CukoosContext __db = new CukoosContext();
-
-		protected UserEntity __currentUser;
 		#endregion
 
 		#region Methods
@@ -36,27 +27,16 @@ namespace CukoosApi.Controllers.Base
 			base.Dispose(disposing);
 		}
 
-		protected override void Initialize(HttpControllerContext controllerContext)
-		{
-			// Should be changed to the user who is currently connected to the server
-			__currentUser = __db.Users.Find(52);  //10212332407968908
-
-			base.Initialize(controllerContext);
-		}
-
 		protected T Repository<T>()
 			where T : IRepository
 		{
-			T repository = RepositoriesManager.GetInstance<T>();
-			repository.Context = __db;
-
+			T repository = RepositoriesManager.GetInstance<T>(__db);	
 			return repository;
 		}
 
 		protected IHttpActionResult HandlePost<TEntity>(IModel model)
 			where TEntity : class, IEntity
 		{
-
 			TEntity entity = (TEntity)model.ToIEntity();
 
 			__db.Set<TEntity>().Add(entity);

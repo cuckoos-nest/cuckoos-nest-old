@@ -1,9 +1,14 @@
-import { UserUploadModel } from './../../../models/user-upload.model';
+import { FullscreenImageComponent } from './../../fullscreen-image/fullscreen-image.component';
+import { EditUserUploadComponent } from './../../edit-user-upload/edit-user-upload.component';
+import { AuthService } from './../../../services/auth.service';
+import { WebcamComponent } from './../../webcam/webcam.component';
+import { Observable } from 'rxjs/Observable';
 import { Component, OnInit } from '@angular/core';
 import { Http } from '@angular/http';
-import { NavParams, LoadingController } from 'ionic-angular';
+import { NavParams, LoadingController, Platform, NavController } from 'ionic-angular';
 import { Camera } from 'ionic-native';
 import { PhotoModel } from '../../../models/photo.model';
+import { UserUploadModel } from '../../../models/user-upload.model'; 
 import { UserUploadService } from '../../../services/user-upload.service';
 
 @Component({
@@ -11,42 +16,58 @@ import { UserUploadService } from '../../../services/user-upload.service';
     templateUrl: 'photo-detail.html'
 })
 export class PhotoDetailComponent implements OnInit {
-    mainPhoto: PhotoModel;
-    usersUploads: UserUploadModel[];
-    camera: Camera;
+    photo: PhotoModel;
+    userUploads: Observable<UserUploadModel[]>;
 
-    constructor(private navParams: NavParams, private http: Http, private userUploadService : UserUploadService, private loader : LoadingController) {
+    constructor(private platform: Platform, private authService: AuthService, private navController: NavController, private navParams: NavParams, private loader: LoadingController, private userUploadService: UserUploadService) {
     }
 
     ngOnInit(): void {
-        this.mainPhoto = this.navParams.get('photo');
-        let load = this.loader.create({
-            content : 'Loading photos...'
-        });
-        load.present();
-        this.userUploadService.getMostPopularPhotosByPhotoId(this.mainPhoto.id, 0, 9)
-            .subscribe(useruploads => {
-                this.usersUploads = useruploads;
-                load.dismiss();
-            });
+        this.photo = this.navParams.get('photo');
+        this.userUploads = this.userUploadService.getUserUploadsByPhoto(this.photo.$key);
     }
 
     getPhotoImage(userUpload: UserUploadModel) {
-        return `data:image/jpeg;base64,${userUpload.image}`;
+        return userUpload.image;
     }
 
-    getPhotoLabel(userUpload: UserUploadModel) {
-        return `By ${userUpload.user.displayName}`;
+    private takePhoto(item : string) : void {
+        if (this.platform.is("cordova")) {
+            this.takePhotoFromNative();
+        }
+        else {
+            this.takePhotoFromBroswer();
+        }
     }
 
-    openCamera() {
-        Camera.getPicture()
-        .then(imageData => {
-            console.log('took picture.');
-            let base64Image = 'data:image/jpeg;base64,' + imageData;
-        })
-        .catch(err => {
-            console.log('no picture. error occured.', err);
+    private takePhotoFromBroswer() {
+        this.navController.push(WebcamComponent, {
+            photo: this.photo
+        });
+    }
+
+    private takePhotoFromNative() {
+        Camera.getPicture({
+            destinationType: 0
+        }).then((imageData) => {
+            let base64Image = imageData;
+            
+            let userUpload: UserUploadModel = new UserUploadModel();
+            userUpload.photo = this.photo.$key;
+            userUpload.user = this.authService.currentUser.$key;
+            userUpload.image = base64Image;
+
+            this.navController.push(EditUserUploadComponent, {
+                userUpload: userUpload
+            });
+        }, (err) => {
+            // Handle error
+        });
+    }
+
+    private uploadClicked(userUpload : UserUploadModel) {
+        this.navController.push(FullscreenImageComponent, {
+            userUpload: userUpload
         });
     }
 }

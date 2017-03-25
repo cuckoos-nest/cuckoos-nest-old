@@ -1,7 +1,7 @@
-import { UserModel } from "./user.model";
+// import { UserModel } from "./user.model";
 
-export class CommentModel {
-     id : number;
-     user: UserModel;
-     content: string;
-}
+// export class CommentModel {
+//      id : number;
+//      user: UserModel;
+//      content: string;
+// }

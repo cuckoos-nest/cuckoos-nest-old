@@ -1,43 +1,50 @@
+import { Observer } from 'rxjs/Observer';
+import { AuthService } from './auth.service';
 import { Injectable } from '@angular/core';
-import { Http } from '@angular/http';
+import { Http, Response } from '@angular/http';
 import { PhotoModel } from '../models/photo.model';
 import { CategoryModel } from '../models/category.model';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/catch';
 import 'rxjs/add/operator/map';
 
+import { AngularFire, FirebaseListObservable, FirebaseObjectObservable } from 'angularfire2';
+
 import { BaseService } from './base/base.service';
 
 import Config from '../config.json';
 
 @Injectable()
-export class CategoriesService extends BaseService {
+export class CategoriesService {
 
-    constructor(private http: Http) {
-        super();
+    constructor(private af: AngularFire, private authService: AuthService) {
     }
 
-    public getCategories(): Observable<CategoryModel[]> {
-        return this.http.get(`${this.categoriesDirectory}`)
-            .map(bodyResponse => bodyResponse.json());
+    public getCategories(): FirebaseListObservable<CategoryModel[]> {
+        return this.af.database.list("/categories");
     }
 
-    public getCategoryByName(name: string): Observable<CategoryModel> { //until updated api
-        return this.http.get(`${this.categoriesDirectory}`)
-            .map(bodyResponse => {
-                const categories = <CategoryModel[]>bodyResponse.json(); 
-                return categories.find(category => category.name === name);
-            })
+    public getCategory(key: string): FirebaseObjectObservable<CategoryModel> {
+        return this.af.database.object("/categories/" + key);
     }
 
-    public getCategoryById(id: number): Observable<CategoryModel> {
-        return this.http.get(`${this.categoriesDirectory}/${id}`)
-            .map(bodyResponse => bodyResponse.json());
+    public getCategoriesByFollower(uid: string): Observable<CategoryModel> {
+        return new Observable<CategoryModel>((observer: Observer<CategoryModel>) => {
+            this.af.database.list(`/category-followers/user-to-categories/${uid}`).subscribe(categoryKeys => {
+                for(let categoryKey of Object.keys(categoryKeys)) {
+                    this.getCategory(categoryKey).subscribe(category => observer.next(category));
+                }
+            });
+        });
     }
 
-    public getCategoriesByFollower(userId: number): Observable<CategoryModel> {
-        return this.http.get(`${this.categoriesDirectory}?followedBy=${userId}`)
-            .map(bodyResponse => bodyResponse.json());
+    public follow(categoryKey: string): void {
+        this.af.database.object(`/category-followers/category-to-users/${categoryKey}/${this.authService.currentUser.$key}`).set(true);
+        this.af.database.object(`/category-followers/user-to-categories/${this.authService.currentUser.$key}/${categoryKey}`).set(true);
     }
 
+    public unfollow(categoryKey: string): void {
+        this.af.database.object(`/category-followers/category-to-users/${categoryKey}/${this.authService.currentUser.$key}`).set(null);
+        this.af.database.object(`/category-followers/user-to-categories/${this.authService.currentUser.$key}/${categoryKey}`).set(null);
+    }
 }
