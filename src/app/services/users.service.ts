@@ -19,12 +19,12 @@ export class UsersService {
     }
 
     public follow(uid: string): void {
-        this.af.database.object(`/user-followers/followers/${uid}/${this.authService.currentUser.$key}`).set(true);
-        this.af.database.object(`/user-followers/following/${this.authService.currentUser.$key}/${uid}`).set(true);
+        this.af.database.object(`/user-followers/users-x-follow/${uid}/${this.authService.currentUser.$key}`).set(true);
+        this.af.database.object(`/user-followers/users-follow-x/${this.authService.currentUser.$key}/${uid}`).set(true);
     }
 
     public unfollow(uid: string): void {
-        this.af.database.object(`/user-followers/followers/${uid}/${this.authService.currentUser.$key}`).set(null);
-        this.af.database.object(`/user-followers/following/${this.authService.currentUser.$key}/${uid}`).set(null);
+        this.af.database.object(`/user-followers/users-x-follow/${uid}/${this.authService.currentUser.$key}`).set(null);
+        this.af.database.object(`/user-followers/users-follow-x/${this.authService.currentUser.$key}/${uid}`).set(null);
     }
 }

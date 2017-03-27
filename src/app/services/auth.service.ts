@@ -31,11 +31,6 @@ export class AuthService {
     }
 
     constructor(public auth$: AngularFireAuth, private af: AngularFire, private platform: Platform) {
-        this._authState = auth$.getAuth();
-        auth$.subscribe((state: FirebaseAuthState) => {
-            this._authState = state;
-            return this.af.database.object("/users/" + state.uid).subscribe(user => this._currentUser = user);
-        });
     }
 
     public get authenticated(): boolean {
@@ -48,15 +43,27 @@ export class AuthService {
             if (this.platform.is('cordova')) {
                 Facebook.login(['email', 'public_profile']).then(res => {
                     const facebookCredential = firebase.auth.FacebookAuthProvider.credential(res.authResponse.accessToken);
-                    firebase.auth().signInWithCredential(facebookCredential).then(x => observer.next(x));
+                    firebase.auth().signInWithCredential(facebookCredential);
                 });
             } 
             else {
                 this.auth$.login({
                     provider: AuthProviders.Facebook,
                     method: AuthMethods.Popup
-                }).then(x => observer.next(x));
+                }).catch(x => {
+                    console.log("error", x);
+                    debugger;
+                });
             }
+
+            this.auth$.subscribe((state: FirebaseAuthState) => {
+                this._authState = state;
+                debugger;
+                if (state) {
+                    this.af.database.object("/users/" + state.uid).subscribe(user => this._currentUser = user);
+                    observer.next(state);
+                }
+            });
         });
     }
 
