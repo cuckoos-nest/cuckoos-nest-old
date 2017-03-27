@@ -1,3 +1,6 @@
+import { Observable } from 'rxjs/Observable';
+import { UserUploadService } from './../../../services/user-upload.service';
+import { UsersService } from './../../../services/users.service';
 import { UserModel } from './../../../models/user.model';
 import { Component, Input, OnInit } from '@angular/core';
 import { NavController } from 'ionic-angular';
@@ -21,14 +24,22 @@ export class WallCardComponent implements OnInit {
     public userUpload: UserUploadModel;
     private photo: PhotoModel
     private user: UserModel;
+    private _isLiked: Boolean;
+    private _likes: Observable<string[]>;
     private _isLikeLoading: Boolean;
 
-    constructor(private nav: NavController, private photoService: PhotosService, private authService: AuthService) {
+    constructor(private nav: NavController, private photoService: PhotosService, private usersService: UsersService, private userUploadService: UserUploadService, private authService: AuthService) {
     }
 
     ngOnInit(): void {
+        this._isLikeLoading = true;
         this.photoService.getPhoto(this.userUpload.$key).subscribe(photo => this.photo = photo);
-        this.user = this.authService.currentUser;
+        this.usersService.getUser(this.userUpload.user).subscribe(user => this.user = user);
+        this._likes = this.userUploadService.getLikes(this.userUpload.$key);
+        this._likes.subscribe(likes => {
+            this._isLiked = (likes.indexOf(this.authService.currentUser.$key) != -1);
+            this._isLikeLoading = false;
+        });
     }
 
     private goToUser() {
@@ -44,18 +55,13 @@ export class WallCardComponent implements OnInit {
     }
 
     private like() {
-        // this._isLikeLoading = true;
-        // if (this.userUpload.isLiked == false) {
-        //     this.wallService.like(this.userUpload.id).subscribe(() => {
-        //         this.userUpload.isLiked = true
-        //         this._isLikeLoading = false;
-        //     });
-        // }
-        // else {
-        //     this.wallService.unlike(this.userUpload.id).subscribe(() => {
-        //         this.userUpload.isLiked = false
-        //         this._isLikeLoading = false;
-        //     });
-        // }
+        if (this._isLiked == false) {
+            this.userUploadService.like(this.userUpload.$key);
+        }
+        else {
+            this.userUploadService.unlike(this.userUpload.$key);
+        }
+
+        this._isLikeLoading = true;
     }
 }

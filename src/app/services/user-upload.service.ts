@@ -59,4 +59,19 @@ export class UserUploadService {
     public createUpload(userUpload: UserUploadModel): void {
         this.af.database.list("/uploads").push(userUpload);
     }
+
+    public like(userUploadKey: string): void {
+        this.af.database.object(`/upload-likes/${userUploadKey}/${this.authService.currentUser.$key}`).set(true);
+    }
+
+    public unlike(userUploadKey: string): void {
+        this.af.database.object(`/upload-likes/${userUploadKey}/${this.authService.currentUser.$key}`).set(null);
+    }
+
+    public getLikes(userUploadKey: string): Observable<string[]> {
+        return this.af.database.list(`/upload-likes/${userUploadKey}`)
+                    .map(references => references.map(ref => ref.$key));
+    }
+
+
 }
