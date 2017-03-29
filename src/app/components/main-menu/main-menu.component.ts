@@ -1,3 +1,4 @@
+import { Observable } from 'rxjs/Observable';
 import { Component, ViewChild } from '@angular/core';
 import { WallComponent } from '../wall/wall.component';
 import { SearchComponent } from '../search/search.component';
@@ -30,7 +31,7 @@ export class MainMenuComponent {
     private _profileTab: Component;
     private _notificationsTab: Component;
 
-    private _newNotifications: number = 0;
+    private _newNotifications: Observable<number>;
 
     constructor(private notificationsService: NotificationsService) {
         let isEditDebug: Boolean = false;
@@ -41,17 +42,12 @@ export class MainMenuComponent {
         this._profileTab = UserProfileComponent;
         this._notificationsTab = NotificationsComponent;
 
-        this.notificationsService.getNewNotifications().subscribe(notifications => {
-            for (let notification of notifications) {
-                if (notification.isRead == false)
-                    this._newNotifications++;
-            }
-        });
+        this._newNotifications = this.notificationsService.getNotifications()
+            .map(x => x.filter(x => !x.isRead))
+            .map(x => x.length);
     }
 
     private resetNotifications() {
-        if (this._newNotifications > 0) {
-            this.notificationsService.markNotificationsAsRead();
-        }
+        this.notificationsService.markNotificationsAsRead();
     }
 }

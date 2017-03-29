@@ -21,8 +21,8 @@
 
     <ion-row>
       <ion-col col-9 offset-3 text-center>
-        <button color="secondary" clear ion-button small (click)="follow()" *ngIf="!_isMyProfile && !_isFollowedByMe">Follow</button>
-        <button color="secondary" ion-button small (click)="unfollow()" *ngIf="!_isMyProfile && _isFollowedByMe">Following</button>
+        <button color="secondary" clear ion-button small (click)="follow()" *ngIf="!(_isFollowedByMe | async)">Follow</button>
+        <button color="secondary" ion-button small (click)="unfollow()" *ngIf="_isFollowedByMe | async">Following</button>
       </ion-col>
     </ion-row>
   </ion-grid>

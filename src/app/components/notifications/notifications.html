@@ -39,13 +39,13 @@
     </ion-list>-->
 
     <ion-list>
-        <ion-item *ngFor="let notification of _notifications">
+        <ion-item *ngFor="let notification of _notifications | async">
             <ion-avatar item-left>
-                <img [src]="'data:image/jpeg;base64,' + notification.sentByUser.image">
+                <img [src]="getUser(notification.from).image">
             </ion-avatar>
-            <h2>{{ notification.sentByUser.displayName }}</h2>
+            <h2>{{ getUser(notification.from).displayName }}</h2>
             <p>{{ notificationTypeToResource(notification.type) | translate }}</p>
-            <ion-note item-right>{{ notification.creationDate | date: 'MMM d, HH:mm' }}</ion-note>
+            <ion-note item-right>{{ notification.createdAt | date: 'MMM d, HH:mm' }}</ion-note>
         </ion-item>
     </ion-list>
 </ion-content>

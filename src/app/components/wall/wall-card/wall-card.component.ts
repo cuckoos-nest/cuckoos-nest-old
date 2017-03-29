@@ -1,3 +1,4 @@
+import { CommentsComponent } from './../../comments/comments.component';
 import { Observable } from 'rxjs/Observable';
 import { UserUploadService } from './../../../services/user-upload.service';
 import { UsersService } from './../../../services/users.service';
@@ -55,13 +56,19 @@ export class WallCardComponent implements OnInit {
     }
 
     private like() {
+        this._isLikeLoading = true;
+        
         if (this._isLiked == false) {
             this.userUploadService.like(this.userUpload.$key);
         }
         else {
             this.userUploadService.unlike(this.userUpload.$key);
         }
+    }
 
-        this._isLikeLoading = true;
+    private viewComments() {
+        this.nav.push(CommentsComponent, {
+            userUpload: this.userUpload
+        });
     }
 }

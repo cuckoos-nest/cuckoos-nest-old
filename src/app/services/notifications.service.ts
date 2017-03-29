@@ -1,3 +1,4 @@
+import { NotificationModel } from './../models/notification.model';
 import { AngularFire, FirebaseListObservable } from 'angularfire2';
 import { UsersService } from './users.service';
 import { Injectable } from '@angular/core';
@@ -7,8 +8,6 @@ import { Observer } from 'rxjs/Observer';
 import 'rxjs/add/operator/map';
 
 import { BaseService } from './base/base.service';
-
-import { NotificationModel } from '../models/notification.model';
 
 import Config from '../config.json';
 
@@ -20,13 +19,37 @@ export class NotificationsService {
     constructor(private af: AngularFire, private authService: AuthService) {
     }
 
-    public getNewNotifications(): FirebaseListObservable<NotificationModel[]> {
-        return this.af.database.list(`/notifications/${this.authService.currentUser.$key}/unread`);
+    public getNotifications(): Observable<NotificationModel[]> {
+        return this.af.database.list(`/notifications/${this.authService.currentUser.$key}`, {
+            query: {
+                orderByChild: 'createdAt',
+            },
+        })
+        .map(notifications => notifications.reverse());
+    }
+
+    public getNotificationsOnce(): Observable<any> {
+        return this.af.database.list(`/notifications/${this.authService.currentUser.$key}`, {
+            query: {
+                orderByChild: 'createdAt',
+            },
+            preserveSnapshot: true 
+        });
     }
 
     public markNotificationsAsRead(): void {
-        // this.getNewNotifications().update(<Object>{
-        //     isRead: true
-        // });
+        let sub = this.getNotifications().subscribe(notifications => {
+            for (let notification of notifications) {
+                if (!notification.isRead) {
+                    this.markAsRead(notification.$key);
+                }
+            }
+
+            sub.unsubscribe();
+        });
+    }
+
+    private markAsRead(key: string): firebase.Promise<void> {
+        return this.af.database.object(`/notifications/${this.authService.currentUser.$key}/${key}/isRead`).set(true);
     }
 }
