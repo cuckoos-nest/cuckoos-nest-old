@@ -1,3 +1,4 @@
+import { CommentsComponent } from './components/comments/comments.component';
 import { NgModule, ErrorHandler } from '@angular/core';
 import { Http } from '@angular/http';
 import { IonicApp, IonicModule, IonicErrorHandler } from 'ionic-angular';
@@ -54,7 +55,8 @@ export const firebaseConfig = {
     FullscreenImageComponent,
     EditUserUploadComponent,
     PhotoDetailComponent,
-    WebcamComponent
+    WebcamComponent,
+    CommentsComponent,
   ],
   imports: [
     IonicModule.forRoot(MyApp),
@@ -80,7 +82,8 @@ export const firebaseConfig = {
     FullscreenImageComponent,
     EditUserUploadComponent,
     PhotoDetailComponent,
-    WebcamComponent
+    WebcamComponent,
+    CommentsComponent,
   ],
   providers: [
     { provide: ErrorHandler, useClass: IonicErrorHandler },

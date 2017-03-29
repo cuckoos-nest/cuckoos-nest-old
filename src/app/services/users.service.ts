@@ -19,12 +19,20 @@ export class UsersService {
     }
 
     public follow(uid: string): void {
-        this.af.database.object(`/user-followers/users-x-follow/${uid}/${this.authService.currentUser.$key}`).set(true);
-        this.af.database.object(`/user-followers/users-follow-x/${this.authService.currentUser.$key}/${uid}`).set(true);
+        this.af.database.object(`/user-followers/users-follow-me/${uid}/${this.authService.currentUser.$key}`).set(true);
+        this.af.database.object(`/user-followers/users-im-following/${this.authService.currentUser.$key}/${uid}`).set(true);
     }
 
     public unfollow(uid: string): void {
-        this.af.database.object(`/user-followers/users-x-follow/${uid}/${this.authService.currentUser.$key}`).set(null);
-        this.af.database.object(`/user-followers/users-follow-x/${this.authService.currentUser.$key}/${uid}`).set(null);
+        this.af.database.object(`/user-followers/users-follow-me/${uid}/${this.authService.currentUser.$key}`).set(null);
+        this.af.database.object(`/user-followers/users-im-following/${this.authService.currentUser.$key}/${uid}`).set(null);
+    }
+    
+    public isFollowingCategory(categoryKey: string): Observable<Boolean> {
+        return this.af.database.object(`/category-followers/user-to-categories/${this.authService.currentUser.$key}/${categoryKey}`).map(x => x.$exists());
+    }
+
+    public isFollowingUser(uid: string): Observable<Boolean> {
+        return this.af.database.object(`/user-followers/users-im-following/${this.authService.currentUser.$key}/${uid}`).map(x => x.$exists());
     }
 }

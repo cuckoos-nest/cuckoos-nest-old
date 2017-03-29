@@ -32,7 +32,7 @@
     "rxjs": "*",
     "signalr": "^2.2.1",
     "sw-toolbox": "3.4.0",
-    "zone.js": "0.6.26"
+    "zone.js": "^0.8.5"
   },
   "devDependencies": {
     "@ionic/app-scripts": "^1.1.4",

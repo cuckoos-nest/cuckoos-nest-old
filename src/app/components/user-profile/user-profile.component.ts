@@ -16,7 +16,7 @@ export class UserProfileComponent implements OnInit {
     private _user: UserModel;
     private _isMyProfile: Boolean;
     private _userUploads: Observable<UserUploadModel[]>;
-    private _isFollowedByMe: Boolean;
+    private _isFollowedByMe: Observable<Boolean>;
 
     constructor(private navController: NavController, private navParams: NavParams, private authService: AuthService, private usersService: UsersService, private userUploadsService: UserUploadService, private loadingCtrl: LoadingController) {
     }    
@@ -29,15 +29,13 @@ export class UserProfileComponent implements OnInit {
             this._user = this.authService.currentUser;
         }
 
-        // this.usersService.getUsersImFollowing(this.authService.currentUser.$key)
-        //         .subscribe(usersImFollowing => {
-        //             debugger;
-        //             this._isFollowedByMe = usersImFollowing.indexOf(this._user.$key) != -1;
-        //         });
-
         this._userUploads = this.userUploadsService.getUserUploadsByUser(this._user.$key);
 
         this._isMyProfile = (this._user.$key == this.authService.currentUser.$key);
+
+        if (!this._isMyProfile) {
+            this._isFollowedByMe = this.usersService.isFollowingUser(this._user.$key);
+        }
     }
 
     private getUploadImage(userUpload: UserUploadModel): string {

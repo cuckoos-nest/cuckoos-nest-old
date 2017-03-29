@@ -21,7 +21,7 @@ export class GalleryComponent implements OnChanges {
             this.rows.push(new Array<any>());
 
             for (let item of value) {
-                if (currentNumberOfColumns > 3) {
+                if (currentNumberOfColumns > 2) {
                     currentNumberOfColumns = 0;
                     this.rows.push(new Array<any>());
                     currentRow++;

@@ -58,10 +58,11 @@ export class AuthService {
 
             this.auth$.subscribe((state: FirebaseAuthState) => {
                 this._authState = state;
-                debugger;
                 if (state) {
-                    this.af.database.object("/users/" + state.uid).subscribe(user => this._currentUser = user);
-                    observer.next(state);
+                    this.af.database.object("/users/" + state.uid).subscribe(user => {
+                        this._currentUser = user;
+                        observer.next(state);
+                    });
                 }
             });
         });

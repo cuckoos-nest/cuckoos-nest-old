@@ -1,3 +1,4 @@
+import { CommentModel } from './../models/comment.model';
 import { UserUploadModel } from './../models/user-upload.model';
 import { Observer } from 'rxjs/Observer';
 import { AuthService } from './auth.service';
@@ -48,7 +49,6 @@ export class UserUploadService {
     }
 
     public getWall(): Observable<UserUploadModel[]> {
-
          return this.af.database.list(`/walls/${this.authService.currentUser.$key}`)
                     .map(references => references.map(ref => ref.$key))
                     .map(keys => keys.map(key => this.getUserUpload(key)))
@@ -73,5 +73,20 @@ export class UserUploadService {
                     .map(references => references.map(ref => ref.$key));
     }
 
+    public getComment(commentKey: string): Observable<CommentModel> {
+        return this.af.database.object("/comments/" + commentKey);
+    }
 
+    public getComments(userUploadKey: string): Observable<CommentModel[]> {
+        return this.af.database.list(`/upload-comments/${userUploadKey}/`)
+                    .map(references => references.map(ref => ref.$key))
+                    .map(keys => keys.map(key => this.getComment(key)))
+                    .map(comments => comments.reverse())
+                    .switchMap(x => Observable.combineLatest(x));
+    }
+
+    public createComment(comment: CommentModel, userUploadKey: string) {
+        let commentKey = this.af.database.list(`/comments`).push(comment).key;
+        this.af.database.object(`/upload-comments/${userUploadKey}/${commentKey}`).set(true);
+    }
 }

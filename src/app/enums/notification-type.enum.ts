@@ -1,4 +1,4 @@
 export enum NotificationType {
-    FollowingYou,
-    LikeYourUpload,
+    FollowingYou = 0,
+    LikeYourUpload = 1,
 }
