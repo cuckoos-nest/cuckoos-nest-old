@@ -1,12 +1,6 @@
-<div class="title" *ngIf="_photo">
-    <img [src]="_photo.image" /> 
-    {{ _photo.title }}
-  </div>
-
 <ion-card>
   <img [src]="userUpload.image" (click)="goToImage()" />
-
-  <a href="#" (click)="goToUser()" class="user">{{ user.displayName }}</a>
+  <a href="#" (click)="goToUser()" class="user">{{ user?.displayName }}</a>
 
   <ion-card-content>
       <div class="description">{{ userUpload.description }}</div>
