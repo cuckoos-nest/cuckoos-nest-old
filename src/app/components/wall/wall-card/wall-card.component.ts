@@ -1,3 +1,4 @@
+import { PhotoDetailComponent } from './../../photos/photo-detail/photo-detail.component';
 import { CommentsComponent } from './../../comments/comments.component';
 import { Observable } from 'rxjs/Observable';
 import { UserUploadService } from './../../../services/user-upload.service';
@@ -34,7 +35,7 @@ export class WallCardComponent implements OnInit {
 
     ngOnInit(): void {
         this._isLikeLoading = true;
-        this.photoService.getPhoto(this.userUpload.$key).subscribe(photo => this.photo = photo);
+        this.photoService.getPhoto(this.userUpload.photo).subscribe(photo => this.photo = photo);
         this.usersService.getUser(this.userUpload.user).subscribe(user => this.user = user);
         this._likes = this.userUploadService.getLikes(this.userUpload.$key);
         this._likes.subscribe(likes => {
@@ -52,6 +53,12 @@ export class WallCardComponent implements OnInit {
     private goToImage() {
         this.nav.push(FullscreenImageComponent, {
             userUpload: this.userUpload
+        });
+    }
+
+    private goToPhoto() {
+        this.nav.push(PhotoDetailComponent, {
+            photo: this.photo
         });
     }
 
