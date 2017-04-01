@@ -7,7 +7,11 @@
 </ion-header>
 
 <ion-content>
-    <wall-card *ngFor="let userUpload of _currentWall | async" [data]="userUpload"></wall-card>
+    <ion-spinner *ngIf="!_isLoaded" ngClass="middle-spinner"></ion-spinner>
+
+    <ion-list *ngIf="_isLoaded">
+      <wall-card *ngFor="let userUpload of _currentWall | async" [data]="userUpload"></wall-card>
+    </ion-list>
 
      <ion-infinite-scroll (ionInfinite)="doInfinite($event)">
       <ion-infinite-scroll-content></ion-infinite-scroll-content>

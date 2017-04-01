@@ -9,14 +9,7 @@ export class UserUploadModel extends BaseModel {
     image: string;
     user: string;
     photo: string;
-    likesCount: string;
-    commentsCount: string;
+    likesCount: number;
+    commentsCount: number;
     createdAt: string;
-
-    //  id : number;
-    //  photo : PhotoModel;
-    //  description: string;
-    //  user: UserModel;
-    //  image: string;
-    //  isLiked: Boolean;
 }

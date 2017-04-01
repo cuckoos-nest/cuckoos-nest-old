@@ -21,12 +21,15 @@ export class WallComponent implements OnInit {
     private _olderPosts = new Array<UserUploadModel>();
     private _currentUser: UserModel;
     private _loadCount = 0;
+    private _isLoaded: Boolean;
 
     constructor(private loadingCtrl: LoadingController, private userUploadService: UserUploadService, private authService: AuthService) {       
     }  
 
     ngOnInit(): void {
         this._currentWall = this.userUploadService.getWall();
+        this._currentWall.subscribe(() => this._isLoaded = true);
+
         this._loadCount = Config.defaultNumberOfUserUploadsPerLoad;
         this._currentUser = this.authService.currentUser;
     }
