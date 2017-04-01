@@ -26,7 +26,7 @@
     <ion-col>
       <button ion-button icon-left clear small (click)="viewComments()">
         <ion-icon name="text"></ion-icon>
-        <div>{{ userUpload.commentsCount }} Comments</div>
+        <div>{{ _commentsCount | async }} Comments</div>
       </button>
     </ion-col>
   </ion-row>

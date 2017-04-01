@@ -97,4 +97,8 @@ export class UserUploadService {
         let commentKey = this.af.database.list(`/comments`).push(comment).key;
         this.af.database.object(`/upload-comments/${userUploadKey}/${commentKey}`).set(true);
     }
+
+    public getCommentCount(userUploadKey: string): Observable<number> {
+        return this.af.database.object(`/uploads/${userUploadKey}/commentsCount`).map(x => x.val());
+    }
 }

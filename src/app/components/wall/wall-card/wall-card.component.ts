@@ -29,6 +29,7 @@ export class WallCardComponent implements OnInit {
     private _isLiked: Boolean;
     private _likes: Observable<string[]>;
     private _isLikeLoading: Boolean;
+    private _commentsCount: Observable<number>;
 
     constructor(private nav: NavController, private photoService: PhotosService, private usersService: UsersService, private userUploadService: UserUploadService, private authService: AuthService){
     }
@@ -43,6 +44,8 @@ export class WallCardComponent implements OnInit {
             this.userUpload.likesCount = likes.length;
             this._isLikeLoading = false;
         });
+
+        this._commentsCount = this.userUploadService.getCommentCount(this.userUpload.user);
     }
 
 
