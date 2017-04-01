@@ -99,6 +99,6 @@ export class UserUploadService {
     }
 
     public getCommentCount(userUploadKey: string): Observable<number> {
-        return this.af.database.object(`/uploads/${userUploadKey}/commentsCount`).map(x => x.val());
+        return this.af.database.object(`/uploads/${userUploadKey}/commentsCount`).map(x => x.$exists() ? x.$value : 0);
     }
 }

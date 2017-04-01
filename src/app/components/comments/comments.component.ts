@@ -26,6 +26,8 @@ export class CommentsComponent implements OnInit {
         if (this.navParams.get('userUpload')) {
             this._userUpload = this.navParams.get('userUpload');
         }
+        
+        this._isLoaded = !this._userUpload.commentsCount;
 
         this._comments = this.userUploadService.getComments(this._userUpload.$key);
         this._comments.subscribe(() => this._isLoaded = true);
