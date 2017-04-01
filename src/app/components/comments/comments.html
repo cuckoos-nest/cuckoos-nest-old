@@ -7,7 +7,17 @@
 </ion-header>
 
 <ion-content>
-    <ion-list>
+    <ion-list ngClass="write-comment"> 
+        <ion-item>
+            <ion-label floating>Write your comment...</ion-label>
+            <ion-textarea [(ngModel)]="_commentText"></ion-textarea>
+        </ion-item>
+        <ion-item>
+            <button clear ion-button (click)="send()">Send</button>
+        </ion-item>
+    </ion-list>
+
+    <ion-list ngClass="comments-list">
         <ion-item text-wrap *ngFor="let comment of (_comments | async)">
             <ion-thumbnail item-left>
                 <img [src]="(getUser(comment.user) | async).image">
@@ -18,14 +28,6 @@
             <p>
                 {{ comment.text }}
             </p>
-        </ion-item>
-
-         <ion-item>
-            <ion-label floating>Write your comment...</ion-label>
-            <ion-textarea [(ngModel)]="_commentText"></ion-textarea>
-        </ion-item>
-        <ion-item>
-            <button clear ion-button (click)="send()">Send</button>
         </ion-item>
     </ion-list>
 </ion-content>
