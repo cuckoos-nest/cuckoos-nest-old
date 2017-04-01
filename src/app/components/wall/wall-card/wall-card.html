@@ -1,27 +1,30 @@
-<ion-card>
+<ion-card >
   <img [src]="userUpload.image" (click)="goToImage()" />
   <img [src]="photo?.image" ngClass="photo" (click)="goToPhoto()" />
-  <a href="#" (click)="goToUser()" class="user">{{ user?.displayName }}</a>
+    <a href="#" (click)="goToUser()" class="user">{{ user?.displayName }}</a>
+    <div class="time" >{{ userUpload.createdAt }}</div>
+    
 
   <ion-card-content>
       <div class="description">{{ userUpload.description }}</div>
-      <div class="time">{{ userUpload.dateTime | date: 'MMM d, HH:mm' }}</div>
   </ion-card-content>
 
   <ion-row>
     <ion-col>
       <button ion-button icon-left clear small (click)="like()" [disabled]="_isLikeLoading"> 
-        <ion-icon [hidden]="_isLiked" name="thumbs-up"></ion-icon>
-        <div [hidden]="_isLiked">Like</div>
+        <ion-icon [hidden]="_isLiked" name="thumbs-up" class="fadingLike"></ion-icon>
+        <ion-icon [hidden]="!_isLiked" name="thumbs-up"  ></ion-icon>
+
+
+        <div [hidden]="_noOneLikes">{{ userUpload.likesCount }} Likes</div>
+        <div [hidden]="!_noOneLikes" class="fadingLike">Like</div>
         
-        <ion-icon [hidden]="!_isLiked" name="thumbs-down"></ion-icon>
-        <div [hidden]="!_isLiked">Unlike</div>
       </button>
     </ion-col>
     <ion-col>
       <button ion-button icon-left clear small (click)="viewComments()">
         <ion-icon name="text"></ion-icon>
-        <div>Comment</div>
+        <div >{{ userUpload.commentsCount }} Comments</div>
       </button>
     </ion-col>
   </ion-row>

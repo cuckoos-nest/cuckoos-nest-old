@@ -29,8 +29,9 @@ export class WallCardComponent implements OnInit {
     private _isLiked: Boolean;
     private _likes: Observable<string[]>;
     private _isLikeLoading: Boolean;
+    private _noOneLikes: Boolean;
 
-    constructor(private nav: NavController, private photoService: PhotosService, private usersService: UsersService, private userUploadService: UserUploadService, private authService: AuthService) {
+    constructor(private nav: NavController, private photoService: PhotosService, private usersService: UsersService, private userUploadService: UserUploadService, private authService: AuthService){
     }
 
     ngOnInit(): void {
@@ -42,7 +43,16 @@ export class WallCardComponent implements OnInit {
             this._isLiked = (likes.indexOf(this.authService.currentUser.$key) != -1);
             this._isLikeLoading = false;
         });
+       
+if(this.userUpload.likesCount == "0")
+this._noOneLikes = 
+
+       this._noOneLikes =  this.userUpload.likesCount == "0" ;
+        //this.userUploadService.getDateTime(this.userUpload.$key).subscribe(dt => this.userUpload.dateTime = dt);
+        
+
     }
+
 
     private goToUser() {
         this.nav.push(UserProfileComponent, {
