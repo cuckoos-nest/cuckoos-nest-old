@@ -1,12 +1,16 @@
-.trash{
+.empty {
 
-    display: inline-block;
-    text-align: right;
+    height: 100%;
+    display: block;
+    margin-top: 50%;
+    font-size: 50px;
+    color: #dddddd;
+    text-align: center;
+
 }
 
+.col{
 
-.right-pane {
-    float: right;
-    margin: 5px;
-    margin-top: -20px;
+border-color:   solid black;
+
 }

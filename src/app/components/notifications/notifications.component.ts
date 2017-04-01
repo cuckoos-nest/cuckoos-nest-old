@@ -17,6 +17,7 @@ export class NotificationsComponent implements OnInit {
     private _notifications: Observable<NotificationModel[]>;
     private _users = new Array<UserModel>();
     private _isLoaded: Boolean;
+    private _isEmpty: Boolean;
 
     constructor(private notificationsService: NotificationsService, private usersService: UsersService) {
     }
@@ -29,7 +30,7 @@ export class NotificationsComponent implements OnInit {
                     this.usersService.getUser(notification.from).subscribe(user => this._users.push(user));
                 }
             }
-
+            this._isEmpty = notifications.length == 0;
             this._isLoaded = true;
         });
     }
