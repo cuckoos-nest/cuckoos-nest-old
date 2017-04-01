@@ -52,4 +52,8 @@ export class NotificationsService {
     private markAsRead(key: string): firebase.Promise<void> {
         return this.af.database.object(`/notifications/${this.authService.currentUser.$key}/${key}/isRead`).set(true);
     }
+
+    public clearAll() : void{
+        this.af.database.object(`/notifications/${this.authService.currentUser.$key}`).set(null)
+    }
 }

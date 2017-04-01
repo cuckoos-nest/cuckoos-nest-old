@@ -1,8 +1,15 @@
 <ion-header>
   <ion-navbar>
-    <ion-title>
+      
+     <ion-buttons end>
+        <button ion-button icon-only (click)="clearNotifications()">
+          <ion-icon name="trash"></ion-icon>
+        </button>
+      </ion-buttons>
+
+    <ion-title >
         {{'NOTIFICATIONS' | translate}}
-    </ion-title>
+    </ion-title>    
   </ion-navbar>
 </ion-header>
 

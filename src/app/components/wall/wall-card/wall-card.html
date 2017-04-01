@@ -18,8 +18,12 @@
         <ion-icon [hidden]="_isLiked" name="thumbs-up" class="fadingLike"></ion-icon>
         <ion-icon [hidden]="!_isLiked" name="thumbs-up"></ion-icon>
 
-        <div *ngIf="userUpload.likesCount > 0">{{ userUpload.likesCount }} Likes</div>
-        <div *ngIf="userUpload.likesCount == 0" class="fadingLike">Like</div>
+
+        <div *ngIf="userUpload.likesCount > 0 && _isLiked">{{ userUpload.likesCount }} Likes</div>
+        <div *ngIf="userUpload.likesCount == 0 && _isLiked" class="fadingLike">Like</div>
+
+        <div *ngIf="userUpload.likesCount > 0 && !_isLiked" class="fadingLike">{{ userUpload.likesCount }} Likes</div>
+        <div *ngIf="userUpload.likesCount == 0 && !_isLiked" class="fadingLike">Like</div>
         
       </button>
     </ion-col>
