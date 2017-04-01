@@ -45,6 +45,11 @@
         </ion-item>
     </ion-list>-->
 
+
+
+    <div *ngIf="_isEmpty" ngClass="empty">EMPTY</div>
+
+
     <ion-spinner *ngIf="!_isLoaded" ngClass="middle-spinner"></ion-spinner>
 
     <ion-list *ngIf="_isLoaded">
