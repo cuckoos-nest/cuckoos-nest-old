@@ -1,5 +1,6 @@
 <ion-card>
   <img [src]="userUpload.image" (click)="goToImage()" />
+  <img [src]="photo?.image" ngClass="photo" (click)="goToPhoto()" />
   <a href="#" (click)="goToUser()" class="user">{{ user?.displayName }}</a>
 
   <ion-card-content>
