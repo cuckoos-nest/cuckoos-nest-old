@@ -8,12 +8,18 @@
     width: 24px;
 }
 
+.fadingLike{
+
+    color: #a5c6ff;
+}
+
 .user {
     color: #3D85C6;
     font-weight: bold;
     font-size: 12px;
     text-align: right;
-    display: block;
+   
+    display: inline-block;
     margin: 5px;
     margin-top: -20px;
     
@@ -24,14 +30,22 @@
 
 }
 
+.grid {
+    text-align: right;
+    display: inline-block;
+}
+
 .time {
     color: #999;
     font-weight: bold;
     font-size: 10px;
+    display: inline-block
 }
+
 
 .photo {
     width: 100px;
     margin-top: -75px;
     margin-left: 20px;
+
 }

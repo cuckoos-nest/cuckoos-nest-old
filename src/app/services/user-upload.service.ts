@@ -85,6 +85,14 @@ export class UserUploadService {
                     .switchMap(x => Observable.combineLatest(x));
     }
 
+    public getLikesCount(userUploadKey: string): Observable<string>{
+        return this.af.database.object(`/uploads/${userUploadKey}/likesCount`);
+    }
+
+     public getDateTime(userUploadKey: string): Observable<string>{
+        return this.af.database.object(`/uploads/${userUploadKey}/dateTime`);
+    }
+
     public createComment(comment: CommentModel, userUploadKey: string) {
         let commentKey = this.af.database.list(`/comments`).push(comment).key;
         this.af.database.object(`/upload-comments/${userUploadKey}/${commentKey}`).set(true);
