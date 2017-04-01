@@ -16,8 +16,9 @@ import { UserUploadService } from '../../../services/user-upload.service';
     templateUrl: 'photo-detail.html'
 })
 export class PhotoDetailComponent implements OnInit {
-    photo: PhotoModel;
-    userUploads: Observable<UserUploadModel[]>;
+    private photo: PhotoModel;
+    private userUploads: Observable<UserUploadModel[]>;
+    private _isLoaded: Boolean;
 
     constructor(private platform: Platform, private authService: AuthService, private navController: NavController, private navParams: NavParams, private loader: LoadingController, private userUploadService: UserUploadService) {
     }
@@ -25,6 +26,7 @@ export class PhotoDetailComponent implements OnInit {
     ngOnInit(): void {
         this.photo = this.navParams.get('photo');
         this.userUploads = this.userUploadService.getUserUploadsByPhoto(this.photo.$key);
+        this.userUploads.subscribe(() => this._isLoaded = true);
     }
 
     getPhotoImage(userUpload: UserUploadModel) {

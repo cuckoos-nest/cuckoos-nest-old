@@ -17,7 +17,9 @@
         </ion-item>
     </ion-list>
 
-    <ion-list ngClass="comments-list">
+    <ion-spinner *ngIf="!_isLoaded" ngClass="middle-spinner"></ion-spinner>
+
+    <ion-list *ngIf="_isLoaded" ngClass="comments-list">
         <ion-item text-wrap *ngFor="let comment of (_comments | async)">
             <ion-thumbnail item-left>
                 <img [src]="(getUser(comment.user) | async).image">

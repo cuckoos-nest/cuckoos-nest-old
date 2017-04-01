@@ -17,6 +17,7 @@ export class CommentsComponent implements OnInit {
     private _userUpload: UserUploadModel;
     private _users = new Map<string, Observable<UserModel>>();
     private _commentText: string;
+    private _isLoaded: Boolean;
 
     constructor(private userUploadService: UserUploadService, private usersService: UsersService, private authService: AuthService, private navParams: NavParams) {
     }
@@ -27,6 +28,7 @@ export class CommentsComponent implements OnInit {
         }
 
         this._comments = this.userUploadService.getComments(this._userUpload.$key);
+        this._comments.subscribe(() => this._isLoaded = true);
     }
 
     private getUser(key: string): Observable<UserModel> {
