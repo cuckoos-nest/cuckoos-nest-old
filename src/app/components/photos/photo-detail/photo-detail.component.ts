@@ -58,6 +58,8 @@ export class PhotoDetailComponent implements OnInit {
             userUpload.photo = this.photo.$key;
             userUpload.user = this.authService.currentUser.$key;
             userUpload.image = base64Image;
+            userUpload.likesCount = 0;
+            userUpload.commentsCount = 0;
 
             this.navController.push(EditUserUploadComponent, {
                 userUpload: userUpload

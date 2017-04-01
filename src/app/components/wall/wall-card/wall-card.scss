@@ -13,21 +13,21 @@
     color: #a5c6ff;
 }
 
+.right-pane {
+    float: right;
+    margin: 5px;
+    margin-top: -20px;
+}
+
 .user {
     color: #3D85C6;
     font-weight: bold;
     font-size: 12px;
-    text-align: right;
-   
-    display: inline-block;
-    margin: 5px;
-    margin-top: -20px;
-    
+    display: inline-block;    
     text-decoration: none !important;
 }
 
 .description {
-
 }
 
 .grid {
@@ -39,7 +39,7 @@
     color: #999;
     font-weight: bold;
     font-size: 10px;
-    display: inline-block
+    display: inline-block;
 }
 
 
