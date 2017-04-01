@@ -41,11 +41,12 @@ export class WallCardComponent implements OnInit {
         this._likes = this.userUploadService.getLikes(this.userUpload.$key);
         this._likes.subscribe(likes => {
             this._isLiked = (likes.indexOf(this.authService.currentUser.$key) != -1);
-            this.userUpload.likesCount = likes.length;
             this._isLikeLoading = false;
         });
 
+
         this._commentsCount = this.userUploadService.getCommentCount(this.userUpload.$key);
+
     }
 
 

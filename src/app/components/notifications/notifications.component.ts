@@ -34,11 +34,15 @@ export class NotificationsComponent implements OnInit {
         });
     }
 
-    private getUser(key: string) {
+    private getUser(key: string)    {
         return this._users.find(x => x.$key == key);
     }
 
     private notificationTypeToResource(type: NotificationType) {
         return "NOTIFICATION_" + NotificationType[type].toUpperCase();
+    }
+
+    private clearNotifications(){
+        this.notificationsService.clearAll();
     }
 }
