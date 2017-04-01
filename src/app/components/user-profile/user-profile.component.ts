@@ -17,6 +17,7 @@ export class UserProfileComponent implements OnInit {
     private _isMyProfile: Boolean;
     private _userUploads: Observable<UserUploadModel[]>;
     private _isFollowedByMe: Observable<Boolean>;
+    private _isLoaded: Boolean;
 
     constructor(private navController: NavController, private navParams: NavParams, private authService: AuthService, private usersService: UsersService, private userUploadsService: UserUploadService, private loadingCtrl: LoadingController) {
     }    
@@ -30,6 +31,7 @@ export class UserProfileComponent implements OnInit {
         }
 
         this._userUploads = this.userUploadsService.getUserUploadsByUser(this._user.$key);
+        this._userUploads.subscribe(() => this._isLoaded = true);
 
         this._isMyProfile = (this._user.$key == this.authService.currentUser.$key);
 

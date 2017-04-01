@@ -21,9 +21,10 @@ import { AuthService } from '../../../services/auth.service';
     templateUrl: 'category-detail.html'
 })
 export class CategoryDetailComponent implements OnInit {
-    photos : Observable<PhotoModel[]>
-    category : CategoryModel;
-    _isFollowedByMe: Observable<Boolean>;
+    private photos : Observable<PhotoModel[]>
+    private category : CategoryModel;
+    private _isFollowedByMe: Observable<Boolean>;
+    private _isLoaded: Boolean;
 
     constructor(private authService: AuthService, private usersService: UsersService, private navController: NavController, private navParams: NavParams, private photosService: PhotosService, private categoriesService: CategoriesService, private loadingCtrl: LoadingController) {
     }    
@@ -31,6 +32,7 @@ export class CategoryDetailComponent implements OnInit {
     ngOnInit(): void {
         this.category = this.navParams.get('category');
         this.photos = this.photosService.getPhotosByCategory(this.category.$key);
+        this.photos.subscribe(() => this._isLoaded = true);
         this._isFollowedByMe = this.usersService.isFollowingCategory(this.category.$key);
     }
 

@@ -42,5 +42,7 @@
     </ion-row>
   </ion-grid>
 
-  <gallery [items]="_userUploads | async" [imageMember]="getUploadImage" (onItemClicked)="uploadClicked($event)"></gallery>
+  <ion-spinner *ngIf="!_isLoaded" ngClass="middle-spinner"></ion-spinner>
+
+  <gallery *ngIf="_isLoaded" [items]="_userUploads | async" [imageMember]="getUploadImage" (onItemClicked)="uploadClicked($event)"></gallery>
 </ion-content>

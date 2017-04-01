@@ -8,7 +8,9 @@
 </ion-header>
 
 <ion-content>
-  <gallery [items]="userUploads | async" [imageMember]="getPhotoImage" (onItemClicked)="uploadClicked($event)"></gallery>
+  <ion-spinner *ngIf="!_isLoaded" ngClass="middle-spinner"></ion-spinner>
+
+  <gallery *ngIf="_isLoaded" [items]="userUploads | async" [imageMember]="getPhotoImage" (onItemClicked)="uploadClicked($event)"></gallery>
 
   <ion-fab center bottom>
     <button ion-fab color="light" (click)="takePhoto()"><ion-icon name="camera"></ion-icon></button>

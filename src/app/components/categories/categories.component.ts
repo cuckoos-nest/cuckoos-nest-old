@@ -27,16 +27,18 @@ export class CategoriesComponent implements OnInit {
     }
 
     constructor(private nav: NavController, private categoriesService: CategoriesService, private loadingCtrl: LoadingController) {
-        // let loader = this.loadingCtrl.create({
-        //     content: "Loading categories..."
-        // });
-        // loader.present();
     }
 
     ngOnInit(): void {
+        let loader = this.loadingCtrl.create({
+            content: "Loading categories..."
+        });
+        loader.present();
+
         this.categoriesService.getCategories().subscribe(categories => {
             this.categories = categories;
             this.performSearch(this._searchQuery);
+            loader.dismiss();
         });
     }
 

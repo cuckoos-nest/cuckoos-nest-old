@@ -38,7 +38,9 @@
         </ion-item>
     </ion-list>-->
 
-    <ion-list>
+    <ion-spinner *ngIf="!_isLoaded" ngClass="middle-spinner"></ion-spinner>
+
+    <ion-list *ngIf="_isLoaded">
         <ion-item *ngFor="let notification of _notifications | async">
             <ion-avatar item-left>
                 <img [src]="getUser(notification.from).image">
