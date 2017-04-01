@@ -13,7 +13,7 @@
       <wall-card *ngFor="let userUpload of _currentWall | async" [data]="userUpload"></wall-card>
     </ion-list>
 
-     <ion-infinite-scroll (ionInfinite)="doInfinite($event)">
+     <ion-infinite-scroll *ngIf="_isLoaded" (ionInfinite)="doInfinite($event)">
       <ion-infinite-scroll-content></ion-infinite-scroll-content>
     </ion-infinite-scroll>
 </ion-content>

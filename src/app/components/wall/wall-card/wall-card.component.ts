@@ -45,7 +45,7 @@ export class WallCardComponent implements OnInit {
             this._isLikeLoading = false;
         });
 
-        this._commentsCount = this.userUploadService.getCommentCount(this.userUpload.user);
+        this._commentsCount = this.userUploadService.getCommentCount(this.userUpload.$key);
     }
 
 
