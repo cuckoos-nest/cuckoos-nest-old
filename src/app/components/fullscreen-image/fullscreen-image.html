@@ -3,9 +3,13 @@
         <ion-navbar>
             <ion-toolbar class="dark-toolbar">
             <ion-buttons start>
-                <button ion-button icon-only>
-                <ion-icon name="thumbs-up"></ion-icon>
-                </button>
+                <button *ngIf="_isOwner == true" ion-button icon-only (click)="removePhoto()">
+                     <ion-icon name="trash"></ion-icon>
+                 </button>
+             <!--   <button ion-button icon-only>
+                     <ion-icon name="thumbs-up"></ion-icon>
+                </button> -->
+                
             </ion-buttons>
 
             <ion-title>
@@ -24,9 +28,11 @@
                     {{ _userUpload.description }}
                 </div>
                 <div class="dateTime">
-                    {{ _userUpload.dateTime | date: 'MMM d, HH:mm' }}
+                    {{ _userUpload.createdAt | date: 'MMM d, HH:mm' }}
                 </div>
             </div>
+          
         </div>
+       
     </ion-content>
 </div>  
