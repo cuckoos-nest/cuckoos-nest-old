@@ -24,7 +24,10 @@ export class NotificationsComponent implements OnInit {
 
     ngOnInit(): void {
         this._notifications = this.notificationsService.getNotifications();
-        this._notifications.subscribe(() => this._isLoaded = true);
+        this._notifications.subscribe( notifications => {
+            this._isLoaded = true;
+            this._isEmpty = notifications.length == 0
+            });
     }
 
     private notificationTypeToResource(type: NotificationType) {
