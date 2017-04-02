@@ -29,7 +29,11 @@ export class UserUploadService {
     // }
 
     public getUserUpload(key: string) : Observable<UserUploadModel> {
-        return this.af.database.object("/uploads/" + key);
+        return this.af.database.object(`/uploads/${key}`);
+    }
+
+    public getUserUploads() : Observable<UserUploadModel[]> {
+        return this.af.database.list("/uploads");
     }
 
     public getUserUploadsByPhoto(photoKey: string) : Observable<UserUploadModel[]> {
