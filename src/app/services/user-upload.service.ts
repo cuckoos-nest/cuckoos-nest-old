@@ -2,8 +2,8 @@ import { CommentModel } from './../models/comment.model';
 import { UserUploadModel } from './../models/user-upload.model';
 import { Observer } from 'rxjs/Observer';
 import { AuthService } from './auth.service';
-import { AngularFire, FirebaseListObservable } from 'angularfire2';
-import { Injectable } from '@angular/core';
+import { AngularFire, FirebaseListObservable, FirebaseApp } from 'angularfire2';
+import { Injectable, Inject } from '@angular/core';
 import { Http } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/map';
@@ -16,7 +16,7 @@ import Config from '../config.json';
 @Injectable()
 export class UserUploadService {
 
-    constructor(private af: AngularFire, private authService: AuthService) {
+    constructor(private af: AngularFire, private authService: AuthService, @Inject(FirebaseApp) private firebaseApp: any) {
     }
 
     // public getMostPopularPhotosByPhotoId(id : number, from?: number, take?: number) : Observable<UserUploadModel[]> {
@@ -57,7 +57,16 @@ export class UserUploadService {
     }
 
     public createUpload(userUpload: UserUploadModel): void {
-        this.af.database.list("/uploads").push(userUpload);
+        let ref = this.firebaseApp.storage().ref(`/images/uploads/${userUpload.user}/${userUpload.photo}/${new Date().toISOString()}`);
+
+            ref
+                .putString(userUpload.image, 'data_url')
+                .then(() => {
+                    ref.getDownloadURL().then(url => {
+                        userUpload.image = url;
+                        this.af.database.list("/uploads").push(userUpload);
+                    });
+                });
     }
 
     public like(userUploadKey: string): void {
