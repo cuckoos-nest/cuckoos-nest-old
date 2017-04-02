@@ -31,7 +31,7 @@
 
   <div [ngSwitch]="_searchType" *ngIf="_isLoaded">
     <ion-list *ngSwitchCase="'uploads'">
-      <ion-item text-wrap *ngFor="let userUpload of _filteredUserUploads">
+      <ion-item text-wrap *ngFor="let userUpload of _filteredUserUploads" (click)="goToUpload(userUpload)">
             <ion-thumbnail item-left>
                 <img [src]="userUpload.image">
             </ion-thumbnail>
@@ -45,7 +45,7 @@
     </ion-list>
 
     <ion-list *ngSwitchCase="'members'">
-      <ion-item *ngFor="let member of _filteredMembers">
+      <ion-item *ngFor="let member of _filteredMembers" (click)="goToUser(member)">
           <ion-avatar item-left>
               <img [src]="member.image">
           </ion-avatar>
