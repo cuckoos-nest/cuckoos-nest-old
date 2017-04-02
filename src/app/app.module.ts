@@ -1,3 +1,4 @@
+import { UserPipe } from './pipes/user.pipe';
 import { CommentsComponent } from './components/comments/comments.component';
 import { NgModule, ErrorHandler } from '@angular/core';
 import { Http } from '@angular/http';
@@ -57,6 +58,8 @@ export const firebaseConfig = {
     PhotoDetailComponent,
     WebcamComponent,
     CommentsComponent,
+
+    UserPipe,
   ],
   imports: [
     IonicModule.forRoot(MyApp),
