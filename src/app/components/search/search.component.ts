@@ -12,10 +12,8 @@ import { UsersService } from '../../services/users.service';
 })
 export class SearchComponent implements OnInit {
     private _searchType: string;
-    private _isLoaded: Boolean;
-    private _userUploads: Array<UserUploadModel>;
+    private _isLoaded: Boolean = true;
     private _filteredUserUploads: Array<UserUploadModel>;
-    private _members: Array<UserModel>;
     private _filteredMembers: Array<UserModel>;
     private _searchQuery: string = '';
     private _currentSubscription: Subscription;
@@ -40,54 +38,48 @@ export class SearchComponent implements OnInit {
     private performSearch(query: string) {
         switch (this._searchType) {
             case 'uploads': 
-                if (query && query.trim() != '') {
-                    this._filteredUserUploads = 
-                        this._userUploads.filter(item => (item.description.toLowerCase().indexOf(query.toLowerCase()) > -1));
+                if (query.length < 3) {
+                    this.unsubscribe();
+                    this._filteredUserUploads = null;
+                    return;
                 }
-                else {
-                    this._filteredUserUploads = this._userUploads;
-                }
+
+                this._isLoaded = false;
+                this._currentSubscription = this.userUploadsService.searchUserUploads(query)
+                        .subscribe(userUploads => {
+                            this._filteredUserUploads = userUploads;
+                            this._isLoaded = true;
+                        });
             break;
 
             case 'members': 
-                if (query && query.trim() != '') {
-                    this._filteredMembers = 
-                        this._members.filter(item => (item.displayName.toLowerCase().indexOf(query.toLowerCase()) > -1));
+                if (query.length == 0) {
+                    this.unsubscribe();
+                    this._filteredMembers = null;
+                    return;
                 }
-                else {
-                    this._filteredMembers = this._members;
-                }
+
+                this._isLoaded = false;
+                this._currentSubscription = this.usersService.searchUsers(query)
+                        .subscribe(users => {
+                            this._filteredMembers = users;
+                            this._isLoaded = true;
+                        });
             break;
         }
     }
 
     private onSegmentChange() {
+        this.unsubscribe();
+
+        this.performSearch(this._searchQuery);
+    }
+    
+    private unsubscribe() {
         if (this._currentSubscription)
         {
             this._currentSubscription.unsubscribe();
             this._currentSubscription = null;
-        }
-
-        this._isLoaded = false;
-
-        switch (this._searchType) {
-            case 'uploads': 
-                this._currentSubscription = this.userUploadsService.getUserUploads()
-                        .subscribe(userUploads => {
-                            this._userUploads = userUploads;
-                            this.performSearch(this._searchQuery);
-                            this._isLoaded = true;                    
-                        });
-            break;
-            
-            case 'members':
-                this._currentSubscription = this.usersService.getUsers()
-                        .subscribe(users => {
-                            this._members = users;
-                            this.performSearch(this._searchQuery);
-                            this._isLoaded = true;                    
-                        });
-            break;
         }
     }
 }

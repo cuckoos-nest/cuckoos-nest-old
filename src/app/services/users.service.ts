@@ -17,6 +17,11 @@ export class UsersService {
         return this.af.database.list("/users");
     }
 
+    public searchUsers(searchQuery: string): Observable<UserModel[]> {
+        return this.af.database.list("/users")
+                .map(users => users.filter(user => user.displayName.toLowerCase().indexOf(searchQuery.toLowerCase()) > -1));
+    }
+
     public getUsersImFollowing(uid: string): Observable<string[]> {
         return this.af.database.list(`/user-followers/following/${this.authService.currentUser.$key}`)
         .map(refArr => refArr.map(ref => ref.$key));

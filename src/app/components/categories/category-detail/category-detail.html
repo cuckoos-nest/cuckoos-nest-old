@@ -27,7 +27,7 @@
     </ion-row>
   </ion-grid>
 
-  <ion-spinner *ngIf="!_isLoaded" ngClass="middle-spinner"></ion-spinner>
+  <ion-spinner *ngIf="!_isLoaded" ngClass="middle-vertical"></ion-spinner>
   
   <gallery *ngIf="_isLoaded" [items]="photos | async" [titleMember]="getPhotoTitle" [imageMember]="getPhotoImage" (onItemClicked)="photoClicked($event)"></gallery>
 </ion-content>

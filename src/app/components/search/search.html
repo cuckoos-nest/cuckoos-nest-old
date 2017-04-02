@@ -12,10 +12,22 @@
 </ion-header>
 
 
-<ion-content>
-  <ion-spinner *ngIf="!_isLoaded" ngClass="middle-spinner"></ion-spinner>
+<ion-content>  
+  <ion-searchbar [(ngModel)]="searchQuery" placeholder="{{'SEARCH' | translate}}"></ion-searchbar>
   
-  <ion-searchbar *ngIf="_isLoaded" [(ngModel)]="searchQuery" placeholder="{{'SEARCH' | translate}}"></ion-searchbar>
+  <ion-spinner *ngIf="!_isLoaded" ngClass="middle-vertical"></ion-spinner>
+
+  <div *ngIf="_searchType == 'uploads' && _searchQuery.length < 3 && _isLoaded" ngClass="middle-vertical" text-center>
+    Type at least 3 characters to search
+  </div>
+
+  <div *ngIf="_searchType == 'members' && _searchQuery.length == 0 && _isLoaded" ngClass="middle-vertical" text-center>
+    Start typing to see results
+  </div>
+<!--
+  <div *ngIf="_isLoaded && (_searchType == 'members' && _searchQuery.length > 0 && (!_filteredMembers || _filteredMembers.length == 0)) || (_searchType == 'uploads' && _searchQuery.length > 2 && (!_filteredUserUploads || _filteredUserUploads.length == 0))" ngClass="middle-vertical" text-center>
+    No results
+  </div>-->
 
   <div [ngSwitch]="_searchType" *ngIf="_isLoaded">
     <ion-list *ngSwitchCase="'uploads'">
