@@ -10,7 +10,11 @@ export class UsersService {
     }
     
     public getUser(uid: string): Observable<UserModel> {
-        return this.af.database.object("/users/" + uid);
+        return this.af.database.object(`/users/${uid}`);
+    }
+
+    public getUsers(): Observable<UserModel[]> {
+        return this.af.database.list("/users");
     }
 
     public getUsersImFollowing(uid: string): Observable<string[]> {

@@ -5,31 +5,21 @@ import { Pipe, PipeTransform } from "@angular/core";
 
 @Pipe({
   name: 'user',
-  pure: false
+  pure: true
 })
 export class UserPipe implements PipeTransform {
     private _cachedUid: string;
-    private _cachedUser: UserModel;
-
-    private static _globalUsersCache = new Array<UserModel>();
+    private _cachedUser: Observable<UserModel>;
 
     constructor(private usersService: UsersService) {
     }
 
-    transform(value: string): UserModel {
+    transform(value: string): Observable<UserModel> {
         if (value != this._cachedUid) {
             this._cachedUid = value;
-            this._cachedUser = UserPipe._globalUsersCache.find(user => user.$key == value);
-            
-            if (!this._cachedUser) {
-                let sub = this.usersService.getUser(value).subscribe(user => {
-                    this._cachedUser = user;
-                    UserPipe._globalUsersCache.push(user);
-                });
-
-                sub.unsubscribe();
-            }
+            this._cachedUser = this.usersService.getUser(value);
         }
+
         return this._cachedUser;
     }
 }

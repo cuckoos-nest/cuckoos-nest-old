@@ -1,6 +1,6 @@
 <ion-header>
   <ion-toolbar mode="ios">
-    <ion-segment [(ngModel)]="_searchType" mode="ios">
+    <ion-segment [(ngModel)]="_searchType" mode="ios" (ionChange)="onSegmentChange()">
       <ion-segment-button value="uploads">
         Uploads
       </ion-segment-button>
@@ -13,15 +13,33 @@
 
 
 <ion-content>
-  <ion-searchbar (input)="search()"></ion-searchbar>
+  <ion-spinner *ngIf="!_isLoaded" ngClass="middle-spinner"></ion-spinner>
+  
+  <ion-searchbar *ngIf="_isLoaded" [(ngModel)]="searchQuery" placeholder="{{'SEARCH' | translate}}"></ion-searchbar>
 
-  <div [ngSwitch]="_searchType">
+  <div [ngSwitch]="_searchType" *ngIf="_isLoaded">
     <ion-list *ngSwitchCase="'uploads'">
-      <ion-item>Uploads</ion-item>
+      <ion-item text-wrap *ngFor="let userUpload of _filteredUserUploads">
+            <ion-thumbnail item-left>
+                <img [src]="userUpload.image">
+            </ion-thumbnail>
+            <h2>
+                {{ (userUpload.user | user | async)?.displayName }}
+            </h2>
+            <p>
+                {{ userUpload.description }}
+            </p>
+      </ion-item>
     </ion-list>
 
     <ion-list *ngSwitchCase="'members'">
-      <ion-item>Members</ion-item>
+      <ion-item *ngFor="let member of _filteredMembers">
+          <ion-avatar item-left>
+              <img [src]="member.image">
+          </ion-avatar>
+          <h2>{{ member.displayName }}</h2>
+          <p>Uploaded {{ member.numberOfUploads }} cuckoos</p>
+      </ion-item>
     </ion-list>
   </div>
 </ion-content>

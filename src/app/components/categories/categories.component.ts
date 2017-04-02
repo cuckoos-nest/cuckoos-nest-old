@@ -44,7 +44,8 @@ export class CategoriesComponent implements OnInit {
 
     private performSearch(query: string) {
         if (query && query.trim() != '') {
-            this.filteredCategories = this.categories.filter(item => (item.name.toLowerCase().indexOf(query.toLowerCase()) > -1));
+            this.filteredCategories = 
+                this.categories.filter(item => (item.name.toLowerCase().indexOf(query.toLowerCase()) > -1));
         }
         else {
             this.filteredCategories = this.categories;
