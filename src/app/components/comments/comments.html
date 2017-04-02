@@ -17,7 +17,7 @@
         </ion-item>
     </ion-list>
 
-    <ion-spinner *ngIf="!_isLoaded" ngClass="middle-spinner"></ion-spinner>
+    <ion-spinner *ngIf="!_isLoaded" ngClass="middle-vertical"></ion-spinner>
 
     <ion-list *ngIf="_isLoaded" ngClass="comments-list">
         <ion-item text-wrap *ngFor="let comment of (_comments | async)">

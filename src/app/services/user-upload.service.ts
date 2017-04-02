@@ -36,6 +36,14 @@ export class UserUploadService {
         return this.af.database.list("/uploads");
     }
 
+    public searchUserUploads(searchQuery: string): Observable<UserUploadModel[]> {
+        return this.af.database.list(`/upload-descriptions/${searchQuery.substring(0, 3)}`)
+                    .map(references => references.filter(ref => ref.$value.toLowerCase().indexOf(searchQuery.toLowerCase()) > -1))
+                    .map(references => references.map(ref => ref.$key))
+                    .map(keys => keys.map(key => this.getUserUpload(key)))
+                    .switchMap(x => Observable.combineLatest(x));
+    }
+
     public getUserUploadsByPhoto(photoKey: string) : Observable<UserUploadModel[]> {
         return this.af.database.list(`/photos/${photoKey}/uploads/`)
                     .map(references => references.map(ref => ref.$key))
