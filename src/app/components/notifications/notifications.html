@@ -55,9 +55,9 @@
     <ion-list *ngIf="_isLoaded">
         <ion-item *ngFor="let notification of _notifications | async">
             <ion-avatar item-left>
-                <img [src]="getUser(notification.from).image">
+                <img [src]="(notification.from | user)?.image">
             </ion-avatar>
-            <h2>{{ getUser(notification.from).displayName }}</h2>
+            <h2>{{ (notification.from | user)?.displayName }}</h2>
             <p>{{ notificationTypeToResource(notification.type) | translate }}</p>
             <ion-note item-right>{{ notification.createdAt | date: 'MMM d, HH:mm' }}</ion-note>
         </ion-item>

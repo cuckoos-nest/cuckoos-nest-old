@@ -24,19 +24,7 @@ export class NotificationsComponent implements OnInit {
 
     ngOnInit(): void {
         this._notifications = this.notificationsService.getNotifications();
-        this._notifications.subscribe(notifications => {
-            for (let notification of notifications) {
-                if (this._users.some(x => x.$key == notification.from) == false) {
-                    this.usersService.getUser(notification.from).subscribe(user => this._users.push(user));
-                }
-            }
-            this._isEmpty = notifications.length == 0;
-            this._isLoaded = true;
-        });
-    }
-
-    private getUser(key: string)    {
-        return this._users.find(x => x.$key == key);
+        this._notifications.subscribe(() => this._isLoaded = true);
     }
 
     private notificationTypeToResource(type: NotificationType) {

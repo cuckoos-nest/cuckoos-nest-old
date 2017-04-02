@@ -22,10 +22,10 @@
     <ion-list *ngIf="_isLoaded" ngClass="comments-list">
         <ion-item text-wrap *ngFor="let comment of (_comments | async)">
             <ion-thumbnail item-left>
-                <img [src]="(getUser(comment.user) | async).image">
+                <img [src]="(comment.user | user)?.image">
             </ion-thumbnail>
             <h2>
-                {{ (getUser(comment.user) | async).displayName }}
+                {{ (comment.user | user)?.displayName }}
             </h2>
             <p>
                 {{ comment.text }}

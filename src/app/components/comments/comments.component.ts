@@ -15,7 +15,6 @@ import { AuthService } from '../../services/auth.service';
 export class CommentsComponent implements OnInit {
     private _comments: Observable<CommentModel[]>;
     private _userUpload: UserUploadModel;
-    private _users = new Map<string, Observable<UserModel>>();
     private _commentText: string;
     private _isLoaded: Boolean;
 
@@ -31,16 +30,6 @@ export class CommentsComponent implements OnInit {
 
         this._comments = this.userUploadService.getComments(this._userUpload.$key);
         this._comments.subscribe(() => this._isLoaded = true);
-    }
-
-    private getUser(key: string): Observable<UserModel> {
-        let user = this._users.get(key);
-        if (!user) {
-            user = this.usersService.getUser(key);
-            this._users.set(key, user);
-        }
-
-        return user;
     }
 
     private send() {
