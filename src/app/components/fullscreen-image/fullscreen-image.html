@@ -22,7 +22,7 @@
     <ion-content>
         <div class="background">
             <img class="image-viewer" [src]="_userUpload.image" />
-
+         
             <div class="footer">
                 <div class="description">
                     {{ _userUpload.description }}
@@ -31,7 +31,15 @@
                     {{ _userUpload.createdAt | date: 'MMM d, HH:mm' }}
                 </div>
             </div>
-          
+           <ion-row>
+                <button class="button" (click)="like()" >
+                    <ion-icon [hidden]="_isLiked" name="thumbs-up" class="icon" ></ion-icon>
+                    <ion-icon [hidden]="!_isLiked" name="thumbs-up"  class="light"></ion-icon>
+                </button>
+                <button class="button" (click)="comment()" >
+                    <ion-icon  name="text"  class="icon"></ion-icon>
+                </button>   
+            </ion-row>
         </div>
        
     </ion-content>

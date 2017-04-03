@@ -2,7 +2,7 @@
   <ion-navbar>
       
      <ion-buttons end>
-        <button ion-button icon-only (click)="clearNotifications()">
+        <button *ngIf="!_isEmpty" ion-button icon-only (click)="clearNotifications()">
           <ion-icon name="trash"></ion-icon>
         </button>
       </ion-buttons>
