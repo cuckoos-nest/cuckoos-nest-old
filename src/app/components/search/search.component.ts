@@ -73,8 +73,7 @@ export class SearchComponent implements OnInit {
     }
 
     private onSegmentChange() {
-        this.unsubscribe();
-
+        this._searchQuery = '';
         this.performSearch(this._searchQuery);
     }
     

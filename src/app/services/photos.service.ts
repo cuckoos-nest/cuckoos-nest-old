@@ -23,8 +23,7 @@ export class PhotosService {
     public getPhotosByCategory(categoryKey: string) : Observable<PhotoModel[]> {
         return this.af.database.list(`/categories/${categoryKey}/photos`)
             .map(references => references.map(ref => ref.$key))
-            .map(key => this.getPhoto(key))
-            .map(x => Observable.from(x))
+            .map(keys => keys.map(key => this.getPhoto(key)))
             .switchMap(x => Observable.combineLatest(x));
     }
 }
