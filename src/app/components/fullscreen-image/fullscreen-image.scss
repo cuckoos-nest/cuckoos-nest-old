@@ -28,6 +28,14 @@
     touch-action: pinch-zoom;
 }
 
+
+
+.fullscreen-image .fadingLike{
+
+    color: #a5c6ff;
+}
+
+
 .fullscreen-image .footer {
     position: fixed;
     bottom: 10%;
@@ -40,4 +48,17 @@
 
 .fullscreen-image .footer .dateTime {
     color: lightgray !important;
+}
+
+.fullscreen-image .button {
+    background-color: black ;
+    color: gray ;
+}
+
+.fullscreen-image .icon {
+    color: gray ;
+}
+
+.fullscreen-image .light {
+    color: #387ef5 ;
 }
