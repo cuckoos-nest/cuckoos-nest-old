@@ -4,9 +4,8 @@
    
   <div ngClass="right-pane">
     <a href="#" (click)="goToUser()" class="user">{{ user?.displayName }}</a>
-    <div class="time" >{{ userUpload.createdAt }}</div>
+    <div class="time" >{{ displayCreatedSpan() }}</div>
   </div>
-    
 
   <ion-card-content>
       <div class="description">{{ userUpload.description }}</div>
