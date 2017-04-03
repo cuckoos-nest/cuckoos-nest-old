@@ -12,6 +12,8 @@ import { UserUploadModel } from '../../../models/user-upload.model';
 import { UserProfileComponent } from '../../user-profile/user-profile.component';
 import { FullscreenImageComponent } from '../../fullscreen-image/fullscreen-image.component';
 
+import { timeSince } from './../../../shared/date';
+
 import { WallService } from '../../../services/wall.service';
 import { PhotoModel } from '../../../models/photo.model';
 import { PhotosService } from '../../../services/photos.service';
@@ -46,7 +48,6 @@ export class WallCardComponent implements OnInit {
 
 
         this._commentsCount = this.userUploadService.getCommentCount(this.userUpload.$key);
-
     }
 
 
@@ -77,6 +78,11 @@ export class WallCardComponent implements OnInit {
         else {
             this.userUploadService.unlike(this.userUpload.$key);
         }
+    }
+
+    private displayCreatedSpan() {
+        let uploadTime = this.userUpload.createdAt;
+        return timeSince(new Date(uploadTime));
     }
 
     private viewComments() {
