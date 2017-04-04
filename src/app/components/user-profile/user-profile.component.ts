@@ -5,7 +5,7 @@ import { AuthService } from './../../services/auth.service';
 import { FullscreenImageComponent } from './../fullscreen-image/fullscreen-image.component';
 import { UserUploadModel } from './../../models/user-upload.model';
 import { Component, OnInit } from '@angular/core';
-import { NavParams, NavController, LoadingController } from 'ionic-angular';
+import { NavParams, NavController, LoadingController, ModalController } from 'ionic-angular';
 import { UsersService } from './../../services/users.service';
 
 @Component({
@@ -19,7 +19,7 @@ export class UserProfileComponent implements OnInit {
     private _isFollowedByMe: Observable<Boolean>;
     private _isLoaded: Boolean;
 
-    constructor(private navController: NavController, private navParams: NavParams, private authService: AuthService, private usersService: UsersService, private userUploadsService: UserUploadService, private loadingCtrl: LoadingController) {
+    constructor(private navController: NavController, private modalCtrl: ModalController, private navParams: NavParams, private authService: AuthService, private usersService: UsersService, private userUploadsService: UserUploadService, private loadingCtrl: LoadingController) {
     }    
 
     ngOnInit(): void {
@@ -45,9 +45,10 @@ export class UserProfileComponent implements OnInit {
     }
 
     private uploadClicked(userUpload : UserUploadModel) {
-        this.navController.push(FullscreenImageComponent, {
+        let fullScreenImageModal = this.modalCtrl.create(FullscreenImageComponent, { 
             userUpload: userUpload
         });
+        fullScreenImageModal.present();
     }
 
     private follow() {

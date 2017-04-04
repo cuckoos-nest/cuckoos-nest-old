@@ -1,6 +1,6 @@
 import { FullscreenImageComponent } from './../fullscreen-image/fullscreen-image.component';
 import { UserProfileComponent } from './../user-profile/user-profile.component';
-import { NavController } from 'ionic-angular';
+import { NavController, ModalController } from 'ionic-angular';
 import { UserModel } from './../../models/user.model';
 import { UserUploadService } from './../../services/user-upload.service';
 import { UserUploadModel } from './../../models/user-upload.model';
@@ -30,7 +30,7 @@ export class SearchComponent implements OnInit {
         return this._searchQuery;
     }
 
-    constructor(private nav: NavController, private userUploadsService: UserUploadService, private usersService: UsersService) {
+    constructor(private nav: NavController, private modalCtrl: ModalController, private userUploadsService: UserUploadService, private usersService: UsersService) {
     }    
 
     ngOnInit(): void {
@@ -92,8 +92,9 @@ export class SearchComponent implements OnInit {
     }
 
     private goToUpload(userUpload: UserUploadModel) {
-        this.nav.push(FullscreenImageComponent, {
+        let fullScreenImageModal = this.modalCtrl.create(FullscreenImageComponent, { 
             userUpload: userUpload
         });
+        fullScreenImageModal.present();
     }
 }

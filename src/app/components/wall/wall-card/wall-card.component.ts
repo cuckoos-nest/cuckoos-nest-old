@@ -58,10 +58,6 @@ export class WallCardComponent implements OnInit {
     }
 
     private goToImage() {
-        // this.nav.push(FullscreenImageComponent, {
-        //     userUpload: this.userUpload
-        // });
-
         let fullScreenImageModal = this.modalCtrl.create(FullscreenImageComponent, { 
             userUpload: this.userUpload
         });
