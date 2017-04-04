@@ -31,7 +31,7 @@
                 <img [src]="(comment.user | user | async)?.image">
             </ion-thumbnail>
             <h2>
-                {{ (comment.user | user)?.displayName }}
+                {{ (comment.user | user | async)?.displayName }}
             </h2>
             <p>
                 {{ comment.text }}
