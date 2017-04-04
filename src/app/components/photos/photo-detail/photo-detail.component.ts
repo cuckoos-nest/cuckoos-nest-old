@@ -5,7 +5,7 @@ import { WebcamComponent } from './../../webcam/webcam.component';
 import { Observable } from 'rxjs/Observable';
 import { Component, OnInit } from '@angular/core';
 import { Http } from '@angular/http';
-import { NavParams, LoadingController, Platform, NavController } from 'ionic-angular';
+import { NavParams, LoadingController, Platform, NavController, ModalController } from 'ionic-angular';
 import { Camera } from 'ionic-native';
 import { PhotoModel } from '../../../models/photo.model';
 import { UserUploadModel } from '../../../models/user-upload.model'; 
@@ -20,7 +20,7 @@ export class PhotoDetailComponent implements OnInit {
     private userUploads: Observable<UserUploadModel[]>;
     private _isLoaded: Boolean;
 
-    constructor(private platform: Platform, private authService: AuthService, private navController: NavController, private navParams: NavParams, private loader: LoadingController, private userUploadService: UserUploadService) {
+    constructor(private platform: Platform, private modalCtrl: ModalController, private authService: AuthService, private navController: NavController, private navParams: NavParams, private loader: LoadingController, private userUploadService: UserUploadService) {
     }
 
     ngOnInit(): void {
@@ -70,8 +70,9 @@ export class PhotoDetailComponent implements OnInit {
     }
 
     private uploadClicked(userUpload : UserUploadModel) {
-        this.navController.push(FullscreenImageComponent, {
+        let fullScreenImageModal = this.modalCtrl.create(FullscreenImageComponent, { 
             userUpload: userUpload
         });
+        fullScreenImageModal.present();
     }
 }
