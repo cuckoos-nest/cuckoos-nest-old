@@ -5,7 +5,7 @@ import { UserUploadService } from './../../../services/user-upload.service';
 import { UsersService } from './../../../services/users.service';
 import { UserModel } from './../../../models/user.model';
 import { Component, Input, OnInit } from '@angular/core';
-import { NavController } from 'ionic-angular';
+import { NavController, ModalController } from 'ionic-angular';
 
 import { UserUploadModel } from '../../../models/user-upload.model';
 // import { UserModel } from '../../../models/user.model';
@@ -33,7 +33,7 @@ export class WallCardComponent implements OnInit {
     private _isLikeLoading: Boolean;
     private _commentsCount: Observable<number>;
 
-    constructor(private nav: NavController, private photoService: PhotosService, private usersService: UsersService, private userUploadService: UserUploadService, private authService: AuthService){
+    constructor(private nav: NavController, private modalCtrl: ModalController, private photoService: PhotosService, private usersService: UsersService, private userUploadService: UserUploadService, private authService: AuthService){
     }
 
     ngOnInit(): void {
@@ -58,9 +58,14 @@ export class WallCardComponent implements OnInit {
     }
 
     private goToImage() {
-        this.nav.push(FullscreenImageComponent, {
+        // this.nav.push(FullscreenImageComponent, {
+        //     userUpload: this.userUpload
+        // });
+
+        let fullScreenImageModal = this.modalCtrl.create(FullscreenImageComponent, { 
             userUpload: this.userUpload
         });
+        fullScreenImageModal.present();
     }
 
     private goToPhoto() {

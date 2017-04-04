@@ -1,22 +1,31 @@
 <div class="fullscreen-image">
     <ion-header>
-        <ion-navbar>
-            <ion-toolbar class="dark-toolbar">
+        <ion-toolbar class="dark-toolbar">
+            <ion-buttons left>
+                <button ion-button icon-only (click)="dismiss()">
+                     <ion-icon name="arrow-back"></ion-icon>
+                 </button>
+             </ion-buttons>
+
             <ion-buttons start>
-                <button *ngIf="_isOwner == true" ion-button icon-only (click)="removePhoto()">
+                <button *ngIf="_isOwner" ion-button icon-only (click)="removePhoto()">
                      <ion-icon name="trash"></ion-icon>
                  </button>
-             <!--   <button ion-button icon-only>
-                     <ion-icon name="thumbs-up"></ion-icon>
-                </button> -->
+
+                 <button class="button" (click)="like()" ion-button icon-only>
+                    <ion-icon [hidden]="_isLiked" name="thumbs-up" class="icon" ></ion-icon>
+                    <ion-icon [hidden]="!_isLiked" name="thumbs-up"  class="light"></ion-icon>
+                </button>
+                <button class="button" (click)="comment()" ion-button icon-only>
+                    <ion-icon  name="text"></ion-icon>
+                </button>   
                 
             </ion-buttons>
 
             <ion-title>
                 {{ _userUpload.user.displayName }}
             </ion-title>
-            </ion-toolbar>
-        </ion-navbar>
+        </ion-toolbar>
     </ion-header>
 
     <ion-content>
@@ -31,15 +40,6 @@
                     {{ _userUpload.createdAt | date: 'MMM d, HH:mm' }}
                 </div>
             </div>
-           <ion-row>
-                <button class="button" (click)="like()" >
-                    <ion-icon [hidden]="_isLiked" name="thumbs-up" class="icon" ></ion-icon>
-                    <ion-icon [hidden]="!_isLiked" name="thumbs-up"  class="light"></ion-icon>
-                </button>
-                <button class="button" (click)="comment()" >
-                    <ion-icon  name="text"  class="icon"></ion-icon>
-                </button>   
-            </ion-row>
         </div>
        
     </ion-content>
