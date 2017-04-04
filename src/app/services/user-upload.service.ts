@@ -19,15 +19,6 @@ export class UserUploadService {
     constructor(private af: AngularFire, private authService: AuthService, @Inject(FirebaseApp) private firebaseApp: any) {
     }
 
-    // public getMostPopularPhotosByPhotoId(id : number, from?: number, take?: number) : Observable<UserUploadModel[]> {
-    //     if (from && from != 0 && take && take != 0)
-    //         return this.http.get(`${this.userUploadDirectory}/popular/photos/${id}/${from}/${take}`).map(userUploads => userUploads.json());
-    //     else if (from && from != 0)
-    //         return this.http.get(`${this.userUploadDirectory}/popular/photos/${id}/${from}`).map(userUploads => userUploads.json());
-    //     else
-    //         return this.http.get(`${this.userUploadDirectory}/popular/photos/${id}`).map(userUploads => userUploads.json());
-    // }
-
     public getUserUpload(key: string) : Observable<UserUploadModel> {
         return this.af.database.object(`/uploads/${key}`);
     }
@@ -102,7 +93,6 @@ export class UserUploadService {
         return this.af.database.list(`/upload-comments/${userUploadKey}/`)
                     .map(references => references.map(ref => ref.$key))
                     .map(keys => keys.map(key => this.getComment(key)))
-                    .map(comments => comments.reverse())
                     .switchMap(x => Observable.combineLatest(x));
     }
 
@@ -114,9 +104,9 @@ export class UserUploadService {
         return this.af.database.object(`/uploads/${userUploadKey}/dateTime`);
     }
 
-    public createComment(comment: CommentModel, userUploadKey: string) {
+    public createComment(comment: CommentModel, userUploadKey: string) : firebase.Promise<void> {
         let commentKey = this.af.database.list(`/comments`).push(comment).key;
-        this.af.database.object(`/upload-comments/${userUploadKey}/${commentKey}`).set(true);
+        return this.af.database.object(`/upload-comments/${userUploadKey}/${commentKey}`).set(true);
     }
 
     public getCommentCount(userUploadKey: string): Observable<number> {

@@ -6,17 +6,17 @@
   </ion-navbar>
 </ion-header>
 
-<ion-content>
-    <ion-list ngClass="write-comment"> 
-        <ion-item>
-            <ion-label floating>Write your comment...</ion-label>
-            <ion-textarea [(ngModel)]="_commentText"></ion-textarea>
-        </ion-item>
-        <ion-item>
-            <button [disabled]="!_commentText || _commentText.length == 0" clear ion-button (click)="send()">Send</button>
-        </ion-item>
-    </ion-list>
+<ion-list ngClass="write-comment"> 
+    <ion-item>
+        <ion-label floating>Write your comment...</ion-label>
+        <ion-textarea [(ngModel)]="_commentText"></ion-textarea>
+    </ion-item>
+    <ion-item>
+        <button [disabled]="!_commentText || _commentText.length == 0" clear ion-button (click)="send()">Send</button>
+    </ion-item>
+</ion-list> 
 
+<ion-content #content>
     <ion-spinner *ngIf="!_isLoaded" ngClass="middle-vertical"></ion-spinner>
 
     <ion-list *ngIf="_isLoaded" ngClass="comments-list">
