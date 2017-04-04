@@ -1,11 +1,26 @@
 <ion-card >
+
+<ion-grid>  
+  <ion-row >
+    <ion-col  col-2>
+       <img [src]="user?.image" (click)="goToUser()" ngClass="profile" /> 
+    </ion-col>
+    <ion-col>
+        <ion-row>
+          <div class="user">{{ user?.displayName }}</div>
+        </ion-row>
+        <ion-row>
+              <div class="time" >{{ displayCreatedSpan() }}</div>
+        </ion-row>
+    </ion-col>
+  </ion-row>
+</ion-grid>
+     
+
   <img [src]="userUpload.image" (click)="goToImage()" />
   <img [src]="photo?.image" ngClass="photo" (click)="goToPhoto()" />
    
-  <div ngClass="right-pane">
-    <a href="#" (click)="goToUser()" class="user">{{ user?.displayName }}</a>
-    <div class="time" >{{ displayCreatedSpan() }}</div>
-  </div>
+
 
   <ion-card-content>
       <div class="description">{{ userUpload.description }}</div>

@@ -20,11 +20,14 @@
 }
 
 .user {
-    color: #3D85C6;
+    color: black;
     font-weight: bold;
-    font-size: 12px;
+    font-family: arial;
+    font-size: 18px;
     display: inline-block;    
     text-decoration: none !important;
+    margin-top: 10px;
+    
 }
 
 .description {
@@ -48,4 +51,15 @@
     margin-top: -75px;
     margin-left: 20px;
 
+}
+
+.profile {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    margin-bottom: 5px;
+}
+
+.userHeader {
+    background: beige;
 }
