@@ -1,15 +1,21 @@
 <ion-header>
-  <ion-navbar>
-    <ion-title>
-      Comments
-    </ion-title>
-  </ion-navbar>
+    <ion-toolbar>
+        <ion-buttons left>
+            <button ion-button icon-only (click)="dismiss()">
+                <ion-icon name="arrow-back"></ion-icon>
+            </button>
+        </ion-buttons>
+
+        <ion-title>
+            Comments
+        </ion-title>
+    </ion-toolbar>
 </ion-header>
 
 <ion-list ngClass="write-comment"> 
     <ion-item>
         <ion-label floating>Write your comment...</ion-label>
-        <ion-textarea [(ngModel)]="_commentText"></ion-textarea>
+        <ion-textarea [(ngModel)]="_commentText" autofocus></ion-textarea>
     </ion-item>
     <ion-item>
         <button [disabled]="!_commentText || _commentText.length == 0" clear ion-button (click)="send()">Send</button>
