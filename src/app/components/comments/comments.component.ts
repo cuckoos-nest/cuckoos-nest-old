@@ -1,5 +1,5 @@
 import { UserModel } from './../../models/user.model';
-import { NavParams, Content } from 'ionic-angular';
+import { NavParams, Content, ViewController } from 'ionic-angular';
 import { UserUploadModel } from './../../models/user-upload.model';
 import { CommentModel } from './../../models/comment.model';
 import { Observable } from 'rxjs/Observable';
@@ -20,7 +20,7 @@ export class CommentsComponent implements OnInit {
 
     @ViewChild('content') _content: Content;
 
-    constructor(private userUploadService: UserUploadService, private usersService: UsersService, private authService: AuthService, private navParams: NavParams) {
+    constructor(public viewCtrl: ViewController, private userUploadService: UserUploadService, private usersService: UsersService, private authService: AuthService, private navParams: NavParams) {
     }
 
     ngOnInit(): void {
@@ -51,5 +51,9 @@ export class CommentsComponent implements OnInit {
     private scrollToBottom(speed = 0) {
         console.log("bottom", this._content.getContentDimensions());
         this._content.scrollTo(0, this._content.getContentDimensions().scrollHeight, speed);
+    }
+
+    private dismiss() {
+        this.viewCtrl.dismiss();
     }
 }

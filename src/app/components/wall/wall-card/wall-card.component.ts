@@ -87,8 +87,9 @@ export class WallCardComponent implements OnInit {
     }
 
     private viewComments() {
-        this.nav.push(CommentsComponent, {
+        let commentsModal = this.modalCtrl.create(CommentsComponent, { 
             userUpload: this.userUpload
         });
+        commentsModal.present();
     }
 }
