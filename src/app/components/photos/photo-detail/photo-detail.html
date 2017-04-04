@@ -2,12 +2,21 @@
   <ion-navbar>
     <ion-title> {{photo.title}} </ion-title>
   </ion-navbar>
-  <ion-toolbar>
-    <ion-title> <img [src]="photo.image" /> </ion-title>
-  </ion-toolbar>
 </ion-header>
 
-<ion-content>
+<ion-content ngClass="photo-details">
+  <ion-grid ngClass="header">
+    <ion-row>
+      <ion-col col-3 text-center>
+          <img [src]="photo.image" ngClass="rounded-image" />
+      </ion-col>
+      <ion-col col-3 ngClass="counter">
+        <div ngClass="counter-value">{{ (userUploads | async)?.length }}</div>
+        <div ngClass="counter-title">Posts</div>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+
   <ion-spinner *ngIf="!_isLoaded" ngClass="middle-vertical"></ion-spinner>
 
   <gallery *ngIf="_isLoaded" [items]="userUploads | async" [imageMember]="getPhotoImage" (onItemClicked)="uploadClicked($event)"></gallery>
@@ -15,4 +24,5 @@
   <ion-fab center bottom>
     <button ion-fab color="light" (click)="takePhoto()"><ion-icon name="camera"></ion-icon></button>
   </ion-fab>
+
 </ion-content>
