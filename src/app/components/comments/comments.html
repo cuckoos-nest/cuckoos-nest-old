@@ -13,7 +13,7 @@
             <ion-textarea [(ngModel)]="_commentText"></ion-textarea>
         </ion-item>
         <ion-item>
-            <button clear ion-button (click)="send()">Send</button>
+            <button [disabled]="!_commentText || _commentText.length == 0" clear ion-button (click)="send()">Send</button>
         </ion-item>
     </ion-list>
 
