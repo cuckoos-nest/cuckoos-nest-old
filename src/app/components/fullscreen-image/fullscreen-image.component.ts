@@ -36,11 +36,6 @@ export class FullscreenImageComponent implements OnInit {
     }
 
     private removePhoto() {
-        this.showConfirm();
-    }
-
-    private showConfirm()  {
-   
         let confirm = this.alertCtrl.create({
             title: 'Delete photo?',
             message: 'Are you sure that you want to remove this photo?',
