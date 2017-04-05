@@ -19,12 +19,14 @@ import { FullscreenImageComponent } from './components/fullscreen-image/fullscre
 import { EditUserUploadComponent } from './components/edit-user-upload/edit-user-upload.component';
 import { PhotoDetailComponent } from './components/photos/photo-detail/photo-detail.component';
 import { WebcamComponent } from './components/webcam/webcam.component';
+import { LikeListComponent } from './components/like-list/like-list.component';
 
 import { PhotosService } from './services/photos.service';
 import { CategoriesService } from './services/categories.service';
 import { NotificationsService } from './services/notifications.service';
 import { UserUploadService } from './services/user-upload.service';
 import { AuthService } from './services/auth.service';
+import { UploadLikesService } from './services/upload-likes.services';
 import { FacebookService } from 'ng2-facebook-sdk';
 
 import { TranslateModule, TranslateStaticLoader, TranslateLoader } from 'ng2-translate';
@@ -58,7 +60,7 @@ export const firebaseConfig = {
     PhotoDetailComponent,
     WebcamComponent,
     CommentsComponent,
-
+    LikeListComponent,
     UserPipe,
   ],
   imports: [
@@ -87,6 +89,7 @@ export const firebaseConfig = {
     PhotoDetailComponent,
     WebcamComponent,
     CommentsComponent,
+    LikeListComponent,
   ],
   providers: [
     { provide: ErrorHandler, useClass: IonicErrorHandler },
@@ -97,6 +100,7 @@ export const firebaseConfig = {
     AuthService,
     NotificationsService,
     UserUploadService,
+    UploadLikesService,
   ]
 })
 export class AppModule { }

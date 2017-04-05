@@ -1,5 +1,6 @@
 import { PhotoDetailComponent } from './../../photos/photo-detail/photo-detail.component';
 import { CommentsComponent } from './../../comments/comments.component';
+import { LikeListComponent } from './../../like-list/like-list.component';
 import { Observable } from 'rxjs/Observable';
 import { UserUploadService } from './../../../services/user-upload.service';
 import { UsersService } from './../../../services/users.service';
@@ -7,7 +8,8 @@ import { UserModel } from './../../../models/user.model';
 import { Component, Input, OnInit } from '@angular/core';
 import { NavController, ModalController } from 'ionic-angular';
 
-import { UserUploadModel } from '../../../models/user-upload.model';
+
+import { UserUploadModel }   from '../../../models/user-upload.model';
 // import { UserModel } from '../../../models/user.model';
 import { UserProfileComponent } from '../../user-profile/user-profile.component';
 import { FullscreenImageComponent } from '../../fullscreen-image/fullscreen-image.component';
@@ -91,5 +93,12 @@ export class WallCardComponent implements OnInit {
             userUpload: this.userUpload
         });
         commentsModal.present();
+    }
+
+    private showLikers() {
+          let likeModal = this.modalCtrl.create(LikeListComponent, { 
+            userUpload: this.userUpload
+        });
+        likeModal.present();
     }
 }

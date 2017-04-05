@@ -13,10 +13,17 @@
     color: #a5c6ff;
 }
 
+.countDisplayText {
+    color: gray;
+    margin-top: 3px; 
+    font-family: arial;
+}
+
 .right-pane {
-    float: right;
+    float: left;
     margin: 5px;
-    margin-top: -20px;
+    margin-left: 130px;
+    margin-top: -25px;
 }
 
 .user {
@@ -58,8 +65,26 @@
     height: 50px;
     border-radius: 50%;
     margin-bottom: 5px;
+    display: block;
 }
 
-.userHeader {
-    background: beige;
+.likeCount {
+    color: #999;
+    font-weight: bold;
+    font-size: 10px;
+    display: inline-block;
+}
+
+.headerName {
+    margin-left: 5px;
+}
+
+.margin {
+    display: inline-block;
+    margin-left: 10px;
+}
+
+.lowerCase {
+    text-transform: none;
+    font-size: 15px;
 }
