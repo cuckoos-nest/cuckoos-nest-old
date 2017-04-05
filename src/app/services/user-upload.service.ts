@@ -2,8 +2,8 @@ import { CommentModel } from './../models/comment.model';
 import { UserUploadModel } from './../models/user-upload.model';
 import { Observer } from 'rxjs/Observer';
 import { AuthService } from './auth.service';
-import { AngularFire, FirebaseListObservable, FirebaseApp } from 'angularfire2';
-import { Injectable, Inject } from '@angular/core';
+import { AngularFire, FirebaseListObservable } from 'angularfire2';
+import { Injectable } from '@angular/core';
 import { Http } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/map';
@@ -16,23 +16,20 @@ import Config from '../config.json';
 @Injectable()
 export class UserUploadService {
 
-    constructor(private af: AngularFire, private authService: AuthService, @Inject(FirebaseApp) private firebaseApp: any) {
+    constructor(private af: AngularFire, private authService: AuthService) {
     }
+
+    // public getMostPopularPhotosByPhotoId(id : number, from?: number, take?: number) : Observable<UserUploadModel[]> {
+    //     if (from && from != 0 && take && take != 0)
+    //         return this.http.get(`${this.userUploadDirectory}/popular/photos/${id}/${from}/${take}`).map(userUploads => userUploads.json());
+    //     else if (from && from != 0)
+    //         return this.http.get(`${this.userUploadDirectory}/popular/photos/${id}/${from}`).map(userUploads => userUploads.json());
+    //     else
+    //         return this.http.get(`${this.userUploadDirectory}/popular/photos/${id}`).map(userUploads => userUploads.json());
+    // }
 
     public getUserUpload(key: string) : Observable<UserUploadModel> {
-        return this.af.database.object(`/uploads/${key}`);
-    }
-
-    public getUserUploads() : Observable<UserUploadModel[]> {
-        return this.af.database.list("/uploads");
-    }
-
-    public searchUserUploads(searchQuery: string): Observable<UserUploadModel[]> {
-        return this.af.database.list(`/upload-descriptions/${searchQuery.substring(0, 3)}`)
-                    .map(references => references.filter(ref => ref.$value.toLowerCase().indexOf(searchQuery.toLowerCase()) > -1))
-                    .map(references => references.map(ref => ref.$key))
-                    .map(keys => keys.map(key => this.getUserUpload(key)))
-                    .switchMap(x => Observable.combineLatest(x));
+        return this.af.database.object("/uploads/" + key);
     }
 
     public getUserUploadsByPhoto(photoKey: string) : Observable<UserUploadModel[]> {
@@ -60,16 +57,7 @@ export class UserUploadService {
     }
 
     public createUpload(userUpload: UserUploadModel): void {
-        let ref = this.firebaseApp.storage().ref(`/images/uploads/${userUpload.user}/${userUpload.photo}/${new Date().toISOString()}`);
-
-            ref
-                .putString(userUpload.image, 'data_url')
-                .then(() => {
-                    ref.getDownloadURL().then(url => {
-                        userUpload.image = url;
-                        this.af.database.list("/uploads").push(userUpload);
-                    });
-                });
+        this.af.database.list("/uploads").push(userUpload);
     }
 
     public like(userUploadKey: string): void {
@@ -93,6 +81,7 @@ export class UserUploadService {
         return this.af.database.list(`/upload-comments/${userUploadKey}/`)
                     .map(references => references.map(ref => ref.$key))
                     .map(keys => keys.map(key => this.getComment(key)))
+                    .map(comments => comments.reverse())
                     .switchMap(x => Observable.combineLatest(x));
     }
 
@@ -104,9 +93,9 @@ export class UserUploadService {
         return this.af.database.object(`/uploads/${userUploadKey}/dateTime`);
     }
 
-    public createComment(comment: CommentModel, userUploadKey: string) : firebase.Promise<void> {
-        let commentKey = this.af.database.list(`/comments`).push(comment).key;
-        return this.af.database.object(`/upload-comments/${userUploadKey}/${commentKey}`).set(true);
+   public createComment(comment: CommentModel, userUploadKey: string) : firebase.Promise<void> {
+	        let commentKey = this.af.database.list(`/comments`).push(comment).key;
+	        return this.af.database.object(`/upload-comments/${userUploadKey}/${commentKey}`).set(true);
     }
 
     public getCommentCount(userUploadKey: string): Observable<number> {
@@ -115,5 +104,15 @@ export class UserUploadService {
 
     public removePhoto(userUploadKey: string, uploadKey: string): void {
         this.af.database.object(`/users/${userUploadKey}/uploads/${uploadKey}`).set(null);
+
+        
     }
+
+       public searchUserUploads(searchQuery: string): Observable<UserUploadModel[]> {
+	        return this.af.database.list(`/upload-descriptions/${searchQuery.substring(0, 3)}`)
+	                    .map(references => references.filter(ref => ref.$value.toLowerCase().indexOf(searchQuery.toLowerCase()) > -1))
+	                    .map(references => references.map(ref => ref.$key))
+	                    .map(keys => keys.map(key => this.getUserUpload(key)))
+	                    .switchMap(x => Observable.combineLatest(x));
+	    }
 }

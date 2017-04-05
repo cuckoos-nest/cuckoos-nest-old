@@ -20,7 +20,13 @@
   <img [src]="userUpload.image" (click)="goToImage()" />
   <img [src]="photo?.image" ngClass="photo" (click)="goToPhoto()" />
    
-
+  <div class="right-pane">
+    <ion-icon  name="thumbs-up" class="countDisplayText"></ion-icon>
+    <div class="likeCount" (click)="showLikers()">{{ (_likes | async)?.length }} Likes</div>
+    <div class="margin"></div>
+    <ion-icon  name="ios-text" class="countDisplayText"></ion-icon>
+    <div class="time">{{ _commentsCount | async }} Comments</div>
+  </div>
 
   <ion-card-content>
       <div class="description">{{ userUpload.description }}</div>
@@ -28,23 +34,19 @@
 
   <ion-row>
     <ion-col>
-      <button ion-button icon-left clear small (click)="like()" [disabled]="_isLikeLoading"> 
+      <button  class="lowerCase" ion-button icon-left clear small (click)="like()" [disabled]="_isLikeLoading"> 
         <ion-icon [hidden]="_isLiked" name="thumbs-up" class="fadingLike"></ion-icon>
-        <ion-icon [hidden]="!_isLiked" name="thumbs-up"></ion-icon>
+        <ion-icon [hidden]="!_isLiked" name="thumbs-up" ></ion-icon>
 
-
-        <div *ngIf="(_likes | async)?.length > 0 && _isLiked">{{ (_likes | async)?.length }} Likes</div>
-        <div *ngIf="(_likes | async)?.length == 0 && _isLiked" class="fadingLike">Like</div>
-
-        <div *ngIf="(_likes | async)?.length > 0 && !_isLiked" class="fadingLike">{{ (_likes | async)?.length }} Likes</div>
-        <div *ngIf="(_likes | async)?.length == 0 && !_isLiked" class="fadingLike">Like</div>
+        <div *ngIf="_isLiked" >Like</div>
+        <div *ngIf="!_isLiked" class="fadingLike" >Like</div>
         
       </button>
     </ion-col>
     <ion-col>
-      <button ion-button icon-left clear small (click)="viewComments()">
+      <button class="lowerCase" ion-button icon-left clear small (click)="viewComments()">
         <ion-icon name="text"></ion-icon>
-        <div>{{ _commentsCount | async }} Comments</div>
+        <div>Comments</div>
       </button>
     </ion-col>
   </ion-row>
