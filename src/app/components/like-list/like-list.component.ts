@@ -33,15 +33,15 @@ export class LikeListComponent implements OnInit {
     
         this._likes.subscribe(() => {
             this._isLoaded = true;
-            // setTimeout(() => this.scrollToBottom(500), 500);
+            setTimeout(() => this.scrollToBottom(500), 500);
         });
 
     }
 
-    //   private scrollToBottom(speed = 0) {
-    //     console.log("bottom", this._content.getContentDimensions());
-    //     this._content.scrollTo(0, this._content.getContentDimensions().scrollHeight, speed);
-    // }
+      private scrollToBottom(speed = 0) {
+        console.log("bottom", this._content.getContentDimensions());
+        this._content.scrollTo(0, this._content.getContentDimensions().scrollHeight, speed);
+    }
 
      private dismiss() {
         this.viewCtrl.dismiss();
