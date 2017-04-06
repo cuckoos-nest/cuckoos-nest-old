@@ -7,21 +7,7 @@
         "files": {}
     },
     "installed_plugins": {
-        "cordova-plugin-whitelist": {
-            "PACKAGE_NAME": "com.ionicframework.myapp562269"
-        },
         "cordova-plugin-camera": {
-            "PACKAGE_NAME": "com.ionicframework.myapp562269"
-        },
-        "cordova-plugin-facebook4": {
-            "APP_ID": "1852328261703414",
-            "APP_NAME": "Cukoos Nest",
-            "PACKAGE_NAME": "com.cukoos.nest"
-        },
-        "cordova-plugin-statusbar": {
-            "PACKAGE_NAME": "com.cukoos.nest"
-        },
-        "cordova-plugin-splashscreen": {
             "PACKAGE_NAME": "com.cukoos.nest"
         },
         "cordova-plugin-console": {
@@ -30,13 +16,27 @@
         "cordova-plugin-device": {
             "PACKAGE_NAME": "com.cukoos.nest"
         },
+        "cordova-plugin-facebook4": {
+            "APP_ID": "1852328261703414",
+            "APP_NAME": "Cukoos Nest",
+            "PACKAGE_NAME": "com.cukoos.nest"
+        },
+        "cordova-plugin-splashscreen": {
+            "PACKAGE_NAME": "com.cukoos.nest"
+        },
+        "cordova-plugin-statusbar": {
+            "PACKAGE_NAME": "com.cukoos.nest"
+        },
+        "cordova-plugin-whitelist": {
+            "PACKAGE_NAME": "com.cukoos.nest"
+        },
         "ionic-plugin-keyboard": {
             "PACKAGE_NAME": "com.cukoos.nest"
         }
     },
     "dependent_plugins": {
         "cordova-plugin-compat": {
-            "PACKAGE_NAME": "com.ionicframework.myapp562269"
+            "PACKAGE_NAME": "com.cukoos.nest"
         }
     }
 }
