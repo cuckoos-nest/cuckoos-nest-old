@@ -1,33 +1,36 @@
 <ion-header>
+  <ion-toolbar>
+    <ion-searchbar [(ngModel)]="searchQuery" animated="true" placeholder="{{'SEARCH' | translate}}"></ion-searchbar>
+  </ion-toolbar>
+</ion-header>
+
+
+<ion-content>
+
   <ion-toolbar mode="ios">
     <ion-segment [(ngModel)]="_searchType" mode="ios" (ionChange)="onSegmentChange()">
-      <ion-segment-button value="uploads">
-        Uploads
+      <ion-segment-button value="photos">
+        Nests
+      </ion-segment-button>
+      <ion-segment-button value="uploads" hidden="true">
+        Cuckoos
       </ion-segment-button>
       <ion-segment-button value="members">
         Members
       </ion-segment-button>
     </ion-segment>
   </ion-toolbar>
-</ion-header>
 
+  <ion-toolbar mode="ios" *ngIf="_searchType == 'photos'">
+    <ion-scroll scrollX="true" ngClass="categories-scroller"> 
+      <div (click)="selectCategory(category)" [ngClass]="{'category': true, 'selected': (_selectedCategoryKey && _selectedCategoryKey == category.$key)}"  *ngFor="let category of _categories | async">
+        <img [src]="category.image" />
+        <p>{{ category.name }}</p>
+      </div>
+    </ion-scroll>
+  </ion-toolbar>
 
-<ion-content>  
-  <ion-searchbar [(ngModel)]="searchQuery" placeholder="{{'SEARCH' | translate}}"></ion-searchbar>
-  
   <ion-spinner *ngIf="!_isLoaded" ngClass="middle-vertical"></ion-spinner>
-
-  <div *ngIf="_searchType == 'uploads' && _searchQuery.length < 3 && _isLoaded" ngClass="middle-vertical" text-center>
-    Type at least 3 characters to search
-  </div>
-
-  <div *ngIf="_searchType == 'members' && _searchQuery.length == 0 && _isLoaded" ngClass="middle-vertical" text-center>
-    Start typing to see results
-  </div>
-<!--
-  <div *ngIf="_isLoaded && (_searchType == 'members' && _searchQuery.length > 0 && (!_filteredMembers || _filteredMembers.length == 0)) || (_searchType == 'uploads' && _searchQuery.length > 2 && (!_filteredUserUploads || _filteredUserUploads.length == 0))" ngClass="middle-vertical" text-center>
-    No results
-  </div>-->
 
   <div [ngSwitch]="_searchType" *ngIf="_isLoaded">
     <ion-list *ngSwitchCase="'uploads'">
@@ -43,6 +46,10 @@
             </p>
       </ion-item>
     </ion-list>
+
+    <div *ngSwitchCase="'photos'">      
+      <gallery *ngIf="_isLoaded" [items]="_filteredPhotos" [titleMember]="getPhotoTitle" [imageMember]="getPhotoImage" (onItemClicked)="goToPhoto($event)"></gallery>
+    </div>
 
     <ion-list *ngSwitchCase="'members'">
       <ion-item *ngFor="let member of _filteredMembers" (click)="goToUser(member)">

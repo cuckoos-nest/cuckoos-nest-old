@@ -1,5 +1,29 @@
 .gallery {
     text-align: center;
+
+    ion-img, .spinner-container {
+        width: 100px;
+        height: 100px;
+    }
+
+    // ion-img:not(.img-loaded) {
+    //     display: none;
+    // }
+
+    // .img-loaded + ion-spinner {
+    //     display: none;
+    // }
+
+    ion-col {
+        text-align: center;
+    }
+
+    ion-spinner {
+        margin: 0 auto;
+        position: relative;
+        top: 50%;
+        transform: translateY(-50%);
+    }
 }
 
 #container {

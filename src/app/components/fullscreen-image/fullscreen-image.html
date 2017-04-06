@@ -30,7 +30,9 @@
 
     <ion-content>
         <div class="background">
-            <img class="image-viewer" [src]="_userUpload.image" />
+            <ion-scroll zooming="true" min-zoom="1" max-zoom="2">
+                <img class="image-viewer" [src]="_userUpload.image" />
+            </ion-scroll>
          
             <div class="footer">
                 <div class="description">
