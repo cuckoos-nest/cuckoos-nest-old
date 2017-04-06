@@ -37,6 +37,7 @@ export class WallCardComponent implements OnInit {
     private _isLikeLoading: Boolean;
     private _commentsCount: Observable<number>;
     private _likesCount: number;
+    private _isOwner: Boolean;
 
     constructor(public alertCtrl: AlertController, public actionSheetCtrl: ActionSheetController, private nav: NavController, private modalCtrl: ModalController, private photoService: PhotosService, private usersService: UsersService, private userUploadService: UserUploadService, private authService: AuthService){
     }
@@ -52,6 +53,7 @@ export class WallCardComponent implements OnInit {
             this._likesCount = likes.length;
         });
 
+        this._isOwner = (this.authService.currentUser.$key == this.userUpload.user);   
 
         this._commentsCount = this.userUploadService.getCommentCount(this.userUpload.$key);
     }
@@ -112,6 +114,9 @@ export class WallCardComponent implements OnInit {
     }
 
     private removePhoto() {
+
+
+        
         let confirm = this.alertCtrl.create({
             title: 'Delete photo?',
             message: 'Are you sure that you want to remove this photo?',
@@ -138,25 +143,21 @@ export class WallCardComponent implements OnInit {
             buttons: [
             {
                 text: 'Download',
-            
+                
                 handler: () => {
             
                 }
             },
+
+                
+
             {
             text: 'View',
             handler: () => {
                 this.goToImage();
                 }       
             },
-            {
-            text: 'Remove',
-         
-            handler: () => {
-                this.removePhoto();
-            }
-            
-        },
+           
          {
             text: 'Cancel',
             role: 'cancel',
@@ -167,6 +168,16 @@ export class WallCardComponent implements OnInit {
         }
       ]
     });
+
+    if(this._isOwner)
+    {
+        let button =   {
+                text: 'Remove',
+                handler: () => { this.removePhoto();}
+            };
+        actionSheet.addButton(button);
+        
+    }
     actionSheet.present();
     }
 }
