@@ -20,6 +20,22 @@ export class PhotosService {
         return this.af.database.object("/photos/" + key);
     }
 
+    public searchPhotos(searchQuery: string, categoryKey?: string): Observable<PhotoModel[]> {
+        let options = {};
+
+        if (categoryKey && categoryKey.length) {
+            options = {
+                query: {
+                    orderByChild: 'category',
+                    equalTo: categoryKey 
+                }
+            };
+        }
+
+         return this.af.database.list("/photos", options)
+                .map(photos => photos.filter(photo => photo.title.toLowerCase().indexOf(searchQuery.toLowerCase()) > -1));
+    }
+
     public getPhotosByCategory(categoryKey: string) : Observable<PhotoModel[]> {
         return this.af.database.list(`/categories/${categoryKey}/photos`)
             .map(references => references.map(ref => ref.$key))

@@ -1,3 +1,7 @@
+import { PhotoDetailComponent } from './../photos/photo-detail/photo-detail.component';
+import { CategoriesService } from './../../services/categories.service';
+import { CategoryModel } from './../../models/category.model';
+import { PhotoModel } from './../../models/photo.model';
 import { FullscreenImageComponent } from './../fullscreen-image/fullscreen-image.component';
 import { UserProfileComponent } from './../user-profile/user-profile.component';
 import { NavController, ModalController } from 'ionic-angular';
@@ -8,6 +12,7 @@ import { Observable } from 'rxjs/Observable';
 import { Component, OnInit } from '@angular/core';
 import { Subscription } from "rxjs/Subscription";
 import { UsersService } from '../../services/users.service';
+import { PhotosService } from '../../services/photos.service';
 
 @Component({
     selector: 'search',
@@ -18,8 +23,11 @@ export class SearchComponent implements OnInit {
     private _isLoaded: Boolean = true;
     private _filteredUserUploads: Array<UserUploadModel>;
     private _filteredMembers: Array<UserModel>;
+    private _filteredPhotos: Array<PhotoModel>
     private _searchQuery: string = '';
     private _currentSubscription: Subscription;
+    private _categories: Observable<CategoryModel[]>;
+    private _selectedCategoryKey: string;
 
     set searchQuery(value: string) {
         this._searchQuery = value;
@@ -30,11 +38,13 @@ export class SearchComponent implements OnInit {
         return this._searchQuery;
     }
 
-    constructor(private nav: NavController, private modalCtrl: ModalController, private userUploadsService: UserUploadService, private usersService: UsersService) {
+    constructor(private nav: NavController, private categoriesService: CategoriesService, private modalCtrl: ModalController, private userUploadsService: UserUploadService, private photosService: PhotosService, private usersService: UsersService) {
     }    
 
     ngOnInit(): void {
-        this._searchType = 'uploads';
+        this._categories = this.categoriesService.getCategories();
+
+        this._searchType = 'photos';
         this.onSegmentChange();
     }
 
@@ -69,6 +79,15 @@ export class SearchComponent implements OnInit {
                             this._isLoaded = true;
                         });
             break;
+
+            case 'photos': 
+                this._isLoaded = false;
+                this._currentSubscription = this.photosService.searchPhotos(query, this._selectedCategoryKey)
+                        .subscribe(photos => {
+                            this._filteredPhotos = photos;
+                            this._isLoaded = true;
+                        });
+            break;
         }
     }
 
@@ -91,10 +110,35 @@ export class SearchComponent implements OnInit {
         });
     }
 
+    private goToPhoto(photo: PhotoModel) {
+        this.nav.push(PhotoDetailComponent, {
+            photo: photo
+        });
+    }
+
     private goToUpload(userUpload: UserUploadModel) {
         let fullScreenImageModal = this.modalCtrl.create(FullscreenImageComponent, { 
             userUpload: userUpload
         });
         fullScreenImageModal.present();
+    }
+
+    private getPhotoTitle(photo: PhotoModel) {
+        return photo.title;
+    }
+
+    private getPhotoImage(photo: PhotoModel) {
+        return photo.image;
+    }
+
+    private selectCategory(category: CategoryModel) {
+        if (this._selectedCategoryKey == category.$key) {
+            this._selectedCategoryKey = null;
+        }
+        else {
+            this._selectedCategoryKey = category.$key;
+        }
+        
+        this.performSearch(this._searchQuery);
     }
 }
