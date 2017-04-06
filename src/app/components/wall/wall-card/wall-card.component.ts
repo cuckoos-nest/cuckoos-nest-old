@@ -7,6 +7,8 @@ import { UsersService } from './../../../services/users.service';
 import { UserModel } from './../../../models/user.model';
 import { Component, Input, OnInit } from '@angular/core';
 import { NavController, ModalController } from 'ionic-angular';
+import { ActionSheetController } from 'ionic-angular';
+import { AlertController, ViewController } from 'ionic-angular';
 
 
 import { UserUploadModel }   from '../../../models/user-upload.model';
@@ -34,8 +36,9 @@ export class WallCardComponent implements OnInit {
     private _likes: Observable<string[]>;
     private _isLikeLoading: Boolean;
     private _commentsCount: Observable<number>;
+    private _likesCount: number;
 
-    constructor(private nav: NavController, private modalCtrl: ModalController, private photoService: PhotosService, private usersService: UsersService, private userUploadService: UserUploadService, private authService: AuthService){
+    constructor(public alertCtrl: AlertController, public actionSheetCtrl: ActionSheetController, private nav: NavController, private modalCtrl: ModalController, private photoService: PhotosService, private usersService: UsersService, private userUploadService: UserUploadService, private authService: AuthService){
     }
 
     ngOnInit(): void {
@@ -46,6 +49,7 @@ export class WallCardComponent implements OnInit {
         this._likes.subscribe(likes => {
             this._isLiked = (likes.indexOf(this.authService.currentUser.$key) != -1);
             this._isLikeLoading = false;
+            this._likesCount = likes.length;
         });
 
 
@@ -96,9 +100,73 @@ export class WallCardComponent implements OnInit {
     }
 
     private showLikers() {
+
+            if(this._likesCount == 0)
+                return;
+
           let likeModal = this.modalCtrl.create(LikeListComponent, { 
             userUpload: this.userUpload
         });
+
         likeModal.present();
+    }
+
+    private removePhoto() {
+        let confirm = this.alertCtrl.create({
+            title: 'Delete photo?',
+            message: 'Are you sure that you want to remove this photo?',
+            buttons: [
+            {
+                text: 'Disagree',
+                handler: () => {  }
+            },
+            {
+                text: 'Agree',
+                handler: () => {
+                    console.log("delete");
+                    this.userUploadService.removePhoto(this.userUpload.user, this.userUpload.$key);
+                    }
+            }]
+        });
+        
+        confirm.present();
+    }
+
+    private options(){
+         let actionSheet = this.actionSheetCtrl.create({
+            title: 'Options',
+            buttons: [
+            {
+                text: 'Download',
+            
+                handler: () => {
+            
+                }
+            },
+            {
+            text: 'View',
+            handler: () => {
+                this.goToImage();
+                }       
+            },
+            {
+            text: 'Remove',
+         
+            handler: () => {
+                this.removePhoto();
+            }
+            
+        },
+         {
+            text: 'Cancel',
+            role: 'cancel',
+            handler: () => {
+               
+            }
+            
+        }
+      ]
+    });
+    actionSheet.present();
     }
 }

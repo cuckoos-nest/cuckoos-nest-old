@@ -33,7 +33,7 @@ export class LikeListComponent implements OnInit {
     
         this._likes.subscribe(() => {
             this._isLoaded = true;
-            setTimeout(() => this.scrollToBottom(500), 500);
+           // setTimeout(() => this.scrollToBottom(500), 500);
         });
 
     }
