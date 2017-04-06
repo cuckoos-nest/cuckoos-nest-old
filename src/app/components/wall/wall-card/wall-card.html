@@ -1,11 +1,11 @@
 <ion-card >
 
-<ion-grid>  
+<ion-grid >  
   <ion-row >
-    <ion-col  col-2>
+    <ion-col col-2>
        <img [src]="user?.image" (click)="goToUser()" ngClass="profile" /> 
     </ion-col>
-    <ion-col>
+    <ion-col >
         <ion-row>
           <div class="user">{{ user?.displayName }}</div>
         </ion-row>
@@ -13,6 +13,7 @@
               <div class="time" >{{ displayCreatedSpan() }}</div>
         </ion-row>
     </ion-col>
+   
   </ion-row>
 </ion-grid>
      
@@ -20,13 +21,36 @@
   <img [src]="userUpload.image" (click)="goToImage()" />
   <img [src]="photo?.image" ngClass="photo" (click)="goToPhoto()" />
    
-  <div class="right-pane">
-    <ion-icon  name="thumbs-up" class="countDisplayText"></ion-icon>
-    <div class="likeCount" (click)="showLikers()">{{ (_likes | async)?.length }} Likes</div>
-    <div class="margin"></div>
-    <ion-icon  name="ios-text" class="countDisplayText"></ion-icon>
-    <div class="time">{{ _commentsCount | async }} Comments</div>
-  </div>
+ 
+
+<ion-grid  >
+ 
+  <ion-row>
+    <ion-col col-4></ion-col>
+    <ion-col col-3>
+        <ion-row>
+           <ion-icon ngClass="likeIcon" name="thumbs-up" ></ion-icon>
+        </ion-row>
+        <ion-row>
+            <div class="count" (click)="showLikers()">{{ (_likes | async)?.length }} Likes</div>
+        </ion-row>
+    </ion-col >
+        <ion-col  col-4 >
+        <ion-row>
+      <ion-icon ngClass="commentIcon"   name="ios-text" ></ion-icon>
+        </ion-row>
+        <ion-row>
+      <div class="count">{{ _commentsCount | async }} Comments</div>
+        </ion-row>
+    </ion-col>
+    <ion-col  col-1>
+          <button class="options" ion-button icon-left clear small (click)="options()"> 
+         <ion-icon name="more"></ion-icon>
+      </button>
+    </ion-col>
+  </ion-row>
+</ion-grid>
+
 
   <ion-card-content>
       <div class="description">{{ userUpload.description }}</div>
@@ -42,6 +66,7 @@
         <div *ngIf="!_isLiked" class="fadingLike" >Like</div>
         
       </button>
+         
     </ion-col>
     <ion-col>
       <button class="lowerCase" ion-button icon-left clear small (click)="viewComments()">
@@ -49,5 +74,6 @@
         <div>Comments</div>
       </button>
     </ion-col>
+
   </ion-row>
 </ion-card>
