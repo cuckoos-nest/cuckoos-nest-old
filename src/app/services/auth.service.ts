@@ -7,6 +7,7 @@ import { Observable } from 'rxjs/Observable';
 import { Observer } from 'rxjs/Observer';
 import 'rxjs/add/operator/map';
 import { AuthProviders, AngularFireAuth, AngularFire, FirebaseAuthState, AuthMethods } from 'angularfire2';
+import * as firebase from 'firebase';
 
 import { Facebook, FacebookLoginResponse } from 'ionic-native';
 
