@@ -2,9 +2,9 @@ import { BaseModel } from './base/base.model';
 
 export class UserModel extends BaseModel {
      displayName: string;
-     categoryFollowingCount: number;
-     numberOfFollowing: number;
-     numberOfFollowers: number;
+     followingPhotoCount: number;
+     followingUsersCount: number;
+     followersCount: number;
+     uploadsCount: number;
      image: string;
-     numberOfUploads: number;
 }

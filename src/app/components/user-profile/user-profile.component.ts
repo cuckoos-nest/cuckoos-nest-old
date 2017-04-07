@@ -19,8 +19,10 @@ export class UserProfileComponent implements OnInit {
     private _isFollowedByMe: Observable<Boolean>;
     private _isLoaded: Boolean;
 
-    constructor(private navController: NavController, private modalCtrl: ModalController, private navParams: NavParams, private authService: AuthService, private usersService: UsersService, private userUploadsService: UserUploadService, private loadingCtrl: LoadingController) {
-    }    
+    constructor(private navController: NavController, private modalCtrl: ModalController, 
+                private navParams: NavParams, private authService: AuthService, 
+                private usersService: UsersService, private userUploadsService: UserUploadService, 
+                private loadingCtrl: LoadingController) { }    
 
     ngOnInit(): void {
         if (this.navParams.get('user')) {
