@@ -1,3 +1,4 @@
+import { Transfer } from 'ionic-native/dist/es5';
 import { UserPipe } from './pipes/user.pipe';
 import { CommentsComponent } from './components/comments/comments.component';
 import { NgModule, ErrorHandler } from '@angular/core';
@@ -101,6 +102,7 @@ export const firebaseConfig = {
     NotificationsService,
     UserUploadService,
     UploadLikesService,
+    Transfer
   ]
 })
 export class AppModule { }
