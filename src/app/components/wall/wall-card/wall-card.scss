@@ -13,16 +13,15 @@
     color: #a5c6ff;
 }
 
-.right-pane {
-    float: left;
-    margin: 5px;
-    margin-left: 100px;;
-    margin-top: -35px;
-}
+
 
 .options {
     margin-top: -5px;
-    display: inline-block;
+ 
+}
+
+.commentCount {
+    margin-left: -5px;
 }
 
 .user {
@@ -55,7 +54,7 @@
 .photo {
     width: 11rem;
     margin-top: -80px;
-    margin-left: 20px;
+    margin-left: 10px;
     box-shadow: 0 1px #FFFFFF inset, 0 1px 3px rgba(34, 25, 25, 0.4);
     border: 3px solid white;
     border-radius: 3px;
