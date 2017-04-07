@@ -19,19 +19,20 @@
      
 
   <img [src]="userUpload.image" (click)="goToImage()" />
-  <img [src]="photo?.image" ngClass="photo" (click)="goToPhoto()" />
    
  
 
 <ion-grid>
  
-  <ion-row  class="displayCount">
-    <ion-col col-4></ion-col>
+  <ion-row >
+    <ion-col col-5> 
+       <img [src]="photo?.image" ngClass="photo" (click)="goToPhoto()" />
+    </ion-col>
     <ion-col col-3>
       <ion-badge (click)="showLikers()" color="primary">{{ (_likes | async)?.length }} Likes</ion-badge>
     </ion-col>
-    <ion-col col-4 >
-      <ion-badge  (click)="viewComments()" color="primary">{{ _commentsCount | async }} Comments</ion-badge>
+    <ion-col col-3 >
+      <ion-badge  (click)="viewComments()" color="primary" class="commentCount">{{ _commentsCount | async }} Comments</ion-badge>
     </ion-col>
     <ion-col col-1>
           <button class="options" ion-button icon-left clear small (click)="options()"> 
