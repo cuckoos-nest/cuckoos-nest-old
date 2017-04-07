@@ -144,7 +144,7 @@ export class WallCardComponent implements OnInit {
             buttons: [
             {
                 text: 'Download',
-                
+                   
                 handler: () => {
             
                 }
@@ -182,9 +182,9 @@ export class WallCardComponent implements OnInit {
     if(this._isOwner)
     {
         let button =   {
-                text: 'Remove',
+                text: 'Delete',
                 handler: () => { this.removePhoto(); 
-                // TODO: remove it from the propfile as well
+                // TODO: remove it from the profile as well
             }
             };
         actionSheet.addButton(button);
