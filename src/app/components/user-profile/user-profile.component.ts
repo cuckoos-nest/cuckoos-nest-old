@@ -23,7 +23,7 @@ export class UserProfileComponent implements OnInit {
                 private navParams: NavParams, private authService: AuthService, 
                 private usersService: UsersService, private userUploadsService: UserUploadService, 
                 private loadingCtrl: LoadingController) { }    
-
+                
     ngOnInit(): void {
         if (this.navParams.get('user')) {
             this._user = this.navParams.get('user');
@@ -46,8 +46,8 @@ export class UserProfileComponent implements OnInit {
         return userUpload.image;
     }
 
-    private uploadClicked(userUpload : UserUploadModel) {
-        let fullScreenImageModal = this.modalCtrl.create(FullscreenImageComponent, { 
+    private uploadClicked(userUpload: UserUploadModel) {
+        let fullScreenImageModal = this.modalCtrl.create(FullscreenImageComponent, {
             userUpload: userUpload
         });
         fullScreenImageModal.present();
