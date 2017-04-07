@@ -13,26 +13,13 @@
     color: #a5c6ff;
 }
 
-.countDisplayText {
-    color: gray;
-    margin-top: 5px; 
-    font-family: arial;
-  
-}
 
-.right-pane {
-    float: left;
-    margin: 5px;
-    margin-left: 100px;;
-    margin-top: -35px;
-  
- 
 
-}
+
 
 .options {
-      margin-top: -30px;
-   display: inline-block;
+    margin-top: -5px;
+    display: inline-block;
 }
 
 .user {
@@ -50,8 +37,9 @@
     display: block;
 }
 
-.grid {
-   
+.displayCount {
+    margin-left: 15px;
+    margin-top: -35px;
 }
 
 .time {
@@ -61,23 +49,13 @@
     display: inline-block;
 }
 
-.group {
 
-    display: inline-block;
-}
-
-.comment {
-    color: #999;
-    font-weight: bold;
-    font-size: 10px;
-    
-}
 
 .photo {
     width: 100px;
-    margin-top: -75px;
+    margin-top: -60px;
     margin-left: 20px;
-
+   
 }
 
 .profile {
@@ -88,18 +66,8 @@
     display: block;
 }
 
-.count {
-    margin-top: -8px; 
-}
 
-.headerName {
-    margin-left: 5px;
-}
 
-.margin {
-    display: inline-block;
-    margin-left: 10px;
-}
 
 .lowerCase {
     text-transform: none;

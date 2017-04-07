@@ -23,27 +23,17 @@
    
  
 
-<ion-grid  >
+<ion-grid>
  
-  <ion-row>
+  <ion-row  class="displayCount">
     <ion-col col-4></ion-col>
     <ion-col col-3>
-        <ion-row>
-           <ion-icon ngClass="likeIcon" name="thumbs-up" (click)="showLikers()"></ion-icon>
-        </ion-row>
-        <ion-row>
-            <div class="count" (click)="showLikers()">{{ (_likes | async)?.length }} Likes</div>
-        </ion-row>
-    </ion-col >
-        <ion-col  col-4 >
-        <ion-row>
-      <ion-icon ngClass="commentIcon"   name="ios-text" (click)="viewComments()"></ion-icon>
-        </ion-row>
-        <ion-row>
-      <div class="count" (click)="viewComments()">{{ _commentsCount | async }} Comments</div>
-        </ion-row>
+      <ion-badge (click)="showLikers()" color="primary">{{ (_likes | async)?.length }} Likes</ion-badge>
     </ion-col>
-    <ion-col  col-1>
+    <ion-col col-4 >
+      <ion-badge  (click)="viewComments()" color="primary">{{ _commentsCount | async }} Comments</ion-badge>
+    </ion-col>
+    <ion-col col-1>
           <button class="options" ion-button icon-left clear small (click)="options()"> 
          <ion-icon name="more"></ion-icon>
       </button>
