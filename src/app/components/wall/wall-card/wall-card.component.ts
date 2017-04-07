@@ -89,9 +89,8 @@ export class WallCardComponent implements OnInit {
         }
     }
 
-    private displayCreatedSpan() {
-        let uploadTime = this.userUpload.createdAt;
-        return timeSince(new Date(uploadTime));
+    private get timeSinceUpload() {
+        return timeSince(new Date(this.userUpload.createdAt));
     }
 
     private viewComments() {
