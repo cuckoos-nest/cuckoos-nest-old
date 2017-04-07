@@ -1,7 +1,7 @@
 <div class="gallery">
     <ion-grid>
         <ion-row *ngFor="let row of rows">
-            <ion-col width-33 *ngFor="let item of row">
+            <ion-col *ngFor="let item of row">
                 <div id="container">
                     <img *ngIf="imageMember" [src]="imageMember(item)" [hidden]="!loaded" (click)="itemClicked(item)" [alt]="titleMember ? titleMember(item) : ''" (load)="loaded = true" />
                     <div class="spinner-container" *ngIf="!loaded">

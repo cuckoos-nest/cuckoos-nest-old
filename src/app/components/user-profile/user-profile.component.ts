@@ -16,7 +16,7 @@ export class UserProfileComponent implements OnInit {
     private _user: UserModel;
     private _isMyProfile: Boolean;
     private _userUploads: Observable<UserUploadModel[]>;
-    private _isFollowedByMe: Observable<Boolean>;
+    private _isFollowedByMe: Boolean;
     private _isLoaded: Boolean;
 
     constructor(private navController: NavController, private modalCtrl: ModalController, 
@@ -38,7 +38,7 @@ export class UserProfileComponent implements OnInit {
         this._isMyProfile = (this._user.$key == this.authService.currentUser.$key);
 
         if (!this._isMyProfile) {
-            this._isFollowedByMe = this.usersService.isFollowingUser(this._user.$key);
+            this.usersService.isFollowingUser(this._user.$key).subscribe(isFollowing => this._isFollowedByMe = isFollowing);
         }
     }
 
@@ -54,10 +54,11 @@ export class UserProfileComponent implements OnInit {
     }
 
     private follow() {
-        this.usersService.follow(this._user.$key);
-    }
-
-    private unfollow() {
-        this.usersService.unfollow(this._user.$key);
+        if (!this._isFollowedByMe) {
+            this.usersService.follow(this._user.$key);
+        }
+        else {
+            this.usersService.unfollow(this._user.$key);
+        }
     }
 }

@@ -1,18 +1,10 @@
 .gallery {
     text-align: center;
 
-    ion-img, .spinner-container {
+    .spinner-container {
         width: 100px;
         height: 100px;
     }
-
-    // ion-img:not(.img-loaded) {
-    //     display: none;
-    // }
-
-    // .img-loaded + ion-spinner {
-    //     display: none;
-    // }
 
     ion-col {
         text-align: center;

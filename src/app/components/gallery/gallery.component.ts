@@ -21,7 +21,7 @@ export class GalleryComponent implements OnChanges {
             this.rows.push(new Array<any>());
 
             for (let item of value) {
-                if (currentNumberOfColumns > 2) {
+                if (currentNumberOfColumns > (this.columns - 1)) {
                     currentNumberOfColumns = 0;
                     this.rows.push(new Array<any>());
                     currentRow++;
@@ -42,6 +42,10 @@ export class GalleryComponent implements OnChanges {
 
     @Input()
     labelMember : (item : any) => string;
+
+    @Input()
+    columns : number = 2;
+
 
     @Output()
     onItemClicked = new EventEmitter<any>();
