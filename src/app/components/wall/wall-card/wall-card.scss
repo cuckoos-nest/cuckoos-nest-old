@@ -8,12 +8,13 @@
     width: 24px;
 }
 
-.fadingLike{
-
+.like-button:not(.selected) {
     color: #a5c6ff;
 }
 
-
+.like-button.selected {
+    text-shadow: 1px 1px 10px #a5c6ff;
+}
 
 .options {
     margin-top: -5px;
@@ -41,7 +42,7 @@
 
 .displayCount {
     margin-left: 25px;
-    margin-top: -35px;
+        margin-top: -35px;
 }
 
 .time {
