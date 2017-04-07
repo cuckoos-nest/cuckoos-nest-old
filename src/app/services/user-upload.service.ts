@@ -104,8 +104,11 @@ export class UserUploadService {
 
     public removePhoto(userUploadKey: string, uploadKey: string): void {
         this.af.database.object(`/users/${userUploadKey}/uploads/${uploadKey}`).set(null);
+      
+    }
 
-        
+    public removePhotoFromWall(userKey: string, uploadKey: string) : void {
+        this.af.database.object(`/walls/${userKey}/${uploadKey}`).set(null);
     }
 
        public searchUserUploads(searchQuery: string): Observable<UserUploadModel[]> {

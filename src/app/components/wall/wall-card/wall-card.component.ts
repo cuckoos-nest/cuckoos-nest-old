@@ -140,6 +140,7 @@ export class WallCardComponent implements OnInit {
     private options(){
          let actionSheet = this.actionSheetCtrl.create({
             title: 'Options',
+            
             buttons: [
             {
                 text: 'Download',
@@ -153,8 +154,17 @@ export class WallCardComponent implements OnInit {
 
             {
             text: 'View',
+            
             handler: () => {
                 this.goToImage();
+                }       
+            },
+              {
+            text: 'Hide',
+            
+            handler: () => {
+                console.log("hide");
+                this.userUploadService.removePhotoFromWall(this.authService.currentUser.$key, this.userUpload.$key);
                 }       
             },
            
@@ -173,7 +183,9 @@ export class WallCardComponent implements OnInit {
     {
         let button =   {
                 text: 'Remove',
-                handler: () => { this.removePhoto();}
+                handler: () => { this.removePhoto(); 
+                // TODO: remove it from the propfile as well
+            }
             };
         actionSheet.addButton(button);
         
