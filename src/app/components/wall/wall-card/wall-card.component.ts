@@ -11,7 +11,7 @@ import { ActionSheetController } from 'ionic-angular';
 import { AlertController, ViewController } from 'ionic-angular';
 
 
-import { UserUploadModel }   from '../../../models/user-upload.model';
+import { UserUploadModel } from '../../../models/user-upload.model';
 // import { UserModel } from '../../../models/user.model';
 import { UserProfileComponent } from '../../user-profile/user-profile.component';
 import { FullscreenImageComponent } from '../../fullscreen-image/fullscreen-image.component';
@@ -22,6 +22,7 @@ import { WallService } from '../../../services/wall.service';
 import { PhotoModel } from '../../../models/photo.model';
 import { PhotosService } from '../../../services/photos.service';
 import { AuthService } from '../../../services/auth.service';
+import { Transfer } from "ionic-native/dist/es5";
 
 @Component({
     selector: 'wall-card',
@@ -39,7 +40,7 @@ export class WallCardComponent implements OnInit {
     private _likesCount: number;
     private _isOwner: Boolean;
 
-    constructor(public alertCtrl: AlertController, public actionSheetCtrl: ActionSheetController, private nav: NavController, private modalCtrl: ModalController, private photoService: PhotosService, private usersService: UsersService, private userUploadService: UserUploadService, private authService: AuthService){
+    constructor(public alertCtrl: AlertController, public actionSheetCtrl: ActionSheetController, private nav: NavController, private modalCtrl: ModalController, private photoService: PhotosService, private usersService: UsersService, private userUploadService: UserUploadService, private authService: AuthService, private transfer: Transfer) {
     }
 
     ngOnInit(): void {
@@ -53,7 +54,7 @@ export class WallCardComponent implements OnInit {
             this._likesCount = likes.length;
         });
 
-        this._isOwner = (this.authService.currentUser.$key == this.userUpload.user);   
+        this._isOwner = (this.authService.currentUser.$key == this.userUpload.user);
 
         this._commentsCount = this.userUploadService.getCommentCount(this.userUpload.$key);
     }
@@ -66,7 +67,7 @@ export class WallCardComponent implements OnInit {
     }
 
     private goToImage() {
-        let fullScreenImageModal = this.modalCtrl.create(FullscreenImageComponent, { 
+        let fullScreenImageModal = this.modalCtrl.create(FullscreenImageComponent, {
             userUpload: this.userUpload
         });
         fullScreenImageModal.present();
@@ -80,7 +81,7 @@ export class WallCardComponent implements OnInit {
 
     private like() {
         this._isLikeLoading = true;
-        
+
         if (this._isLiked == false) {
             this.userUploadService.like(this.userUpload.$key);
         }
@@ -94,7 +95,7 @@ export class WallCardComponent implements OnInit {
     }
 
     private viewComments() {
-        let commentsModal = this.modalCtrl.create(CommentsComponent, { 
+        let commentsModal = this.modalCtrl.create(CommentsComponent, {
             userUpload: this.userUpload
         });
         commentsModal.present();
@@ -102,10 +103,10 @@ export class WallCardComponent implements OnInit {
 
     private showLikers() {
 
-            if(this._likesCount == 0)
-                return;
+        if (this._likesCount == 0)
+            return;
 
-          let likeModal = this.modalCtrl.create(LikeListComponent, { 
+        let likeModal = this.modalCtrl.create(LikeListComponent, {
             userUpload: this.userUpload
         });
 
@@ -115,80 +116,81 @@ export class WallCardComponent implements OnInit {
     private removePhoto() {
 
 
-        
+
         let confirm = this.alertCtrl.create({
             title: 'Delete photo?',
             message: 'Are you sure that you want to remove this photo?',
             buttons: [
-            {
-                text: 'Disagree',
-                handler: () => {  }
-            },
-            {
-                text: 'Agree',
-                handler: () => {
-                    console.log("delete");
-                    this.userUploadService.removePhoto(this.userUpload.user, this.userUpload.$key);
+                {
+                    text: 'Disagree',
+                    handler: () => { }
+                },
+                {
+                    text: 'Agree',
+                    handler: () => {
+                        console.log("delete");
+                        this.userUploadService.removePhoto(this.userUpload.user, this.userUpload.$key);
                     }
-            }]
+                }]
         });
-        
+
         confirm.present();
     }
 
-    private options(){
-         let actionSheet = this.actionSheetCtrl.create({
+    private options() {
+        let actionSheet = this.actionSheetCtrl.create({
             title: 'Options',
-            
+
             buttons: [
-            {
-                text: 'Download',
-                   
-                handler: () => {
-            
+                {
+                    text: 'Download',
+
+                    handler: () => {
+                        this.transfer.download(this.userUpload.image, this.userUpload.$key + '.jpg').then((entry) => {
+                            console.log('download complete: ' + entry.toURL());
+                        }, (error) => {
+                            // handle error
+                        });
+                    }
+                },
+                {
+                    text: 'View',
+
+                    handler: () => {
+                        this.goToImage();
+                    }
+                },
+                {
+                    text: 'Hide',
+
+                    handler: () => {
+                        console.log("hide");
+                        this.userUploadService.removePhotoFromWall(this.authService.currentUser.$key, this.userUpload.$key);
+                    }
+                },
+                {
+                    text: 'Cancel',
+                    role: 'cancel',
+                    handler: () => {
+
+                    }
+
                 }
-            },
+            ]
+        });
 
-                
-
-            {
-            text: 'View',
-            
-            handler: () => {
-                this.goToImage();
-                }       
-            },
-              {
-            text: 'Hide',
-            
-            handler: () => {
-                console.log("hide");
-                this.userUploadService.removePhotoFromWall(this.authService.currentUser.$key, this.userUpload.$key);
-                }       
-            },
-           
-         {
-            text: 'Cancel',
-            role: 'cancel',
-            handler: () => {
-               
-            }
-            
-        }
-      ]
-    });
-
-    if(this._isOwner)
-    {
-        let button =   {
+        if (this._isOwner) {
+            let button = {
                 text: 'Delete',
-                handler: () => { this.removePhoto(); 
-                // TODO: remove it from the profile as well
-            }
+                handler: () => {
+                    this.removePhoto();
+                    // TODO: remove it from the profile as well
+                }
             };
-        actionSheet.addButton(button);
-        
-    }
-    actionSheet.present();
+            actionSheet.addButton(button);
+
+        }
+
+        actionSheet.present();
     }
 }
