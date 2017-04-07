@@ -49,13 +49,9 @@
 
   <ion-row>
     <ion-col>
-      <button  class="lowerCase" ion-button icon-left clear small (click)="like()" [disabled]="_isLikeLoading"> 
-        <ion-icon [hidden]="_isLiked" name="thumbs-up" class="fadingLike"></ion-icon>
-        <ion-icon [hidden]="!_isLiked" name="thumbs-up" ></ion-icon>
-
-        <div *ngIf="_isLiked" >Like</div>
-        <div *ngIf="!_isLiked" class="fadingLike" >Like</div>
-        
+      <button  class="lowerCase" ion-button icon-left clear small (click)="like()" [disabled]="_isLikeLoading" [ngClass]="{'like-button': true, 'selected': _isLiked}"> 
+        <ion-icon name="thumbs-up"></ion-icon>
+        Like        
       </button>
          
     </ion-col>
