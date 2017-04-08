@@ -45,6 +45,10 @@ export class UsersService {
         return this.af.database.object(`/user-followers/users-im-following/${this.authService.currentUser.$key}/${uid}`).map(x => x.$exists());
     }
 
+    public isFollowingPhoto(photoKey : string) : Observable<Boolean> {
+        return this.af.database.object(`/photo-followers/${photoKey}/${this.authService.currentUser.$key}`).map(x => x.$exists());
+    }
+
     public getRecentSearches() {
         return this.af.database.list(`/recent-searches/${this.authService.currentUser.$key}/members/`)
             .map(references => references.map(ref => ref.$key))
