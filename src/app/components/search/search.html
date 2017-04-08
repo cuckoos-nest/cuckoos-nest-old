@@ -51,14 +51,29 @@
       <gallery *ngIf="_isLoaded" [items]="_filteredPhotos | orderBy:'title'" [titleMember]="getPhotoTitle" [imageMember]="getPhotoImage" (onItemClicked)="goToPhoto($event)"></gallery>
     </div>
 
-    <ion-list *ngSwitchCase="'members'">
-      <ion-item *ngFor="let member of (_filteredMembers | orderBy:'displayName')" (click)="goToUser(member)">
-          <ion-avatar item-left>
-              <img [src]="member.image">
-          </ion-avatar>
-          <h2>{{ member.displayName }}</h2>
-          <p>Uploaded {{ member.uploadsCount }} cuckoos</p>
-      </ion-item>
-    </ion-list>
-  </div>
+    <div *ngSwitchCase="'members'">
+      <ion-list *ngIf="!_filteredMembers || !_filteredMembers.length">
+        <ion-list-header>
+          Recent
+        </ion-list-header>
+
+        <ion-item *ngFor="let member of (recentMemberSearches | async)" (click)="goToUser(member)">
+            <ion-avatar item-left>
+                <img [src]="member.image">
+            </ion-avatar>
+            <h2>{{ member.displayName }}</h2>
+        </ion-item>
+      </ion-list>
+
+      <ion-list *ngIf="_filteredMembers && _filteredMembers.length">
+        <ion-item *ngFor="let member of (_filteredMembers | orderBy:'displayName')" (click)="goToUser(member)">
+            <ion-avatar item-left>
+                <img [src]="member.image">
+            </ion-avatar>
+            <h2>{{ member.displayName }}</h2>
+            <p>Uploaded {{ member.uploadsCount }} cuckoos</p>
+        </ion-item>
+      </ion-list>
+    </div>
+  </div> 
 </ion-content>

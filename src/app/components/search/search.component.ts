@@ -28,6 +28,7 @@ export class SearchComponent implements OnInit {
     private _currentSubscription: Subscription;
     private _categories: Observable<CategoryModel[]>;
     private _selectedCategoryKey: string;
+    private recentMemberSearches: Observable<UserModel[]>;
 
     set searchQuery(value: string) {
         this._searchQuery = value;
@@ -43,7 +44,7 @@ export class SearchComponent implements OnInit {
 
     ngOnInit(): void {
         this._categories = this.categoriesService.getCategories();
-
+        this.recentMemberSearches =  this.usersService.getRecentSearches();
         this._searchType = 'photos';
         this.onSegmentChange();
     }
@@ -105,6 +106,7 @@ export class SearchComponent implements OnInit {
     }
 
     private goToUser(user: UserModel) {
+        this.usersService.addRecentSearch(user.$key);
         this.nav.push(UserProfileComponent, {
             user: user
         });
