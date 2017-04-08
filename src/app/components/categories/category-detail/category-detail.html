@@ -29,5 +29,5 @@
 
   <ion-spinner *ngIf="!_isLoaded" ngClass="middle-vertical"></ion-spinner>
   
-  <gallery *ngIf="_isLoaded" [items]="photos | async" [titleMember]="getPhotoTitle" [imageMember]="getPhotoImage" (onItemClicked)="photoClicked($event)"></gallery>
+  <gallery *ngIf="_isLoaded" [items]="photos | async | orderBy:'title'" [titleMember]="getPhotoTitle" [imageMember]="getPhotoImage" (onItemClicked)="photoClicked($event)"></gallery>
 </ion-content>

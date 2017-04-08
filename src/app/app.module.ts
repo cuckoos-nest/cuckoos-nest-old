@@ -1,3 +1,4 @@
+import { OrderByPipe } from './pipes/order-by.pipe';
 import { Transfer } from '@ionic-native/transfer';
 import { UserPipe } from './pipes/user.pipe';
 import { CommentsComponent } from './components/comments/comments.component';
@@ -63,6 +64,7 @@ export const firebaseConfig = {
     CommentsComponent,
     LikeListComponent,
     UserPipe,
+    OrderByPipe,
   ],
   imports: [
     IonicModule.forRoot(MyApp),
