@@ -4,9 +4,10 @@ import { UserModel } from './../../models/user.model';
 import { AuthService } from './../../services/auth.service';
 import { FullscreenImageComponent } from './../fullscreen-image/fullscreen-image.component';
 import { UserUploadModel } from './../../models/user-upload.model';
-import { Component, OnInit } from '@angular/core';
-import { NavParams, NavController, LoadingController, ModalController } from 'ionic-angular';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { NavParams, NavController, LoadingController, ModalController, Content } from 'ionic-angular';
 import { UsersService } from './../../services/users.service';
+import { UsersListComponent } from '../users-list/users-list.component';
 
 @Component({
     selector: 'user-profile',
@@ -18,6 +19,10 @@ export class UserProfileComponent implements OnInit {
     private _userUploads: Observable<UserUploadModel[]>;
     private _isFollowedByMe: Boolean;
     private _isLoaded: Boolean;
+    private followers: Observable<UserModel[]>;
+    private following: Observable<UserModel[]>;
+
+    @ViewChild('content') content: Content;
 
     constructor(private navController: NavController, private modalCtrl: ModalController, 
                 private navParams: NavParams, private authService: AuthService, 
@@ -40,6 +45,9 @@ export class UserProfileComponent implements OnInit {
         if (!this._isMyProfile) {
             this.usersService.isFollowingUser(this._user.$key).subscribe(isFollowing => this._isFollowedByMe = isFollowing);
         }
+
+        this.followers = this.usersService.getFollowers();
+        this.following = this.usersService.getFollowing();
     }
 
     private getUploadImage(userUpload: UserUploadModel): string {
@@ -60,5 +68,32 @@ export class UserProfileComponent implements OnInit {
         else {
             this.usersService.unfollow(this._user.$key);
         }
+    }
+
+    private showPhotos() {
+
+    }
+
+    private showFollowing() {
+        let usersModal = this.modalCtrl.create(UsersListComponent, {
+            title: 'Following',
+            users: this.following
+        });
+
+        usersModal.present();
+    }
+
+    private showFollowers() {
+        let usersModal = this.modalCtrl.create(UsersListComponent, {
+            title: 'Followers',
+            users: this.followers,
+        });
+
+        usersModal.present();
+    }
+
+     private showUploads() {
+        let yOffset = document.getElementById("uploads").offsetTop;
+        this.content.scrollTo(0, yOffset, 1000)
     }
 }
