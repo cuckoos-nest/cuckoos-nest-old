@@ -1,0 +1,45 @@
+0 info it worked if it ends with ok
+1 verbose cli [ 'C:\\Program Files\\nodejs\\node.exe',
+1 verbose cli   'C:\\Program Files\\nodejs\\node_modules\\npm\\bin\\npm-cli.js',
+1 verbose cli   'run',
+1 verbose cli   'ionic:serve',
+1 verbose cli   '--',
+1 verbose cli   '--v2',
+1 verbose cli   '--address',
+1 verbose cli   '0.0.0.0',
+1 verbose cli   '--port',
+1 verbose cli   '8100',
+1 verbose cli   '--livereload-port',
+1 verbose cli   '35729' ]
+2 info using npm@3.10.8
+3 info using node@v6.9.1
+4 verbose run-script [ 'preionic:serve', 'ionic:serve', 'postionic:serve' ]
+5 info lifecycle cukoos-nest@~preionic:serve: cukoos-nest@
+6 silly lifecycle cukoos-nest@~preionic:serve: no script for preionic:serve, continuing
+7 info lifecycle cukoos-nest@~ionic:serve: cukoos-nest@
+8 verbose lifecycle cukoos-nest@~ionic:serve: unsafe-perm in lifecycle true
+9 verbose lifecycle cukoos-nest@~ionic:serve: PATH: C:\Program Files\nodejs\node_modules\npm\bin\node-gyp-bin;C:\projets\cuckoo\node_modules\.bin;C:\Program Files (x86)\NVIDIA Corporation\PhysX\Common;C:\ProgramData\Oracle\Java\javapath;C:\Program Files\Common Files\Microsoft Shared\Windows Live;C:\Program Files (x86)\Common Files\Microsoft Shared\Windows Live;C:\Program Files (x86)\Intel\iCLS Client\;C:\Program Files\Intel\iCLS Client\;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0\;C:\Program Files\ThinkPad\Bluetooth Software\;C:\Program Files\ThinkPad\Bluetooth Software\syswow64;C:\Program Files (x86)\Intel\OpenCL SDK\2.0\bin\x86;C:\Program Files (x86)\Intel\OpenCL SDK\2.0\bin\x64;C:\Program Files\Common Files\Lenovo;C:\Program Files (x86)\Common Files\Ulead Systems\MPEG;C:\Program Files (x86)\Windows Live\Shared;C:\SWTOOLS\ReadyApps;C:\Program Files (x86)\Common Files\Lenovo;C:\Program Files (x86)\GtkSharp\2.12\bin;C:\Program Files (x86)\Subversion\bin;C:\Program Files\Microsoft SQL Server\110\Tools\Binn\;C:\Program Files\Microsoft SQL Server\120\Tools\Binn\;C:\Progr;C:\Program Files\Microsoft SQL Server\130\Tools\Binn\;C:\Program Files\dotnet\;C:\Program Files\Git\cmd;C:\Program Files\nodejs\;C:\Program Files (x86)\Skype\Phone\;C:\Program Files\TortoiseGit\bin;C:\Program Files\TortoiseSVN\bin;C:\Program Files (x86)\Microsoft VS Code\bin;C:\Users\peer\AppData\Local\atom\bin;C:\Users\peer\AppData\Roaming\Composer\vendor\bin;C:\Program Files\Intel\WiFi\bin\;C:\Program Files\Common Files\Intel\WirelessCommon\;C:\Users\peer\AppData\Local\Microsoft\WindowsApps;C:\Users\peer\AppData\Roaming\npm
+10 verbose lifecycle cukoos-nest@~ionic:serve: CWD: C:\projets\cuckoo
+11 silly lifecycle cukoos-nest@~ionic:serve: Args: [ '/d /s /c',
+11 silly lifecycle   'ionic-app-scripts serve "--v2" "--address" "0.0.0.0" "--port" "8100" "--livereload-port" "35729"' ]
+12 verbose stack Error: kill ENOSYS
+12 verbose stack     at exports._errnoException (util.js:1026:11)
+12 verbose stack     at process.kill (internal/process.js:172:13)
+12 verbose stack     at process.listener (C:\Program Files\nodejs\node_modules\npm\node_modules\npmlog\node_modules\gauge\node_modules\signal-exit\index.js:86:15)
+12 verbose stack     at emitNone (events.js:91:20)
+12 verbose stack     at process.emit (events.js:185:7)
+12 verbose stack     at processEmit (C:\Program Files\nodejs\node_modules\npm\node_modules\npmlog\node_modules\gauge\node_modules\signal-exit\index.js:146:32)
+12 verbose stack     at processEmit (C:\Program Files\nodejs\node_modules\npm\node_modules\npm-registry-client\node_modules\npmlog\node_modules\gauge\node_modules\signal-exit\index.js:146:32)
+12 verbose stack     at Signal.wrap.onsignal (internal/process.js:199:44)
+13 verbose cwd C:\projets\cuckoo
+14 error Windows_NT 10.0.14393
+15 error argv "C:\\Program Files\\nodejs\\node.exe" "C:\\Program Files\\nodejs\\node_modules\\npm\\bin\\npm-cli.js" "run" "ionic:serve" "--" "--v2" "--address" "0.0.0.0" "--port" "8100" "--livereload-port" "35729"
+16 error node v6.9.1
+17 error npm  v3.10.8
+18 error code ENOSYS
+19 error errno ENOSYS
+20 error syscall kill
+21 error kill ENOSYS
+22 error If you need help, you may report this error at:
+22 error     <https://github.com/npm/npm/issues>
+23 verbose exit [ 1, true ]
