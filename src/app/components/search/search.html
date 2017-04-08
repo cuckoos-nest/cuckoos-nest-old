@@ -23,7 +23,7 @@
 
   <ion-toolbar mode="ios" *ngIf="_searchType == 'photos'">
     <ion-scroll scrollX="true" ngClass="categories-scroller"> 
-      <div (click)="selectCategory(category)" [ngClass]="{'category': true, 'selected': (_selectedCategoryKey && _selectedCategoryKey == category.$key)}"  *ngFor="let category of _categories | async">
+      <div (click)="selectCategory(category)" [ngClass]="{'category': true, 'selected': (_selectedCategory && _selectedCategory.$key == category.$key)}"  *ngFor="let category of _categories | async">
         <img [src]="category.image" />
         <p>{{ category.name }}</p>
       </div>
@@ -48,6 +48,9 @@
     </ion-list>
 
     <div *ngSwitchCase="'photos'">      
+      <div class="section-title">
+        {{ _selectedCategory ? _selectedCategory.name : 'All Categories' }}
+      </div>
       <gallery *ngIf="_isLoaded" [items]="_filteredPhotos | orderBy:'title'" [titleMember]="getPhotoTitle" [imageMember]="getPhotoImage" (onItemClicked)="goToPhoto($event)"></gallery>
     </div>
 
