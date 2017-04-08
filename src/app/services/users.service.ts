@@ -44,4 +44,15 @@ export class UsersService {
     public isFollowingUser(uid: string): Observable<Boolean> {
         return this.af.database.object(`/user-followers/users-im-following/${this.authService.currentUser.$key}/${uid}`).map(x => x.$exists());
     }
+
+    public getRecentSearches() {
+        return this.af.database.list(`/recent-searches/${this.authService.currentUser.$key}/members/`)
+            .map(references => references.map(ref => ref.$key))
+            .map(keys => keys.map(key => this.getUser(key)))
+            .switchMap(x => Observable.combineLatest(x));
+    }
+
+    public addRecentSearch(uid: string): firebase.Promise<void> {
+        return this.af.database.object(`/recent-searches/${this.authService.currentUser.$key}/members/${uid}`).set(true);
+    }
 }
