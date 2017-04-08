@@ -27,7 +27,7 @@ export class SearchComponent implements OnInit {
     private _searchQuery: string = '';
     private _currentSubscription: Subscription;
     private _categories: Observable<CategoryModel[]>;
-    private _selectedCategoryKey: string;
+    private _selectedCategory: CategoryModel;
     private recentMemberSearches: Observable<UserModel[]>;
 
     set searchQuery(value: string) {
@@ -83,7 +83,7 @@ export class SearchComponent implements OnInit {
 
             case 'photos': 
                 this._isLoaded = false;
-                this._currentSubscription = this.photosService.searchPhotos(query, this._selectedCategoryKey)
+                this._currentSubscription = this.photosService.searchPhotos(query, this._selectedCategory ? this._selectedCategory.$key : null)
                         .subscribe(photos => {
                             this._filteredPhotos = photos;
                             this._isLoaded = true;
@@ -134,11 +134,11 @@ export class SearchComponent implements OnInit {
     }
 
     private selectCategory(category: CategoryModel) {
-        if (this._selectedCategoryKey == category.$key) {
-            this._selectedCategoryKey = null;
+        if (this._selectedCategory && this._selectedCategory.$key == category.$key) {
+            this._selectedCategory = null;
         }
         else {
-            this._selectedCategoryKey = category.$key;
+            this._selectedCategory = category;
         }
         
         this.performSearch(this._searchQuery);
