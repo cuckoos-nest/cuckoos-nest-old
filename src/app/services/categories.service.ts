@@ -21,7 +21,13 @@ export class CategoriesService {
     }
 
     public getCategories(): FirebaseListObservable<CategoryModel[]> {
-        return this.af.database.list("/categories");
+        var options = {
+            query: {
+                orderByChild: 'name'
+            }
+        };
+
+        return this.af.database.list("/categories", options);
     }
 
     public getCategory(key: string): FirebaseObjectObservable<CategoryModel> {
