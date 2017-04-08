@@ -35,13 +35,13 @@
         },
         "cordova-plugin-file-transfer": {
             "PACKAGE_NAME": "com.cukoos.nest"
+        },
+        "cordova-plugin-file": {
+            "PACKAGE_NAME": "com.cukoos.nest"
         }
     },
     "dependent_plugins": {
         "cordova-plugin-compat": {
-            "PACKAGE_NAME": "com.cukoos.nest"
-        },
-        "cordova-plugin-file": {
             "PACKAGE_NAME": "com.cukoos.nest"
         }
     }
