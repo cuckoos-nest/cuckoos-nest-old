@@ -38,12 +38,12 @@ export class LikeListComponent implements OnInit {
 
     }
 
-      private scrollToBottom(speed = 0) {
+    private scrollToBottom(speed = 0) {
         console.log("bottom", this._content.getContentDimensions());
         this._content.scrollTo(0, this._content.getContentDimensions().scrollHeight, speed);
     }
 
-     private dismiss() {
+    private dismiss() {
         this.viewCtrl.dismiss();
     }
 

@@ -1,3 +1,4 @@
+import { UsersListComponent } from './components/users-list/users-list.component';
 import { OrderByPipe } from './pipes/order-by.pipe';
 import { Transfer } from '@ionic-native/transfer';
 import { UserPipe } from './pipes/user.pipe';
@@ -63,6 +64,8 @@ export const firebaseConfig = {
     WebcamComponent,
     CommentsComponent,
     LikeListComponent,
+    UsersListComponent,
+    
     UserPipe,
     OrderByPipe,
   ],
@@ -93,6 +96,7 @@ export const firebaseConfig = {
     WebcamComponent,
     CommentsComponent,
     LikeListComponent,
+    UsersListComponent,
   ],
   providers: [
     { provide: ErrorHandler, useClass: IonicErrorHandler },

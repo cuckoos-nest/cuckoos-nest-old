@@ -8,27 +8,27 @@
   </ion-navbar>
 </ion-header>
 
-<ion-content ngClass="user-profile">
+<ion-content #content ngClass="user-profile">
 
   <ion-grid>
     <ion-row>
-      <ion-col col-3 ngClass="counter">
+      <ion-col col-3 ngClass="counter" (click)="showUploads()">
         <div ngClass="counter-value">{{ _user.uploadsCount }}</div>
         <div ngClass="counter-title">Cuckoos</div>
       </ion-col>
 
-      <ion-col col-3 ngClass="counter">
+      <ion-col col-3 ngClass="counter" (click)="showPhotos()">
         <div ngClass="counter-value">{{ _user.followingPhotoCount }}</div>
         <div ngClass="counter-title">Nests</div>
       </ion-col>
 
-      <ion-col col-3 ngClass="counter">
-        <div ngClass="counter-value">{{ _user.followingUsersCount }}</div>
+      <ion-col col-3 ngClass="counter" (click)="showFollowing()">
+        <div ngClass="counter-value">{{ (following | async)?.length }}</div>
         <div ngClass="counter-title">Following</div>
       </ion-col>
 
-      <ion-col col-3 ngClass="counter">
-        <div ngClass="counter-value">{{ _user.followersCount }}</div>
+      <ion-col col-3 ngClass="counter" (click)="showFollowers()">
+        <div ngClass="counter-value">{{ (followers | async)?.length }}</div> 
         <div ngClass="counter-title">Followers</div>
       </ion-col>
     </ion-row>
@@ -46,7 +46,7 @@
     <button ion-button *ngIf="!_isMyProfile" [outline]="!_isFollowedByMe" round small (click)="follow()">{{ _isFollowedByMe ? 'Following' : 'Follow' }}</button>
   </div>
 
-  <div class="gallery-container">
+  <div class="gallery-container" id="uploads">
     <gallery *ngIf="_isLoaded" columns="2" [items]="_userUploads | async" [imageMember]="getUploadImage" (onItemClicked)="uploadClicked($event)"></gallery>
     <ion-spinner *ngIf="!_isLoaded" ngClass="middle-vertical"></ion-spinner>
   </div> 

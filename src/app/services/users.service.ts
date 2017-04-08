@@ -22,11 +22,6 @@ export class UsersService {
                 .map(users => users.filter(user => user.displayName.toLowerCase().indexOf(searchQuery.toLowerCase()) > -1));
     }
 
-    public getUsersImFollowing(uid: string): Observable<string[]> {
-        return this.af.database.list(`/user-followers/following/${this.authService.currentUser.$key}`)
-        .map(refArr => refArr.map(ref => ref.$key));
-    }
-
     public follow(uid: string): void {
         this.af.database.object(`/user-followers/users-follow-me/${uid}/${this.authService.currentUser.$key}`).set(true);
         this.af.database.object(`/user-followers/users-im-following/${this.authService.currentUser.$key}/${uid}`).set(true);
@@ -58,5 +53,19 @@ export class UsersService {
 
     public addRecentSearch(uid: string): firebase.Promise<void> {
         return this.af.database.object(`/recent-searches/${this.authService.currentUser.$key}/members/${uid}`).set(true);
+    }
+
+    public getFollowers() {
+        return this.af.database.list(`/user-followers/users-follow-me/${this.authService.currentUser.$key}`)
+                    .map(references => references.map(ref => ref.$key))
+                    .map(keys => keys.map(key => this.getUser(key)))
+                    .switchMap(x => Observable.combineLatest(x));
+    }
+
+    public getFollowing() {
+        return this.af.database.list(`/user-followers/users-im-following/${this.authService.currentUser.$key}`)
+                    .map(references => references.map(ref => ref.$key))
+                    .map(keys => keys.map(key => this.getUser(key)))
+                    .switchMap(x => Observable.combineLatest(x));
     }
 }
