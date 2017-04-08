@@ -1,4 +1,4 @@
-import { Transfer } from 'ionic-native/dist/es5';
+import { Transfer } from '@ionic-native/transfer';
 import { UserPipe } from './pipes/user.pipe';
 import { CommentsComponent } from './components/comments/comments.component';
 import { NgModule, ErrorHandler } from '@angular/core';

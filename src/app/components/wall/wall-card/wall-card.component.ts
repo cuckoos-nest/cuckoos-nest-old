@@ -22,7 +22,7 @@ import { WallService } from '../../../services/wall.service';
 import { PhotoModel } from '../../../models/photo.model';
 import { PhotosService } from '../../../services/photos.service';
 import { AuthService } from '../../../services/auth.service';
-//import { Transfer } from "ionic-native/dist/es5";
+import { Transfer, TransferObject } from '@ionic-native/transfer';
 
 @Component({
     selector: 'wall-card',
@@ -39,8 +39,9 @@ export class WallCardComponent implements OnInit {
     private _commentsCount: Observable<number>;
     private _likesCount: number;
     private _isOwner: Boolean;
+    private fileTransfer: TransferObject = this.transfer.create();
 
-    constructor(public alertCtrl: AlertController, public actionSheetCtrl: ActionSheetController, private nav: NavController, private modalCtrl: ModalController, private photoService: PhotosService, private usersService: UsersService, private userUploadService: UserUploadService, private authService: AuthService){//, private transfer: Transfer) {
+    constructor(public alertCtrl: AlertController, public actionSheetCtrl: ActionSheetController, private nav: NavController, private modalCtrl: ModalController, private photoService: PhotosService, private usersService: UsersService, private userUploadService: UserUploadService, private authService: AuthService, private transfer: Transfer) {
     }
 
     ngOnInit(): void {
@@ -146,11 +147,11 @@ export class WallCardComponent implements OnInit {
                     text: 'Download',
 
                     handler: () => {
-                        // this.transfer.download(this.userUpload.image, this.userUpload.$key + '.jpg').then((entry) => {
-                        //     console.log('download complete: ' + entry.toURL());
-                        // }, (error) => {
-                        //     // handle error
-                        // });
+                        this.fileTransfer.download(this.userUpload.image, this.userUpload.$key + '.jpg').then((entry) => {
+                            console.log('download complete: ' + entry.toURL());
+                        }, (error) => {
+                            // handle error
+                        });
                     }
                 },
                 {
