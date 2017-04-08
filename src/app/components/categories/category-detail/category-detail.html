@@ -18,13 +18,6 @@
         <div ngClass="counter-title">Followers</div>
       </ion-col>
     </ion-row>
-
-    <ion-row>
-      <ion-col col-9 offset-3 text-center>
-        <button color="secondary" clear ion-button small (click)="follow()" *ngIf="!(_isFollowedByMe | async)">Follow</button>
-        <button color="secondary" ion-button small (click)="unfollow()" *ngIf="_isFollowedByMe | async">Following</button>
-      </ion-col>
-    </ion-row>
   </ion-grid>
 
   <ion-spinner *ngIf="!_isLoaded" ngClass="middle-vertical"></ion-spinner>

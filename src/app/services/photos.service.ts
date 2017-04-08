@@ -1,3 +1,5 @@
+import { UsersService } from './users.service';
+import { AuthService } from './auth.service';
 import { Observer } from 'rxjs/Observer';
 import { AngularFire, FirebaseObjectObservable } from 'angularfire2';
 import { Injectable } from '@angular/core';
@@ -13,8 +15,8 @@ import Config from '../config.json';
 @Injectable()
 export class PhotosService {
 
-    constructor(private af: AngularFire) {
-    }
+    constructor(private af: AngularFire, private authService : AuthService,
+                private userService : UsersService) { }
 
     public getPhoto(key: string) : Observable<PhotoModel> {
         return this.af.database.object("/photos/" + key);
@@ -41,5 +43,20 @@ export class PhotosService {
             .map(references => references.map(ref => ref.$key))
             .map(keys => keys.map(key => this.getPhoto(key)))
             .switchMap(x => Observable.combineLatest(x));
+    }
+
+    public getFollowersPhotoCount(photoKey : string) : Observable<number> {
+        return this.af.database.list(`/photo-followers/${photoKey}`)
+            .map(references => references.map(ref => ref.$key))
+            .map(keys => keys.map(key => this.userService.getUser(key)))
+            .map(followers => followers.length);
+    }
+
+    public follow(photoKey : string) : firebase.Promise<void> {
+        return this.af.database.object(`/photo-followers/${photoKey}/${this.authService.currentUser.$key}`).set(true);
+    }
+
+    public unfollow(photoKey : string) : firebase.Promise<void> {
+        return this.af.database.object(`/photo-followers/${photoKey}/${this.authService.currentUser.$key}`).set(null);
     }
 }

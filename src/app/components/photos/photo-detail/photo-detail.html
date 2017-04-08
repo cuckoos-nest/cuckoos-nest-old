@@ -8,11 +8,21 @@
   <ion-grid ngClass="header">
     <ion-row>
       <ion-col col-3 text-center>
-          <img [src]="photo.image" ngClass="rounded-image" /> 
+        <img [src]="photo.image" ngClass="rounded-image" />
       </ion-col>
       <ion-col col-3 ngClass="counter">
         <div ngClass="counter-value">{{ (userUploads | async)?.length }}</div>
         <div ngClass="counter-title">Posts</div>
+      </ion-col>
+      <ion-col col-3 ngClass="counter">
+        <div ngClass="counter-value">{{ followersPhotoCount | async }}</div>
+        <div ngClass="counter-title">Followers</div>
+      </ion-col>
+      <ion-col col-3 ngClass="counter">
+        <button (click)="follow()" ion-button icon-right outline>
+          {{ followPhoto ? 'Following' : 'Follow' }}
+          <ion-icon [name]="followPhoto ? 'star' : 'star-outline'"></ion-icon>
+        </button>
       </ion-col>
     </ion-row>
   </ion-grid>
