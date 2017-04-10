@@ -78,6 +78,10 @@ export class UserUploadService {
         return this.af.database.object("/comments/" + commentKey);
     }
 
+    public removeComment(photoKey: string, commentKey: string) {
+         this.af.database.object(`/upload-comments/${photoKey}/${commentKey}`).set(null);
+    }
+
     public getComments(userUploadKey: string): Observable<CommentModel[]> {
         return this.af.database.list(`/upload-comments/${userUploadKey}/`)
                     .map(references => references.map(ref => ref.$key))
