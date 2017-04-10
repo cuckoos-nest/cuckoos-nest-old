@@ -23,12 +23,12 @@
       </ion-col>
 
       <ion-col col-3 ngClass="counter" (click)="showFollowing()">
-        <div ngClass="counter-value">{{ (following | async)?.length }}</div>
+        <div ngClass="counter-value">{{ (following | async)?.length || '0' }}</div>
         <div ngClass="counter-title">Following</div>
       </ion-col>
 
       <ion-col col-3 ngClass="counter" (click)="showFollowers()">
-        <div ngClass="counter-value">{{ (followers | async)?.length }}</div> 
+        <div ngClass="counter-value">{{ (followers | async)?.length || '0' }}</div> 
         <div ngClass="counter-title">Followers</div>
       </ion-col>
     </ion-row>
