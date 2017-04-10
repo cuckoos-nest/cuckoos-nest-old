@@ -46,7 +46,7 @@
     <button ion-button *ngIf="!_isMyProfile" [outline]="!_isFollowedByMe" round small (click)="follow()">{{ _isFollowedByMe ? 'Following' : 'Follow' }}</button>
   </div>
 
-  <div class="gallery-container" id="uploads">
+  <div #uploads class="gallery-container">
     <gallery *ngIf="_isLoaded" columns="2" [items]="_userUploads | async" [imageMember]="getUploadImage" (onItemClicked)="uploadClicked($event)"></gallery>
     <ion-spinner *ngIf="!_isLoaded" ngClass="middle-vertical"></ion-spinner>
   </div> 

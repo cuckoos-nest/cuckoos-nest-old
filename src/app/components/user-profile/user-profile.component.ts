@@ -4,7 +4,7 @@ import { UserModel } from './../../models/user.model';
 import { AuthService } from './../../services/auth.service';
 import { FullscreenImageComponent } from './../fullscreen-image/fullscreen-image.component';
 import { UserUploadModel } from './../../models/user-upload.model';
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { NavParams, NavController, LoadingController, ModalController, Content } from 'ionic-angular';
 import { UsersService } from './../../services/users.service';
 import { UsersListComponent } from '../users-list/users-list.component';
@@ -23,6 +23,7 @@ export class UserProfileComponent implements OnInit {
     private following: Observable<UserModel[]>;
 
     @ViewChild('content') content: Content;
+    @ViewChild('uploads') uploads: ElementRef;
 
     constructor(private navController: NavController, private modalCtrl: ModalController, 
                 private navParams: NavParams, private authService: AuthService, 
@@ -46,8 +47,8 @@ export class UserProfileComponent implements OnInit {
             this.usersService.isFollowingUser(this._user.$key).subscribe(isFollowing => this._isFollowedByMe = isFollowing);
         }
 
-        this.followers = this.usersService.getFollowers();
-        this.following = this.usersService.getFollowing();
+        this.followers = this.usersService.getFollowers(this._user.$key);
+        this.following = this.usersService.getFollowing(this._user.$key);
     }
 
     private getUploadImage(userUpload: UserUploadModel): string {
@@ -93,7 +94,8 @@ export class UserProfileComponent implements OnInit {
     }
 
      private showUploads() {
-        let yOffset = document.getElementById("uploads").offsetTop;
+        let yOffset = this.uploads.nativeElement.offsetTop;
+        console.log("div", this.uploads);
         this.content.scrollTo(0, yOffset, 1000)
     }
 }
