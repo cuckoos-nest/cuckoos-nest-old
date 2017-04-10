@@ -7,19 +7,6 @@
 </ion-header>
 
 <ion-content ngClass="category-details">
-  <ion-grid>
-    <ion-row>
-      <ion-col offset-3 col-3 ngClass="counter">
-        <div ngClass="counter-value">{{ category.uploadsCount }}</div>
-        <div ngClass="counter-title">Uploads</div>
-      </ion-col>
-      <ion-col col-3 ngClass="counter">
-        <div ngClass="counter-value">{{ category.followersCount }}</div>
-        <div ngClass="counter-title">Followers</div>
-      </ion-col>
-    </ion-row>
-  </ion-grid>
-
   <ion-spinner *ngIf="!_isLoaded" ngClass="middle-vertical"></ion-spinner>
   
   <gallery *ngIf="_isLoaded" [items]="photos | async | orderBy:'title'" [titleMember]="getPhotoTitle" [imageMember]="getPhotoImage" (onItemClicked)="photoClicked($event)"></gallery>
