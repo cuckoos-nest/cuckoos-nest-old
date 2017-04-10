@@ -7,7 +7,7 @@ import { WebcamComponent } from './../../webcam/webcam.component';
 import { Observable } from 'rxjs/Observable';
 import { Component, OnInit } from '@angular/core';
 import { Http } from '@angular/http';
-import { NavParams, LoadingController, Platform, NavController, ModalController } from 'ionic-angular';
+import { NavParams, LoadingController, Platform, NavController, ModalController, ToastController } from 'ionic-angular';
 import { Camera } from 'ionic-native';
 import { PhotoModel } from '../../../models/photo.model';
 import { UserUploadModel } from '../../../models/user-upload.model';
@@ -28,7 +28,7 @@ export class PhotoDetailComponent implements OnInit {
         private authService: AuthService, private navController: NavController,
         private navParams: NavParams, private loader: LoadingController,
         private userUploadService: UserUploadService, private photoService: PhotosService,
-        private userService: UsersService) { }
+        private userService: UsersService, private toastCtrl: ToastController) { }
 
     ngOnInit(): void {
         this.photo = this.navParams.get('photo');
@@ -43,10 +43,20 @@ export class PhotoDetailComponent implements OnInit {
     }
 
     follow() {
-        if (this.followPhoto)
+        if (this.followPhoto) {
             this.photoService.unfollow(this.photo.$key).then(() => this.followPhoto = false);
-        else
-            this.photoService.follow(this.photo.$key).then(() => this.followPhoto = true);
+        }
+        else {
+            this.photoService.follow(this.photo.$key).then(() => {
+                this.followPhoto = true;
+                let toast = this.toastCtrl.create({
+                    message: `You're now following ${this.photo.title}!`,
+                    position: 'top',
+                    duration: 3000
+                });
+                toast.present();
+            });
+        }
     }
 
     private takePhoto(item: string): void {

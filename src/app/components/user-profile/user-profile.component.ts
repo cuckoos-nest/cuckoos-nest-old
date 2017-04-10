@@ -5,7 +5,7 @@ import { AuthService } from './../../services/auth.service';
 import { FullscreenImageComponent } from './../fullscreen-image/fullscreen-image.component';
 import { UserUploadModel } from './../../models/user-upload.model';
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
-import { NavParams, NavController, LoadingController, ModalController, Content } from 'ionic-angular';
+import { NavParams, NavController, LoadingController, ModalController, Content, ToastController } from 'ionic-angular';
 import { UsersService } from './../../services/users.service';
 import { UsersListComponent } from '../users-list/users-list.component';
 
@@ -25,11 +25,11 @@ export class UserProfileComponent implements OnInit {
     @ViewChild('content') content: Content;
     @ViewChild('uploads') uploads: ElementRef;
 
-    constructor(private navController: NavController, private modalCtrl: ModalController, 
-                private navParams: NavParams, private authService: AuthService, 
-                private usersService: UsersService, private userUploadsService: UserUploadService, 
-                private loadingCtrl: LoadingController) { }    
-                
+    constructor(private navController: NavController, private modalCtrl: ModalController,
+        private navParams: NavParams, private authService: AuthService,
+        private usersService: UsersService, private userUploadsService: UserUploadService,
+        private loadingCtrl: LoadingController, private toastCtrl: ToastController) { }
+
     ngOnInit(): void {
         if (this.navParams.get('user')) {
             this._user = this.navParams.get('user');
@@ -64,7 +64,15 @@ export class UserProfileComponent implements OnInit {
 
     private follow() {
         if (!this._isFollowedByMe) {
-            this.usersService.follow(this._user.$key);
+            this.usersService.follow(this._user.$key)
+                .then(() => {
+                    let toast = this.toastCtrl.create({
+                        message: `You're now following ${this._user.displayName}!`,
+                        duration: 3000,
+                        position: 'top'
+                    });
+                    toast.present();
+                });
         }
         else {
             this.usersService.unfollow(this._user.$key);
@@ -93,7 +101,7 @@ export class UserProfileComponent implements OnInit {
         usersModal.present();
     }
 
-     private showUploads() {
+    private showUploads() {
         let yOffset = this.uploads.nativeElement.offsetTop;
         console.log("div", this.uploads);
         this.content.scrollTo(0, yOffset, 1000)
