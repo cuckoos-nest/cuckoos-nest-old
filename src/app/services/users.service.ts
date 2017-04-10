@@ -8,7 +8,7 @@ import { Injectable } from '@angular/core';
 export class UsersService {
     constructor(private af: AngularFire, private authService: AuthService) {
     }
-    
+
     public getUser(uid: string): Observable<UserModel> {
         return this.af.database.object(`/users/${uid}`);
     }
@@ -19,19 +19,19 @@ export class UsersService {
 
     public searchUsers(searchQuery: string): Observable<UserModel[]> {
         return this.af.database.list("/users")
-                .map(users => users.filter(user => user.displayName.toLowerCase().indexOf(searchQuery.toLowerCase()) > -1));
+            .map(users => users.filter(user => user.displayName.toLowerCase().indexOf(searchQuery.toLowerCase()) > -1));
     }
 
-    public follow(uid: string): void {
-        this.af.database.object(`/user-followers/users-follow-me/${uid}/${this.authService.currentUser.$key}`).set(true);
-        this.af.database.object(`/user-followers/users-im-following/${this.authService.currentUser.$key}/${uid}`).set(true);
+    public follow(uid: string): firebase.Promise<any> {
+        return this.af.database.object(`/user-followers/users-follow-me/${uid}/${this.authService.currentUser.$key}`).set(true)
+            .then(() => this.af.database.object(`/user-followers/users-im-following/${this.authService.currentUser.$key}/${uid}`).set(true));
     }
 
     public unfollow(uid: string): void {
         this.af.database.object(`/user-followers/users-follow-me/${uid}/${this.authService.currentUser.$key}`).set(null);
         this.af.database.object(`/user-followers/users-im-following/${this.authService.currentUser.$key}/${uid}`).set(null);
     }
-    
+
     public isFollowingCategory(categoryKey: string): Observable<Boolean> {
         return this.af.database.object(`/category-followers/user-to-categories/${this.authService.currentUser.$key}/${categoryKey}`).map(x => x.$exists());
     }
@@ -40,7 +40,7 @@ export class UsersService {
         return this.af.database.object(`/user-followers/users-im-following/${this.authService.currentUser.$key}/${uid}`).map(x => x.$exists());
     }
 
-    public isFollowingPhoto(photoKey : string) : Observable<Boolean> {
+    public isFollowingPhoto(photoKey: string): Observable<Boolean> {
         return this.af.database.object(`/photo-followers/${photoKey}/${this.authService.currentUser.$key}`).map(x => x.$exists());
     }
 
@@ -57,15 +57,15 @@ export class UsersService {
 
     public getFollowers(uid: string) {
         return this.af.database.list(`/user-followers/users-follow-me/${uid}`)
-                    .map(references => references.map(ref => ref.$key))
-                    .map(keys => keys.map(key => this.getUser(key)))
-                    .switchMap(x => x.length == 0 ? Observable.of(x) : Observable.combineLatest(x));
+            .map(references => references.map(ref => ref.$key))
+            .map(keys => keys.map(key => this.getUser(key)))
+            .switchMap(x => x.length == 0 ? Observable.of(x) : Observable.combineLatest(x));
     }
 
     public getFollowing(uid: string) {
         return this.af.database.list(`/user-followers/users-im-following/${uid}`)
-                    .map(references => references.map(ref => ref.$key))
-                    .map(keys => keys.map(key => this.getUser(key)))
-                    .switchMap(x => x.length == 0 ? Observable.of(x) : Observable.combineLatest(x));
+            .map(references => references.map(ref => ref.$key))
+            .map(keys => keys.map(key => this.getUser(key)))
+            .switchMap(x => x.length == 0 ? Observable.of(x) : Observable.combineLatest(x));
     }
 }
