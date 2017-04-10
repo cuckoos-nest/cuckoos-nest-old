@@ -22,7 +22,7 @@ import { WallService } from '../../../services/wall.service';
 import { PhotoModel } from '../../../models/photo.model';
 import { PhotosService } from '../../../services/photos.service';
 import { AuthService } from '../../../services/auth.service';
-//import { Transfer, TransferObject } from '@ionic-native/transfer';
+import { Transfer, TransferObject } from '@ionic-native/transfer';
 
 @Component({
     selector: 'wall-card',
@@ -39,9 +39,9 @@ export class WallCardComponent implements OnInit {
     private _commentsCount: Observable<number>;
     private _likesCount: number;
     private _isOwner: Boolean;
-    //private fileTransfer: TransferObject = this.transfer.create();
+    private fileTransfer: TransferObject = this.transfer.create();
 
-    constructor(public alertCtrl: AlertController, public actionSheetCtrl: ActionSheetController, private nav: NavController, private modalCtrl: ModalController, private photoService: PhotosService, private usersService: UsersService, private userUploadService: UserUploadService, private authService: AuthService){//, private transfer: Transfer) {
+    constructor(public alertCtrl: AlertController, public actionSheetCtrl: ActionSheetController, private nav: NavController, private modalCtrl: ModalController, private photoService: PhotosService, private usersService: UsersService, private userUploadService: UserUploadService, private authService: AuthService, private transfer: Transfer) {
     }
 
     ngOnInit(): void {
@@ -146,7 +146,7 @@ export class WallCardComponent implements OnInit {
                 
                 {
                     text: 'View',
-
+                    
                     handler: () => {
                         this.goToImage();
                     }
@@ -183,8 +183,8 @@ export class WallCardComponent implements OnInit {
 
         }
 
-        actionSheet.addButton( { text: 'Report', handler: () => {
-
+        actionSheet.addButton( {  text: 'Report', handler: () => {
+            
         }});
 
         actionSheet.present();

@@ -31,5 +31,7 @@ export class UploadLikesService {
     public getLikeUser(userKey: string): Observable<UserModel> {
         return this.af.database.object("/users/" + userKey);
     }
+
+    
    
 }
