@@ -130,7 +130,7 @@ export class WallCardComponent implements OnInit {
                     text: 'Agree',
                     handler: () => {
                         console.log("delete");
-                        this.userUploadService.removePhoto(this.userUpload.user, this.userUpload.$key);
+                        this.userUploadService.removeUserUpload(this.userUpload.$key);
                     }
                 }]
         });
@@ -156,7 +156,7 @@ export class WallCardComponent implements OnInit {
 
                     handler: () => {
                         console.log("hide");
-                        this.userUploadService.removePhotoFromWall(this.authService.currentUser.$key, this.userUpload.$key);
+                        this.userUploadService.hideUserUpload(this.userUpload.$key);
                     }
                 },
                 {
@@ -173,6 +173,7 @@ export class WallCardComponent implements OnInit {
         if (this._isOwner) {
             let button = {
                 text: 'Delete',
+                role: 'destructive',
                 handler: () => {
                     this.removePhoto();
                     // TODO: remove it from the profile as well

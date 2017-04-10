@@ -47,7 +47,7 @@ export class FullscreenImageComponent implements OnInit {
             {
                 text: 'Agree',
                 handler: () => {
-                    this.userUploadService.removePhoto(this._userUpload.user, this._userUpload.$key);
+                    this.userUploadService.removeUserUpload(this._userUpload.$key);
                     this.navCtrl.pop();
                 }
             }]
