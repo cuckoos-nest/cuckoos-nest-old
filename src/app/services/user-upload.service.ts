@@ -52,6 +52,7 @@ export class UserUploadService {
          return this.af.database.list(`/walls/${this.authService.currentUser.$key}`)
                     .map(references => references.map(ref => ref.$key))
                     .map(keys => keys.map(key => this.getUserUpload(key)))
+                    .map(userUploads => userUploads.filter(x => x))
                     .map(userUploads => userUploads.reverse())
                     .switchMap(x => x.length == 0 ? Observable.of(x) : Observable.combineLatest(x));
     }
@@ -102,13 +103,12 @@ export class UserUploadService {
         return this.af.database.object(`/uploads/${userUploadKey}/commentsCount`).map(x => x.$exists() ? x.$value : 0);
     }
 
-    public removePhoto(userUploadKey: string, uploadKey: string): void {
-        this.af.database.object(`/users/${userUploadKey}/uploads/${uploadKey}`).set(null);
-      
+    public removeUserUpload(userUploadKey: string): void {
+        this.af.database.object(`/uploads/${userUploadKey}`).set(null);
     }
 
-    public removePhotoFromWall(userKey: string, uploadKey: string) : void {
-        this.af.database.object(`/walls/${userKey}/${uploadKey}`).set(null);
+    public hideUserUpload(userUploadKey: string) : void {
+        this.af.database.object(`/walls/${this.authService.currentUser.$key}/${userUploadKey}`).set(null);
     }
 
        public searchUserUploads(searchQuery: string): Observable<UserUploadModel[]> {
