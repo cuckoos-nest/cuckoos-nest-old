@@ -15,7 +15,7 @@
         <ion-grid>
           <ion-row>
             <ion-col col-6 ngClass="counter">
-              <div ngClass="counter-value">{{ (userUploads | async)?.length ? '0' }}</div>
+              <div ngClass="counter-value">{{ (userUploads | async)?.length || '0' }}</div>
               <div ngClass="counter-title">Posts</div>
             </ion-col>
             <ion-col col-6 ngClass="counter">
