@@ -84,7 +84,9 @@
                 <img [src]="member.image">
             </ion-avatar>
             <h2>{{ member.displayName }}</h2>
-            <p>Uploaded {{ member.uploadsCount }} cuckoos</p>
+            <p *ngIf="member.uploadsCount == 0">No cuckoos yet :(</p>
+            <p *ngIf="member.uploadsCount == 1">Posted one cuckoo</p>
+            <p *ngIf="member.uploadsCount > 1">Posted {{ member.uploadsCount }} cuckoos</p>
         </ion-item>
       </ion-list>
     </div>
