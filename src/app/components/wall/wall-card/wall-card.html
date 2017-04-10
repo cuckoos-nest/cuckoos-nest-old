@@ -1,13 +1,13 @@
-<ion-card >
+<ion-card>
 
-<ion-grid >  
-  <ion-row >
-    <ion-col col-2>
-       <img [src]="user?.image" (click)="goToUser()" ngClass="profile" /> 
+<ion-grid>  
+  <ion-row>
+    <ion-col col-2 (click)="goToUser()">
+       <img [src]="user?.image" ngClass="profile" /> 
     </ion-col>
-    <ion-col >
+    <ion-col>
         <ion-row>
-          <div class="user">{{ user?.displayName }}</div>
+          <div class="user" (click)="goToUser()">{{ user?.displayName }}</div>
         </ion-row>
         <ion-row>
               <div class="time" >{{ timeSinceUpload }}</div>
