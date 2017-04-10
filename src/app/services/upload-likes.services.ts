@@ -24,7 +24,7 @@ export class UploadLikesService {
                     .map(references => references.map(ref => ref.$key))
                     .map(keys => keys.map(key => this.getLikeUser(key)))
                     .map(users => users.reverse())
-                    .switchMap(x => Observable.combineLatest(x));
+                    .switchMap(x => x.length == 0 ? Observable.of(x) : Observable.combineLatest(x));
 
     }
 

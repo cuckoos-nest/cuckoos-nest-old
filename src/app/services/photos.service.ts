@@ -42,7 +42,7 @@ export class PhotosService {
         return this.af.database.list(`/categories/${categoryKey}/photos`)
             .map(references => references.map(ref => ref.$key))
             .map(keys => keys.map(key => this.getPhoto(key)))
-            .switchMap(x => Observable.combineLatest(x));
+            .switchMap(x => x.length == 0 ? Observable.of(x) : Observable.combineLatest(x));
     }
 
     public getFollowersPhotoCount(photoKey : string) : Observable<number> {
