@@ -48,14 +48,20 @@
     </ion-list>
 
     <div *ngSwitchCase="'photos'">      
-      <div class="section-title">
-        {{ _selectedCategory ? _selectedCategory.name : 'All Categories' }}
-      </div>
-      <gallery *ngIf="_isLoaded" [items]="_filteredPhotos | orderBy:'title'" [titleMember]="getPhotoTitle" [imageMember]="getPhotoImage" (onItemClicked)="goToPhoto($event)"></gallery>
+      <ion-list>
+        <ion-list-header *ngIf="_filteredPhotos.length == 0">
+          No Results
+        </ion-list-header>
+        <ion-list-header *ngIf="_filteredPhotos.length > 0">
+          {{ _selectedCategory ? _selectedCategory.name : 'All Categories' }}
+        </ion-list-header>
+      </ion-list>
+
+      <gallery *ngIf="_isLoaded && _filteredPhotos.length > 0" [items]="_filteredPhotos | orderBy:'title'" [titleMember]="getPhotoTitle" [imageMember]="getPhotoImage" (onItemClicked)="goToPhoto($event)"></gallery>
     </div>
 
     <div *ngSwitchCase="'members'">
-      <ion-list *ngIf="!_filteredMembers || !_filteredMembers.length">
+      <ion-list *ngIf="searchQuery.length == 0">
         <ion-list-header>
           Recent
         </ion-list-header>
@@ -68,7 +74,11 @@
         </ion-item>
       </ion-list>
 
-      <ion-list *ngIf="_filteredMembers && _filteredMembers.length">
+      <ion-list *ngIf="searchQuery.length > 0">
+        <ion-list-header *ngIf="_filteredMembers.length == 0">
+          No Results
+        </ion-list-header>
+
         <ion-item *ngFor="let member of (_filteredMembers | orderBy:'displayName')" (click)="goToUser(member)">
             <ion-avatar item-left>
                 <img [src]="member.image">

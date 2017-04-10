@@ -1,16 +1,9 @@
-.empty {
+.notifications {
+    .empty-text {
+        font-size: 50px;
+    }
 
-    height: 100%;
-    display: block;
-    margin-top: 50%;
-    font-size: 50px;
-    color: #dddddd;
-    text-align: center;
-
-}
-
-.col{
-
-border-color:   solid black;
-
+    .col {
+        border-color: solid black;
+    }
 }

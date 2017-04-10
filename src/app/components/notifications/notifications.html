@@ -13,42 +13,8 @@
   </ion-navbar>
 </ion-header>
 
-<ion-content>
-    <!--<ion-list>
-        <ion-list-header>Today</ion-list-header>
-        <ion-item>
-            <ion-avatar item-left>
-                <img src="https://scontent.ftlv1-1.fna.fbcdn.net/v/t1.0-1/p160x160/15355682_10211502961593266_577133296298561573_n.jpg?oh=471cba7d138f2f99f1347d10edf44d56&oe=592B2047">
-            </ion-avatar>
-            <h2>Eliran Pe'er</h2>
-            <p>Eliran is now following you</p>
-            <ion-note item-right>05:43 am</ion-note>
-        </ion-item>
-
-        <ion-item>
-            <ion-avatar item-left>
-                <img src="https://scontent.ftlv1-1.fna.fbcdn.net/v/t1.0-1/p160x160/15355682_10211502961593266_577133296298561573_n.jpg?oh=471cba7d138f2f99f1347d10edf44d56&oe=592B2047">
-            </ion-avatar>
-            <h2>Eliran Pe'er</h2>
-            <p>Eliran liked your photo</p>
-            <ion-note item-right>3:43 pm</ion-note>
-        </ion-item> 
-        
-        <ion-list-header>Yesterday</ion-list-header>
-        <ion-item>
-            <ion-avatar item-left>
-                <img src="https://scontent.ftlv1-1.fna.fbcdn.net/v/t1.0-1/p160x160/15355682_10211502961593266_577133296298561573_n.jpg?oh=471cba7d138f2f99f1347d10edf44d56&oe=592B2047">
-            </ion-avatar>
-            <h2>Eliran Pe'er</h2>
-            <p>Eliran liked your photo</p>
-            <ion-note item-right>12:00 pm</ion-note>
-        </ion-item>
-    </ion-list>-->
-
-
-
-    <div *ngIf="_isEmpty" ngClass="empty">EMPTY</div>
-
+<ion-content ngClass="notifications">
+    <div *ngIf="_isEmpty" ngClass="empty-text">EMPTY</div>
 
     <ion-spinner *ngIf="!_isLoaded" ngClass="middle-vertical"></ion-spinner>
 

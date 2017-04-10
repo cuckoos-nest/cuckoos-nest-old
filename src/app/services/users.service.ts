@@ -48,7 +48,7 @@ export class UsersService {
         return this.af.database.list(`/recent-searches/${this.authService.currentUser.$key}/members/`)
             .map(references => references.map(ref => ref.$key))
             .map(keys => keys.map(key => this.getUser(key)))
-            .switchMap(x => Observable.combineLatest(x));
+            .switchMap(x => x.length == 0 ? Observable.of(x) : Observable.combineLatest(x));
     }
 
     public addRecentSearch(uid: string): firebase.Promise<void> {
@@ -59,13 +59,13 @@ export class UsersService {
         return this.af.database.list(`/user-followers/users-follow-me/${uid}`)
                     .map(references => references.map(ref => ref.$key))
                     .map(keys => keys.map(key => this.getUser(key)))
-                    .switchMap(x => Observable.combineLatest(x));
+                    .switchMap(x => x.length == 0 ? Observable.of(x) : Observable.combineLatest(x));
     }
 
     public getFollowing(uid: string) {
         return this.af.database.list(`/user-followers/users-im-following/${uid}`)
                     .map(references => references.map(ref => ref.$key))
                     .map(keys => keys.map(key => this.getUser(key)))
-                    .switchMap(x => Observable.combineLatest(x));
+                    .switchMap(x => x.length == 0 ? Observable.of(x) : Observable.combineLatest(x));
     }
 }

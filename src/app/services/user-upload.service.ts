@@ -37,7 +37,7 @@ export class UserUploadService {
                     .map(references => references.map(ref => ref.$key))
                     .map(keys => keys.map(key => this.getUserUpload(key)))
                     .map(userUploads => userUploads.reverse())
-                    .switchMap(x => Observable.combineLatest(x));
+                    .switchMap(x => x.length == 0 ? Observable.of(x) : Observable.combineLatest(x));
     }
 
     public getUserUploadsByUser(uid: string) : Observable<UserUploadModel[]> {
@@ -45,7 +45,7 @@ export class UserUploadService {
                     .map(references => references.map(ref => ref.$key))
                     .map(keys => keys.map(key => this.getUserUpload(key)))
                     .map(userUploads => userUploads.reverse())
-                    .switchMap(x => Observable.combineLatest(x));
+                    .switchMap(x => x.length == 0 ? Observable.of(x) : Observable.combineLatest(x));
     }
 
     public getWall(): Observable<UserUploadModel[]> {
@@ -53,7 +53,7 @@ export class UserUploadService {
                     .map(references => references.map(ref => ref.$key))
                     .map(keys => keys.map(key => this.getUserUpload(key)))
                     .map(userUploads => userUploads.reverse())
-                    .switchMap(x => Observable.combineLatest(x));
+                    .switchMap(x => x.length == 0 ? Observable.of(x) : Observable.combineLatest(x));
     }
 
     public createUpload(userUpload: UserUploadModel): void {
@@ -82,7 +82,7 @@ export class UserUploadService {
                     .map(references => references.map(ref => ref.$key))
                     .map(keys => keys.map(key => this.getComment(key)))
                     .map(comments => comments.reverse())
-                    .switchMap(x => Observable.combineLatest(x));
+                    .switchMap(x => x.length == 0 ? Observable.of(x) : Observable.combineLatest(x));
     }
 
     public getLikesCount(userUploadKey: string): Observable<string>{
@@ -116,6 +116,6 @@ export class UserUploadService {
 	                    .map(references => references.filter(ref => ref.$value.toLowerCase().indexOf(searchQuery.toLowerCase()) > -1))
 	                    .map(references => references.map(ref => ref.$key))
 	                    .map(keys => keys.map(key => this.getUserUpload(key)))
-	                    .switchMap(x => Observable.combineLatest(x));
+	                    .switchMap(x => x.length == 0 ? Observable.of(x) : Observable.combineLatest(x));
 	    }
 }
