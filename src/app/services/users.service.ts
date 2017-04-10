@@ -55,15 +55,15 @@ export class UsersService {
         return this.af.database.object(`/recent-searches/${this.authService.currentUser.$key}/members/${uid}`).set(true);
     }
 
-    public getFollowers() {
-        return this.af.database.list(`/user-followers/users-follow-me/${this.authService.currentUser.$key}`)
+    public getFollowers(uid: string) {
+        return this.af.database.list(`/user-followers/users-follow-me/${uid}`)
                     .map(references => references.map(ref => ref.$key))
                     .map(keys => keys.map(key => this.getUser(key)))
                     .switchMap(x => Observable.combineLatest(x));
     }
 
-    public getFollowing() {
-        return this.af.database.list(`/user-followers/users-im-following/${this.authService.currentUser.$key}`)
+    public getFollowing(uid: string) {
+        return this.af.database.list(`/user-followers/users-im-following/${uid}`)
                     .map(references => references.map(ref => ref.$key))
                     .map(keys => keys.map(key => this.getUser(key)))
                     .switchMap(x => Observable.combineLatest(x));
