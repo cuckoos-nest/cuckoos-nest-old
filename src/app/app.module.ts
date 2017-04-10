@@ -1,3 +1,4 @@
+import { WallCardPageComponent } from './components/wall/wall-card/wall-card-page/wall-card-page.component';
 import { UsersListComponent } from './components/users-list/users-list.component';
 import { OrderByPipe } from './pipes/order-by.pipe';
 import { Transfer } from '@ionic-native/transfer';
@@ -65,6 +66,7 @@ export const firebaseConfig = {
     CommentsComponent,
     LikeListComponent,
     UsersListComponent,
+    WallCardPageComponent,
     
     UserPipe,
     OrderByPipe,
@@ -97,6 +99,7 @@ export const firebaseConfig = {
     CommentsComponent,
     LikeListComponent,
     UsersListComponent,
+    WallCardPageComponent,
   ],
   providers: [
     { provide: ErrorHandler, useClass: IonicErrorHandler },

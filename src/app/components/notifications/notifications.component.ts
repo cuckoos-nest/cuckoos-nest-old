@@ -1,3 +1,5 @@
+import { WallCardPageComponent } from './../wall/wall-card/wall-card-page/wall-card-page.component';
+import { NotificationModel } from './../../models/notification.model';
 import { UserModel } from './../../models/user.model';
 import { Observable } from 'rxjs/Observable';
 import { Component, OnInit } from '@angular/core';
@@ -5,9 +7,10 @@ import { Component, OnInit } from '@angular/core';
 import Config from '../../config.json';
 import { NotificationType } from '../../enums/notification-type.enum';
 
-import { NotificationModel } from '../../models/notification.model';
 import { UsersService } from '../../services/users.service';
 import { NotificationsService } from '../../services/notifications.service';
+import { NavController } from 'ionic-angular';
+import { UserUploadService } from '../../services/user-upload.service';
 
 @Component({
     selector: 'notifications',
@@ -19,15 +22,15 @@ export class NotificationsComponent implements OnInit {
     private _isLoaded: Boolean;
     private _isEmpty: Boolean;
 
-    constructor(private notificationsService: NotificationsService, private usersService: UsersService) {
+    constructor(private navCtrl: NavController, private userUploadsService: UserUploadService, private notificationsService: NotificationsService, private usersService: UsersService) {
     }
 
     ngOnInit(): void {
         this._notifications = this.notificationsService.getNotifications();
-        this._notifications.subscribe( notifications => {
+        this._notifications.subscribe(notifications => {
             this._isLoaded = true;
             this._isEmpty = notifications.length == 0
-            });
+        });
     }
 
     private notificationTypeToResource(type: NotificationType) {
@@ -36,5 +39,17 @@ export class NotificationsComponent implements OnInit {
 
     private clearNotifications(){
         this.notificationsService.clearAll();
+    }
+
+    private onNotificationClicked(notification: NotificationModel) {
+        switch(notification.link) {
+            case 'upload':
+                this.userUploadsService.getUserUpload(notification.linkKey).subscribe(userUpload => {
+                    this.navCtrl.push(WallCardPageComponent, {
+                        userUpload
+                    });
+                });
+            break;
+        }
     }
 }

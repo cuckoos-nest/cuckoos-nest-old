@@ -6,13 +6,7 @@ export class NotificationModel extends BaseModel {
     from: string;
     type: NotificationType;
     isRead: Boolean;
-    upload: string;
+    link: string;
+    linkKey: string;
     createdAt: Date;
-
-    //  public id: number;
-    //  public type: NotificationType;
-    //  public recivingUserId: number;
-    //  public sentByUser: UserModel;
-    //  public creationDate: string;
-    //  public isRead: Boolean;
 }

@@ -83,7 +83,7 @@ export class PhotoDetailComponent implements OnInit {
             let userUpload: UserUploadModel = new UserUploadModel();
             userUpload.photo = this.photo.$key;
             userUpload.user = this.authService.currentUser.$key;
-            userUpload.image = base64Image;
+            userUpload.image = 'data:image/jpeg;base64,' + base64Image;
             userUpload.likesCount = 0;
             userUpload.commentsCount = 0;
 
