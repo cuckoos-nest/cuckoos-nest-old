@@ -32,7 +32,7 @@ export class NotificationsComponent implements OnInit {
     }
 
     private notificationTypeToResource(type: NotificationType) {
-        return "NOTIFICATION" + NotificationType[type].toUpperCase();
+        return "NOTIFICATION_" + NotificationType[type].toUpperCase();
     }
 
     private clearNotifications(){
