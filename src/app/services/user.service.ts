@@ -5,19 +5,19 @@ import { UserModel } from './../models/user.model';
 import { Injectable } from '@angular/core';
 
 @Injectable()
-export class UsersService {
+export class UserService {
     constructor(private af: AngularFire, private authService: AuthService) {
     }
 
-    public getUser(uid: string): Observable<UserModel> {
+    public get(uid: string): Observable<UserModel> {
         return this.af.database.object(`/users/${uid}`);
     }
 
-    public getUsers(): Observable<UserModel[]> {
+    public getAll(): Observable<UserModel[]> {
         return this.af.database.list("/users");
     }
 
-    public searchUsers(searchQuery: string): Observable<UserModel[]> {
+    public search(searchQuery: string): Observable<UserModel[]> {
         return this.af.database.list("/users")
             .map(users => users.filter(user => user.displayName.toLowerCase().indexOf(searchQuery.toLowerCase()) > -1));
     }
@@ -47,7 +47,7 @@ export class UsersService {
     public getRecentSearches() {
         return this.af.database.list(`/recent-searches/${this.authService.currentUser.$key}/members/`)
             .map(references => references.map(ref => ref.$key))
-            .map(keys => keys.map(key => this.getUser(key)))
+            .map(keys => keys.map(key => this.get(key)))
             .switchMap(x => x.length == 0 ? Observable.of(x) : Observable.combineLatest(x));
     }
 
@@ -58,14 +58,14 @@ export class UsersService {
     public getFollowers(uid: string) {
         return this.af.database.list(`/user-followers/users-follow-me/${uid}`)
             .map(references => references.map(ref => ref.$key))
-            .map(keys => keys.map(key => this.getUser(key)))
+            .map(keys => keys.map(key => this.get(key)))
             .switchMap(x => x.length == 0 ? Observable.of(x) : Observable.combineLatest(x));
     }
 
     public getFollowing(uid: string) {
         return this.af.database.list(`/user-followers/users-im-following/${uid}`)
             .map(references => references.map(ref => ref.$key))
-            .map(keys => keys.map(key => this.getUser(key)))
+            .map(keys => keys.map(key => this.get(key)))
             .switchMap(x => x.length == 0 ? Observable.of(x) : Observable.combineLatest(x));
     }
 }

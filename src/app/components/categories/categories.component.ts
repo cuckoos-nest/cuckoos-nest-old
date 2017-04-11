@@ -6,7 +6,7 @@ import { CategoryDetailComponent } from './category-detail/category-detail.compo
 
 import { CategoryModel } from '../../models/category.model';
 
-import { CategoriesService } from '../../services/categories.service';
+import { CategoryService } from '../../services/category.service';
 
 @Component({
     selector: 'categories',
@@ -26,7 +26,7 @@ export class CategoriesComponent implements OnInit {
         return this._searchQuery;
     }
 
-    constructor(private nav: NavController, private categoriesService: CategoriesService, private loadingCtrl: LoadingController) {
+    constructor(private nav: NavController, private categoryService: CategoryService, private loadingCtrl: LoadingController) {
     }
 
     ngOnInit(): void {
@@ -35,7 +35,7 @@ export class CategoriesComponent implements OnInit {
         });
         loader.present();
 
-        this.categoriesService.getCategories().subscribe(categories => {
+        this.categoryService.getAll().subscribe(categories => {
             this.categories = categories;
             this.performSearch(this._searchQuery);
             loader.dismiss();

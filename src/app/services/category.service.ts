@@ -15,12 +15,12 @@ import { BaseService } from './base/base.service';
 import Config from '../config.json';
 
 @Injectable()
-export class CategoriesService {
+export class CategoryService {
 
     constructor(private af: AngularFire, private authService: AuthService) {
     }
 
-    public getCategories(): FirebaseListObservable<CategoryModel[]> {
+    public getAll(): FirebaseListObservable<CategoryModel[]> {
         var options = {
             query: {
                 orderByChild: 'name'
@@ -30,15 +30,15 @@ export class CategoriesService {
         return this.af.database.list("/categories", options);
     }
 
-    public getCategory(key: string): FirebaseObjectObservable<CategoryModel> {
+    public get(key: string): FirebaseObjectObservable<CategoryModel> {
         return this.af.database.object("/categories/" + key);
     }
 
-    public getCategoriesByFollower(uid: string): Observable<CategoryModel> {
+    public getAllByFollower(uid: string): Observable<CategoryModel> {
         return new Observable<CategoryModel>((observer: Observer<CategoryModel>) => {
             this.af.database.list(`/category-followers/user-to-categories/${uid}`).subscribe(categoryKeys => {
                 for(let categoryKey of Object.keys(categoryKeys)) {
-                    this.getCategory(categoryKey).subscribe(category => observer.next(category));
+                    this.get(categoryKey).subscribe(category => observer.next(category));
                 }
             });
         });

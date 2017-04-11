@@ -13,7 +13,7 @@ import { Facebook, FacebookLoginResponse } from 'ionic-native';
 
 import { LoginResult } from '../enums/login-result.enum';
 
-import { UsersService } from './users.service';
+import { UserService } from './user.service';
 
 import Config from '../config.json';
 import { BaseService } from './base/base.service';

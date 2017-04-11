@@ -25,18 +25,19 @@ import { PhotoDetailComponent } from './components/photos/photo-detail/photo-det
 import { WebcamComponent } from './components/webcam/webcam.component';
 import { LikeListComponent } from './components/like-list/like-list.component';
 
-import { PhotosService } from './services/photos.service';
-import { CategoriesService } from './services/categories.service';
-import { NotificationsService } from './services/notifications.service';
-import { UserUploadService } from './services/user-upload.service';
+import { PhotoService } from './services/photo.service';
+import { CategoryService } from './services/category.service';
+import { NotificationService } from './services/notification.service';
+import { uploadService } from './services/upload.service';
 import { AuthService } from './services/auth.service';
-import { UploadLikesService } from './services/upload-likes.services';
+import { LikeService } from './services/like.service';
 import { FacebookService } from 'ng2-facebook-sdk';
 
 import { TranslateModule, TranslateStaticLoader, TranslateLoader } from 'ng2-translate';
 
 import Config from './config.json';
-import { UsersService } from './services/users.service';
+import { UserService } from './services/user.service';
+import { CommentService } from './services/comment.service';
 
 export const firebaseConfig = {
   apiKey: 'AIzaSyBz1z_mA1sZsQNYTh8RK8p76aE_gU-xcGc',
@@ -103,14 +104,15 @@ export const firebaseConfig = {
   ],
   providers: [
     { provide: ErrorHandler, useClass: IonicErrorHandler },
-    UsersService,
-    PhotosService,
-    CategoriesService,
+    UserService,
+    PhotoService,
+    CategoryService,
     FacebookService,
     AuthService,
-    NotificationsService,
-    UserUploadService,
-    UploadLikesService,
+    NotificationService,
+    uploadService,
+    LikeService,
+    CommentService,
     Transfer
   ]
 })

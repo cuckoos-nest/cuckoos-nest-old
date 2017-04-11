@@ -34,15 +34,15 @@
 
   <div [ngSwitch]="_searchType" *ngIf="_isLoaded">
     <ion-list *ngSwitchCase="'uploads'">
-      <ion-item text-wrap *ngFor="let userUpload of (_filteredUserUploads | orderBy:'!likesCount')" (click)="goToUpload(userUpload)">
+      <ion-item text-wrap *ngFor="let upload of (_filteredUserUploads | orderBy:'!likesCount')" (click)="goToUpload(upload)">
             <ion-thumbnail item-left>
-                <img [src]="userUpload.image">
+                <img [src]="upload.image">
             </ion-thumbnail>
             <h2>
-                {{ (userUpload.user | user | async)?.displayName }}
+                {{ (upload.user | user | async)?.displayName }}
             </h2>
             <p>
-                {{ userUpload.description }}
+                {{ upload.description }}
             </p>
       </ion-item>
     </ion-list>

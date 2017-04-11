@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { UserUploadModel } from '../../../../models/user-upload.model';
+import { UploadModel } from '../../../../models/upload.model';
 import { NavParams } from 'ionic-angular';
 
 @Component({
@@ -7,9 +7,9 @@ import { NavParams } from 'ionic-angular';
     templateUrl: 'wall-card-page.html',
 })
 export class WallCardPageComponent {
-    private userUpload: UserUploadModel;
+    private upload: UploadModel;
 
     constructor(private navParams: NavParams) {
-        this.userUpload = this.navParams.get("userUpload");
+        this.upload = this.navParams.get("upload");
     }
 }

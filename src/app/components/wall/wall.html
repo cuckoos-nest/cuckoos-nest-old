@@ -10,7 +10,7 @@
     <ion-spinner *ngIf="!_isLoaded" ngClass="middle-vertical"></ion-spinner>
 
     <ion-list *ngIf="_isLoaded">
-      <wall-card *ngFor="let userUpload of _currentWall | async" [data]="userUpload"></wall-card>
+      <wall-card *ngFor="let upload of _currentWall | async" [data]="upload"></wall-card>
     </ion-list>
 
      <ion-infinite-scroll *ngIf="_isLoaded" (ionInfinite)="doInfinite($event)">

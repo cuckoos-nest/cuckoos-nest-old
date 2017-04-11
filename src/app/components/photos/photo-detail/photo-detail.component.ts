@@ -1,5 +1,5 @@
-import { UsersService } from './../../../services/users.service';
-import { PhotosService } from './../../../services/photos.service';
+import { UserService } from './../../../services/user.service';
+import { PhotoService } from './../../../services/photo.service';
 import { FullscreenImageComponent } from './../../fullscreen-image/fullscreen-image.component';
 import { EditUserUploadComponent } from './../../edit-user-upload/edit-user-upload.component';
 import { AuthService } from './../../../services/auth.service';
@@ -10,8 +10,8 @@ import { Http } from '@angular/http';
 import { NavParams, LoadingController, Platform, NavController, ModalController, ToastController } from 'ionic-angular';
 import { Camera } from 'ionic-native';
 import { PhotoModel } from '../../../models/photo.model';
-import { UserUploadModel } from '../../../models/user-upload.model';
-import { UserUploadService } from '../../../services/user-upload.service';
+import { UploadModel } from '../../../models/upload.model';
+import { uploadService } from '../../../services/upload.service';
 
 @Component({
     selector: 'photo-detail',
@@ -19,7 +19,7 @@ import { UserUploadService } from '../../../services/user-upload.service';
 })
 export class PhotoDetailComponent implements OnInit {
     private photo: PhotoModel;
-    private userUploads: Observable<UserUploadModel[]>;
+    private userUploads: Observable<UploadModel[]>;
     private _isLoaded: Boolean;
     private followPhoto: Boolean;
     private followersPhotoCount: Observable<number>;
@@ -27,19 +27,19 @@ export class PhotoDetailComponent implements OnInit {
     constructor(private platform: Platform, private modalCtrl: ModalController,
         private authService: AuthService, private navController: NavController,
         private navParams: NavParams, private loader: LoadingController,
-        private userUploadService: UserUploadService, private photoService: PhotosService,
-        private userService: UsersService, private toastCtrl: ToastController) { }
+        private uploadService: uploadService, private photoService: PhotoService,
+        private userService: UserService, private toastCtrl: ToastController) { }
 
     ngOnInit(): void {
         this.photo = this.navParams.get('photo');
-        this.userUploads = this.userUploadService.getUserUploadsByPhoto(this.photo.$key);
+        this.userUploads = this.uploadService.getAllByPhoto(this.photo.$key);
         this.userUploads.subscribe(() => this._isLoaded = true);
         this.userService.isFollowingPhoto(this.photo.$key).subscribe(isFollow => this.followPhoto = isFollow);
-        this.followersPhotoCount = this.photoService.getFollowersPhotoCount(this.photo.$key);
+        this.followersPhotoCount = this.photoService.getFollowersCount(this.photo.$key);
     }
 
-    getPhotoImage(userUpload: UserUploadModel) {
-        return userUpload.image;
+    getPhotoImage(upload: UploadModel) {
+        return upload.image;
     }
 
     follow() {
@@ -80,24 +80,24 @@ export class PhotoDetailComponent implements OnInit {
         }).then((imageData) => {
             let base64Image = imageData;
 
-            let userUpload: UserUploadModel = new UserUploadModel();
-            userUpload.photo = this.photo.$key;
-            userUpload.user = this.authService.currentUser.$key;
-            userUpload.image = 'data:image/jpeg;base64,' + base64Image;
-            userUpload.likesCount = 0;
-            userUpload.commentsCount = 0;
+            let upload: UploadModel = new UploadModel();
+            upload.photo = this.photo.$key;
+            upload.user = this.authService.currentUser.$key;
+            upload.image = 'data:image/jpeg;base64,' + base64Image;
+            upload.likesCount = 0;
+            upload.commentsCount = 0;
 
             this.navController.push(EditUserUploadComponent, {
-                userUpload: userUpload
+                upload: upload
             });
         }, (err) => {
             // Handle error
         });
     }
 
-    private uploadClicked(userUpload: UserUploadModel) {
+    private uploadClicked(upload: UploadModel) {
         let fullScreenImageModal = this.modalCtrl.create(FullscreenImageComponent, {
-            userUpload: userUpload
+            upload: upload
         });
         fullScreenImageModal.present();
     }

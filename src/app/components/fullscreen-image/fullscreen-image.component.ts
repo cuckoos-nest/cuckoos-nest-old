@@ -1,13 +1,14 @@
+import { LikeService } from './../../services/like.service';
 import { Component, Input, OnInit } from '@angular/core';
 import { NavParams } from 'ionic-angular';
-import { UserUploadService } from './../../services/user-upload.service';
+import { uploadService } from './../../services/upload.service';
 import { NavController } from "ionic-angular";
 import { AlertController, ViewController } from 'ionic-angular';
 import { AuthService } from './../../services/auth.service';
 import { CommentsComponent } from './../comments/comments.component';
 
 
-import { UserUploadModel } from '../../models/user-upload.model';
+import { UploadModel } from '../../models/upload.model';
 import { UserModel } from '../../models/user.model';
 
 @Component({
@@ -15,22 +16,22 @@ import { UserModel } from '../../models/user.model';
     templateUrl: 'fullscreen-image.html'
 })
 export class FullscreenImageComponent implements OnInit {
-    private _userUpload: UserUploadModel;
+    private _userUpload: UploadModel;
     private _userKey: string;
     private _isOwner: Boolean;
     private _isLikeLoading: Boolean;
     private _isLiked: Boolean;
 
 
-    constructor(public alertCtrl: AlertController, public viewCtrl: ViewController, private navCtrl: NavController, private navParams: NavParams, private userUploadService: UserUploadService, private authService: AuthService) {
+    constructor(public alertCtrl: AlertController, public viewCtrl: ViewController, private likeService: LikeService, private navCtrl: NavController, private navParams: NavParams, private uploadService: uploadService, private authService: AuthService) {
     }
 
     ngOnInit(): void {
-        this._userUpload = this.navParams.get('userUpload');
+        this._userUpload = this.navParams.get('upload');
         this._userKey = this.authService.currentUser.$key;
         this._isOwner = (this._userKey == this._userUpload.user);
 
-        this.userUploadService.getLikes(this._userUpload.$key).subscribe(likes => {
+        this.likeService.getUids(this._userUpload.$key).subscribe(likes => {
             this._isLiked = (likes.indexOf(this.authService.currentUser.$key) != -1);
         });
     }
@@ -47,7 +48,7 @@ export class FullscreenImageComponent implements OnInit {
             {
                 text: 'Agree',
                 handler: () => {
-                    this.userUploadService.removeUserUpload(this._userUpload.$key);
+                    this.uploadService.remove(this._userUpload.$key);
                     this.navCtrl.pop();
                 }
             }]
@@ -59,16 +60,16 @@ export class FullscreenImageComponent implements OnInit {
     private like() {
         this._isLikeLoading = true;
         if (this._isLiked == false) {
-            this.userUploadService.like(this._userUpload.$key);
+            this.likeService.like(this._userUpload.$key);
         }
         else {
-            this.userUploadService.unlike(this._userUpload.$key);
+            this.likeService.unlike(this._userUpload.$key);
         }
     }
 
     private comment() {
           this.navCtrl.push(CommentsComponent, {
-            userUpload: this._userUpload
+            upload: this._userUpload
         });
     }
 

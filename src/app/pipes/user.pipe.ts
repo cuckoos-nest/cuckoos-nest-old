@@ -1,5 +1,5 @@
 import { Observable } from 'rxjs/Observable';
-import { UsersService } from './../services/users.service';
+import { UserService } from './../services/user.service';
 import { UserModel } from './../models/user.model';
 import { Pipe, PipeTransform } from "@angular/core";
 
@@ -11,13 +11,13 @@ export class UserPipe implements PipeTransform {
     private _cachedUid: string;
     private _cachedUser: Observable<UserModel>;
 
-    constructor(private usersService: UsersService) {
+    constructor(private userService: UserService) {
     }
 
     transform(value: string): Observable<UserModel> {
         if (value != this._cachedUid) {
             this._cachedUid = value;
-            this._cachedUser = this.usersService.getUser(value);
+            this._cachedUser = this.userService.get(value);
         }
 
         return this._cachedUser;
