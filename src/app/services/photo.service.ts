@@ -1,4 +1,4 @@
-import { UsersService } from './users.service';
+import { UserService } from './user.service';
 import { AuthService } from './auth.service';
 import { Observer } from 'rxjs/Observer';
 import { AngularFire, FirebaseObjectObservable } from 'angularfire2';
@@ -13,16 +13,16 @@ import { BaseService } from './base/base.service';
 import Config from '../config.json';
 
 @Injectable()
-export class PhotosService {
+export class PhotoService {
 
     constructor(private af: AngularFire, private authService : AuthService,
-                private userService : UsersService) { }
+                private userService : UserService) { }
 
-    public getPhoto(key: string) : Observable<PhotoModel> {
+    public get(key: string) : Observable<PhotoModel> {
         return this.af.database.object("/photos/" + key);
     }
 
-    public searchPhotos(searchQuery: string, categoryKey?: string): Observable<PhotoModel[]> {
+    public search(searchQuery: string, categoryKey?: string): Observable<PhotoModel[]> {
         let options = {};
 
         if (categoryKey && categoryKey.length) {
@@ -38,17 +38,17 @@ export class PhotosService {
                 .map(photos => photos.filter(photo => photo.title.toLowerCase().indexOf(searchQuery.toLowerCase()) > -1));
     }
 
-    public getPhotosByCategory(categoryKey: string) : Observable<PhotoModel[]> {
+    public getAllByCategory(categoryKey: string) : Observable<PhotoModel[]> {
         return this.af.database.list(`/categories/${categoryKey}/photos`)
             .map(references => references.map(ref => ref.$key))
-            .map(keys => keys.map(key => this.getPhoto(key)))
+            .map(keys => keys.map(key => this.get(key)))
             .switchMap(x => x.length == 0 ? Observable.of(x) : Observable.combineLatest(x));
     }
 
-    public getFollowersPhotoCount(photoKey : string) : Observable<number> {
+    public getFollowersCount(photoKey : string) : Observable<number> {
         return this.af.database.list(`/photo-followers/${photoKey}`)
             .map(references => references.map(ref => ref.$key))
-            .map(keys => keys.map(key => this.userService.getUser(key)))
+            .map(keys => keys.map(key => this.userService.get(key)))
             .map(followers => followers.length);
     }
 

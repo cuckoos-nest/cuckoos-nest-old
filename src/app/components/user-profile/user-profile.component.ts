@@ -1,12 +1,12 @@
 import { Observable } from 'rxjs/Observable';
-import { UserUploadService } from './../../services/user-upload.service';
+import { uploadService } from './../../services/upload.service';
 import { UserModel } from './../../models/user.model';
 import { AuthService } from './../../services/auth.service';
 import { FullscreenImageComponent } from './../fullscreen-image/fullscreen-image.component';
-import { UserUploadModel } from './../../models/user-upload.model';
+import { UploadModel } from './../../models/upload.model';
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { NavParams, NavController, LoadingController, ModalController, Content, ToastController } from 'ionic-angular';
-import { UsersService } from './../../services/users.service';
+import { UserService } from './../../services/user.service';
 import { UsersListComponent } from '../users-list/users-list.component';
 
 @Component({
@@ -16,7 +16,7 @@ import { UsersListComponent } from '../users-list/users-list.component';
 export class UserProfileComponent implements OnInit {
     private _user: UserModel;
     private _isMyProfile: Boolean;
-    private _userUploads: Observable<UserUploadModel[]>;
+    private _userUploads: Observable<UploadModel[]>;
     private _isFollowedByMe: Boolean;
     private _isLoaded: Boolean;
     private followers: Observable<UserModel[]>;
@@ -27,7 +27,7 @@ export class UserProfileComponent implements OnInit {
 
     constructor(private navController: NavController, private modalCtrl: ModalController,
         private navParams: NavParams, private authService: AuthService,
-        private usersService: UsersService, private userUploadsService: UserUploadService,
+        private userService: UserService, private userUploadsService: uploadService,
         private loadingCtrl: LoadingController, private toastCtrl: ToastController) { }
 
     ngOnInit(): void {
@@ -38,33 +38,33 @@ export class UserProfileComponent implements OnInit {
             this._user = this.authService.currentUser;
         }
 
-        this._userUploads = this.userUploadsService.getUserUploadsByUser(this._user.$key);
+        this._userUploads = this.userUploadsService.getAllByUser(this._user.$key);
         this._userUploads.subscribe(() => this._isLoaded = true);
 
         this._isMyProfile = (this._user.$key == this.authService.currentUser.$key);
 
         if (!this._isMyProfile) {
-            this.usersService.isFollowingUser(this._user.$key).subscribe(isFollowing => this._isFollowedByMe = isFollowing);
+            this.userService.isFollowingUser(this._user.$key).subscribe(isFollowing => this._isFollowedByMe = isFollowing);
         }
 
-        this.followers = this.usersService.getFollowers(this._user.$key);
-        this.following = this.usersService.getFollowing(this._user.$key);
+        this.followers = this.userService.getFollowers(this._user.$key);
+        this.following = this.userService.getFollowing(this._user.$key);
     }
 
-    private getUploadImage(userUpload: UserUploadModel): string {
-        return userUpload.image;
+    private getUploadImage(upload: UploadModel): string {
+        return upload.image;
     }
 
-    private uploadClicked(userUpload: UserUploadModel) {
+    private uploadClicked(upload: UploadModel) {
         let fullScreenImageModal = this.modalCtrl.create(FullscreenImageComponent, {
-            userUpload: userUpload
+            upload: upload
         });
         fullScreenImageModal.present();
     }
 
     private follow() {
         if (!this._isFollowedByMe) {
-            this.usersService.follow(this._user.$key)
+            this.userService.follow(this._user.$key)
                 .then(() => {
                     let toast = this.toastCtrl.create({
                         message: `You're now following ${this._user.displayName}!`,
@@ -75,7 +75,7 @@ export class UserProfileComponent implements OnInit {
                 });
         }
         else {
-            this.usersService.unfollow(this._user.$key);
+            this.userService.unfollow(this._user.$key);
         }
     }
 

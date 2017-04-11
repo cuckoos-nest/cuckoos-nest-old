@@ -1,9 +1,11 @@
+import { LikeService } from './../../../services/like.service';
+import { CommentService } from './../../../services/comment.service';
 import { PhotoDetailComponent } from './../../photos/photo-detail/photo-detail.component';
 import { CommentsComponent } from './../../comments/comments.component';
 import { LikeListComponent } from './../../like-list/like-list.component';
 import { Observable } from 'rxjs/Observable';
-import { UserUploadService } from './../../../services/user-upload.service';
-import { UsersService } from './../../../services/users.service';
+import { uploadService } from './../../../services/upload.service';
+import { UserService } from './../../../services/user.service';
 import { UserModel } from './../../../models/user.model';
 import { Component, Input, OnInit } from '@angular/core';
 import { NavController, ModalController, NavParams } from 'ionic-angular';
@@ -11,7 +13,7 @@ import { ActionSheetController } from 'ionic-angular';
 import { AlertController, ViewController } from 'ionic-angular';
 
 
-import { UserUploadModel } from '../../../models/user-upload.model';
+import { UploadModel } from '../../../models/upload.model';
 // import { UserModel } from '../../../models/user.model';
 import { UserProfileComponent } from '../../user-profile/user-profile.component';
 import { FullscreenImageComponent } from '../../fullscreen-image/fullscreen-image.component';
@@ -20,7 +22,7 @@ import { timeSince } from './../../../shared/date';
 
 import { WallService } from '../../../services/wall.service';
 import { PhotoModel } from '../../../models/photo.model';
-import { PhotosService } from '../../../services/photos.service';
+import { PhotoService } from '../../../services/photo.service';
 import { AuthService } from '../../../services/auth.service';
 //import { Transfer, TransferObject } from '@ionic-native/transfer';
 
@@ -30,7 +32,7 @@ import { AuthService } from '../../../services/auth.service';
 })
 export class WallCardComponent implements OnInit {
     @Input("data")
-    public userUpload: UserUploadModel;
+    public upload: UploadModel;
     private photo: PhotoModel
     private user: UserModel;
     private _isLiked: Boolean;
@@ -41,26 +43,26 @@ export class WallCardComponent implements OnInit {
     private _isOwner: Boolean;
     //private fileTransfer: TransferObject = this.transfer.create();
 
-    constructor(public navParams: NavParams, public alertCtrl: AlertController, public actionSheetCtrl: ActionSheetController, private nav: NavController, private modalCtrl: ModalController, private photoService: PhotosService, private usersService: UsersService, private userUploadService: UserUploadService, private authService: AuthService){
-        if (this.navParams.get('userUpload')) {
-            this.userUpload = this.navParams.get('userUpload');
+    constructor(public navParams: NavParams, public alertCtrl: AlertController, private likeService: LikeService, private commentService: CommentService, public actionSheetCtrl: ActionSheetController, private nav: NavController, private modalCtrl: ModalController, private photoService: PhotoService, private userService: UserService, private uploadService: uploadService, private authService: AuthService){
+        if (this.navParams.get('upload')) {
+            this.upload = this.navParams.get('upload');
         }
     }
 
     ngOnInit(): void {
         this._isLikeLoading = true;
-        this.photoService.getPhoto(this.userUpload.photo).subscribe(photo => this.photo = photo);
-        this.usersService.getUser(this.userUpload.user).subscribe(user => this.user = user);
-        this._likes = this.userUploadService.getLikes(this.userUpload.$key);
+        this.photoService.get(this.upload.photo).subscribe(photo => this.photo = photo);
+        this.userService.get(this.upload.user).subscribe(user => this.user = user);
+        this._likes = this.likeService.getUids(this.upload.$key);
         this._likes.subscribe(likes => {
             this._isLiked = (likes.indexOf(this.authService.currentUser.$key) != -1);
             this._isLikeLoading = false;
             this._likesCount = likes.length;
         });
 
-        this._isOwner = (this.authService.currentUser.$key == this.userUpload.user);
+        this._isOwner = (this.authService.currentUser.$key == this.upload.user);
 
-        this._commentsCount = this.userUploadService.getCommentCount(this.userUpload.$key);
+        this._commentsCount = this.commentService.count(this.upload.$key);
     }
 
 
@@ -72,7 +74,7 @@ export class WallCardComponent implements OnInit {
 
     private goToImage() {
         let fullScreenImageModal = this.modalCtrl.create(FullscreenImageComponent, {
-            userUpload: this.userUpload
+            upload: this.upload
         });
         fullScreenImageModal.present();
     }
@@ -87,20 +89,20 @@ export class WallCardComponent implements OnInit {
         this._isLikeLoading = true;
 
         if (this._isLiked == false) {
-            this.userUploadService.like(this.userUpload.$key);
+            this.likeService.like(this.upload.$key);
         }
         else {
-            this.userUploadService.unlike(this.userUpload.$key);
+            this.likeService.unlike(this.upload.$key);
         }
     }
 
     private get timeSinceUpload() {
-        return timeSince(new Date(this.userUpload.createdAt));
+        return timeSince(new Date(this.upload.createdAt));
     }
 
     private viewComments() {
         let commentsModal = this.modalCtrl.create(CommentsComponent, {
-            userUpload: this.userUpload
+            upload: this.upload
         });
         commentsModal.present();
     }
@@ -111,7 +113,7 @@ export class WallCardComponent implements OnInit {
             return;
 
         let likeModal = this.modalCtrl.create(LikeListComponent, {
-            userUpload: this.userUpload
+            upload: this.upload
         });
 
         likeModal.present();
@@ -133,7 +135,7 @@ export class WallCardComponent implements OnInit {
                     text: 'Agree',
                     handler: () => {
                         console.log("delete");
-                        this.userUploadService.removeUserUpload(this.userUpload.$key);
+                        this.uploadService.remove(this.upload.$key);
                     }
                 }]
         });
@@ -159,7 +161,7 @@ export class WallCardComponent implements OnInit {
 
                     handler: () => {
                         console.log("hide");
-                        this.userUploadService.hideUserUpload(this.userUpload.$key);
+                        this.uploadService.hide(this.upload.$key);
                     }
                 },
                 {

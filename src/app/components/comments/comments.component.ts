@@ -1,11 +1,12 @@
+import { CommentService } from './../../services/comment.service';
 import { UserModel } from './../../models/user.model';
 import { NavParams, Content, ViewController, AlertController } from 'ionic-angular';
-import { UserUploadModel } from './../../models/user-upload.model';
+import { UploadModel } from './../../models/upload.model';
 import { CommentModel } from './../../models/comment.model';
 import { Observable } from 'rxjs/Observable';
-import { UserUploadService } from './../../services/user-upload.service';
+import { uploadService } from './../../services/upload.service';
 import { Component, OnInit, ViewChild, DoCheck } from '@angular/core';
-import { UsersService } from '../../services/users.service';
+import { UserService } from '../../services/user.service';
 import { AuthService } from '../../services/auth.service';
 
 
@@ -15,23 +16,23 @@ import { AuthService } from '../../services/auth.service';
 })
 export class CommentsComponent implements OnInit {
     private _comments: Observable<CommentModel[]>;
-    private _userUpload: UserUploadModel;
+    private _userUpload: UploadModel;
     private _commentText: string;
     private _isLoaded: Boolean;
 
     @ViewChild('content') _content: Content;
 
-    constructor(public alertCtrl: AlertController, public viewCtrl: ViewController, private userUploadService: UserUploadService, private usersService: UsersService, private authService: AuthService, private navParams: NavParams) {
+    constructor(public alertCtrl: AlertController, public viewCtrl: ViewController, private commentService: CommentService, private uploadService: uploadService, private userService: UserService, private authService: AuthService, private navParams: NavParams) {
     }
 
     ngOnInit(): void {
-        if (this.navParams.get('userUpload')) {
-            this._userUpload = this.navParams.get('userUpload');
+        if (this.navParams.get('upload')) {
+            this._userUpload = this.navParams.get('upload');
         }
         
         this._isLoaded = !this._userUpload.commentsCount;
 
-        this._comments = this.userUploadService.getComments(this._userUpload.$key);
+        this._comments = this.commentService.getAll(this._userUpload.$key);
         this._comments.subscribe(() => {
             this._isLoaded = true;
             setTimeout(() => this.scrollToBottom(500), 500);
@@ -44,7 +45,7 @@ export class CommentsComponent implements OnInit {
         comment.text = this._commentText;
         comment.createdAt = new Date();
 
-        this.userUploadService.createComment(comment, this._userUpload.$key).then(() => this.scrollToBottom(500));
+        this.commentService.create(comment, this._userUpload.$key).then(() => this.scrollToBottom(500));
 
         this._commentText = "";
     }
@@ -83,7 +84,7 @@ export class CommentsComponent implements OnInit {
                 {
                     text: 'Agree',
                     handler: () => {
-                        this.userUploadService.removeComment(this._userUpload.$key, comment.$key);
+                        this.commentService.remove(this._userUpload.$key, comment.$key);
                     }
                 }]
         });

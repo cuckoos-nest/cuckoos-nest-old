@@ -1,18 +1,18 @@
 import { PhotoDetailComponent } from './../photos/photo-detail/photo-detail.component';
-import { CategoriesService } from './../../services/categories.service';
+import { CategoryService } from './../../services/category.service';
 import { CategoryModel } from './../../models/category.model';
 import { PhotoModel } from './../../models/photo.model';
 import { FullscreenImageComponent } from './../fullscreen-image/fullscreen-image.component';
 import { UserProfileComponent } from './../user-profile/user-profile.component';
 import { NavController, ModalController } from 'ionic-angular';
 import { UserModel } from './../../models/user.model';
-import { UserUploadService } from './../../services/user-upload.service';
-import { UserUploadModel } from './../../models/user-upload.model';
+import { uploadService } from './../../services/upload.service';
+import { UploadModel } from './../../models/upload.model';
 import { Observable } from 'rxjs/Observable';
 import { Component, OnInit } from '@angular/core';
 import { Subscription } from "rxjs/Subscription";
-import { UsersService } from '../../services/users.service';
-import { PhotosService } from '../../services/photos.service';
+import { UserService } from '../../services/user.service';
+import { PhotoService } from '../../services/photo.service';
 
 @Component({
     selector: 'search',
@@ -21,7 +21,7 @@ import { PhotosService } from '../../services/photos.service';
 export class SearchComponent implements OnInit {
     private _searchType: string;
     private _isLoaded: Boolean = true;
-    private _filteredUserUploads: Array<UserUploadModel>;
+    private _filteredUserUploads: Array<UploadModel>;
     private _filteredMembers: Array<UserModel>;
     private _filteredPhotos: Array<PhotoModel>
     private _searchQuery: string = '';
@@ -39,12 +39,12 @@ export class SearchComponent implements OnInit {
         return this._searchQuery;
     }
 
-    constructor(private nav: NavController, private categoriesService: CategoriesService, private modalCtrl: ModalController, private userUploadsService: UserUploadService, private photosService: PhotosService, private usersService: UsersService) {
+    constructor(private nav: NavController, private categoryService: CategoryService, private modalCtrl: ModalController, private userUploadsService: uploadService, private photoService: PhotoService, private userService: UserService) {
     }    
 
     ngOnInit(): void {
-        this._categories = this.categoriesService.getCategories();
-        this.recentMemberSearches =  this.usersService.getRecentSearches();
+        this._categories = this.categoryService.getAll();
+        this.recentMemberSearches =  this.userService.getRecentSearches();
         this._searchType = 'photos';
         this.onSegmentChange();
     }
@@ -59,7 +59,7 @@ export class SearchComponent implements OnInit {
                 }
 
                 this._isLoaded = false;
-                this._currentSubscription = this.userUploadsService.searchUserUploads(query)
+                this._currentSubscription = this.userUploadsService.search(query)
                         .subscribe(userUploads => {
                             this._filteredUserUploads = userUploads;
                             this._isLoaded = true;
@@ -74,7 +74,7 @@ export class SearchComponent implements OnInit {
                 }
 
                 this._isLoaded = false;
-                this._currentSubscription = this.usersService.searchUsers(query)
+                this._currentSubscription = this.userService.search(query)
                         .subscribe(users => {
                             this._filteredMembers = users;
                             this._isLoaded = true;
@@ -83,7 +83,7 @@ export class SearchComponent implements OnInit {
 
             case 'photos': 
                 this._isLoaded = false;
-                this._currentSubscription = this.photosService.searchPhotos(query, this._selectedCategory ? this._selectedCategory.$key : null)
+                this._currentSubscription = this.photoService.search(query, this._selectedCategory ? this._selectedCategory.$key : null)
                         .subscribe(photos => {
                             this._filteredPhotos = photos;
                             this._isLoaded = true;
@@ -106,7 +106,7 @@ export class SearchComponent implements OnInit {
     }
 
     private goToUser(user: UserModel) {
-        this.usersService.addRecentSearch(user.$key);
+        this.userService.addRecentSearch(user.$key);
         this.nav.push(UserProfileComponent, {
             user: user
         });
@@ -118,9 +118,9 @@ export class SearchComponent implements OnInit {
         });
     }
 
-    private goToUpload(userUpload: UserUploadModel) {
+    private goToUpload(upload: UploadModel) {
         let fullScreenImageModal = this.modalCtrl.create(FullscreenImageComponent, { 
-            userUpload: userUpload
+            upload: upload
         });
         fullScreenImageModal.present();
     }

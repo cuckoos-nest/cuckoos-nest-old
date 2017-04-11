@@ -2,12 +2,12 @@ import { AuthService } from './../../services/auth.service';
 import { Component, ViewChild, AfterViewInit } from '@angular/core';
 import { NavController, NavParams } from 'ionic-angular';
 
-import { UserUploadModel } from '../../models/user-upload.model';
+import { UploadModel } from '../../models/upload.model';
 import { PhotoModel } from '../../models/photo.model';
 
 import { EditUserUploadComponent } from '../edit-user-upload/edit-user-upload.component';
 
-import { UsersService } from '../../services/users.service';
+import { UserService } from '../../services/user.service';
 
 
 @Component({
@@ -41,15 +41,15 @@ export class WebcamComponent implements AfterViewInit {
 
         var base64Image = canvas.toDataURL('image/jpeg');
 
-        let userUpload: UserUploadModel = new UserUploadModel();
-        userUpload.photo = this.photo.$key;
-        userUpload.user = this.authService.currentUser.$key;
-        userUpload.image = base64Image;
-        userUpload.likesCount = 0;
-        userUpload.commentsCount = 0;
+        let upload: UploadModel = new UploadModel();
+        upload.photo = this.photo.$key;
+        upload.user = this.authService.currentUser.$key;
+        upload.image = base64Image;
+        upload.likesCount = 0;
+        upload.commentsCount = 0;
 
         this.navController.push(EditUserUploadComponent, {
-            userUpload: userUpload
+            upload: upload
         });
     }
 

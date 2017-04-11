@@ -17,7 +17,7 @@ import { LoginResult } from './enums/login-result.enum';
 import * as Config from './config.json';
 import { AuthService } from './services/auth.service';
 import { CategoryModel } from './models/category.model';
-import { CategoriesService } from './services/categories.service';
+import { CategoryService } from './services/category.service';
 
 
 
@@ -27,7 +27,7 @@ import { CategoriesService } from './services/categories.service';
 export class MyApp implements OnInit {
   private rootPage: Component = null;
 
-  constructor(private platform: Platform, private _auth: AuthService, translate: TranslateService, private af: AngularFire, private test: CategoriesService) {
+  constructor(private platform: Platform, private _auth: AuthService, translate: TranslateService, private af: AngularFire, private test: CategoryService) {
     Splashscreen.show();
 
     if (Config.debugMode) {
@@ -48,7 +48,7 @@ export class MyApp implements OnInit {
     this._auth.signInWithFacebook()
       .subscribe(() => {
         if (this._auth.authenticated) {
-          this.test.getCategories().subscribe(x => console.log("categories: ", x.map(y => y.$key)));
+          this.test.getAll().subscribe(x => console.log("categories: ", x.map(y => y.$key)));
           this.rootPage = MainMenuComponent;
           Splashscreen.hide();
         }

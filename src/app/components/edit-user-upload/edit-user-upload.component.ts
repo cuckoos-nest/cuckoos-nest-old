@@ -2,9 +2,9 @@ import { Component } from '@angular/core';
 import { NavController, NavParams } from 'ionic-angular';
 import { AlertController } from 'ionic-angular';  
 
-import { UserUploadModel } from '../../models/user-upload.model';
+import { UploadModel } from '../../models/upload.model';
 import { WallService } from '../../services/wall.service';
-import { UserUploadService } from '../../services/user-upload.service';
+import { uploadService } from '../../services/upload.service';
 
 @Component({
     selector: 'edit-user-upload',
@@ -12,12 +12,12 @@ import { UserUploadService } from '../../services/user-upload.service';
 })
 export class EditUserUploadComponent {
 
-    private _userUpload: UserUploadModel;
+    private _userUpload: UploadModel;
     private photoX: number;
     private photoY: number;
 
-    constructor(private navController: NavController, private userUploadService: UserUploadService, private navParams: NavParams, private alertCtrl: AlertController) {
-        this._userUpload = navParams.get('userUpload');
+    constructor(private navController: NavController, private uploadService: uploadService, private navParams: NavParams, private alertCtrl: AlertController) {
+        this._userUpload = navParams.get('upload');
     }    
     
     private share() {
@@ -31,7 +31,7 @@ export class EditUserUploadComponent {
             return;
         }
 
-        this.userUploadService.createUpload(this._userUpload);
+        this.uploadService.create(this._userUpload);
         this.navController.popToRoot();
         
     }

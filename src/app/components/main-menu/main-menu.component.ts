@@ -6,18 +6,18 @@ import { CategoriesComponent } from '../categories/categories.component';
 import { UserProfileComponent } from '../user-profile/user-profile.component';
 import { NotificationsComponent } from '../notifications/notifications.component';
 
-import { UsersService } from '../../services/users.service';
-import { NotificationsService } from '../../services/notifications.service';
+import { UserService } from '../../services/user.service';
+import { NotificationService } from '../../services/notification.service';
 
 import { NotificationModel } from '../../models/notification.model';
 
 
 import { NavController, NavParams } from 'ionic-angular';
 import { EditUserUploadComponent } from '../edit-user-upload/edit-user-upload.component';
-import { PhotosService } from '../../services/photos.service';
+import { PhotoService } from '../../services/photo.service';
 import { PhotoModel } from '../../models/photo.model';
 import { CategoryModel } from '../../models/category.model';
-import { UserUploadModel } from '../../models/user-upload.model';
+import { UploadModel } from '../../models/upload.model';
 
 @Component({
     selector: 'main-menu',
@@ -33,7 +33,7 @@ export class MainMenuComponent {
 
     private _newNotifications: Observable<number>;
 
-    constructor(private notificationsService: NotificationsService) {
+    constructor(private notificationService: NotificationService) {
         let isEditDebug: Boolean = false;
 
         this._wallTab = WallComponent;
@@ -42,12 +42,12 @@ export class MainMenuComponent {
         this._profileTab = UserProfileComponent;
         this._notificationsTab = NotificationsComponent;
 
-        this._newNotifications = this.notificationsService.getNotifications()
+        this._newNotifications = this.notificationService.getAll()
             .map(x => x.filter(x => !x.isRead))
             .map(x => x.length);
     }
 
     private resetNotifications() {
-        this.notificationsService.markNotificationsAsRead();
+        this.notificationService.markAllAsRead();
     }
 }
