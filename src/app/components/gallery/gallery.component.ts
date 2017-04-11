@@ -7,23 +7,38 @@ import { PhotoModel } from '../../models/photo.model';
     templateUrl: 'gallery.html'
 })
 export class GalleryComponent implements OnChanges {
+    private rows: Array<Array<any>>;
 
-    rows : Array<Array<any>>;
+    @Input() items: any[];
 
-    @Input()
-    set items(value : any[]) {
-        this.rows = new Array<Array<any>>();
+    @Input() imageMember : (item : any) => string;
+    
+    @Input() titleMember : (item : any) => string;
 
-        if (value) {
+    @Input() labelMember : (item : any) => string;
+
+    @Input() columns : number = 2;
+
+
+    @Output() itemClick = new EventEmitter<any>();
+
+    itemClicked(item: any) {
+        this.itemClick.emit(item);
+    } 
+
+    ngOnChanges(changes: SimpleChanges): void {
+        this.rows = [];
+
+        if (this.items) {
             let currentNumberOfColumns : number = 0;
             let currentRow : number = 0;
 
-            this.rows.push(new Array<any>());
+            this.rows.push([]);
 
-            for (let item of value) {
+            for (let item of this.items) {
                 if (currentNumberOfColumns > (this.columns - 1)) {
                     currentNumberOfColumns = 0;
-                    this.rows.push(new Array<any>());
+                    this.rows.push([]);
                     currentRow++;
                 }
 
@@ -32,33 +47,5 @@ export class GalleryComponent implements OnChanges {
                 currentNumberOfColumns++;
             }
         }
-    }
-
-    @Input()
-    imageMember : (item : any) => string;
-    
-    @Input()
-    titleMember : (item : any) => string;
-
-    @Input()
-    labelMember : (item : any) => string;
-
-    @Input()
-    columns : number = 2;
-
-
-    @Output()
-    onItemClicked = new EventEmitter<any>();
-
-    itemClicked(item: any) {
-        this.onItemClicked.emit(item);
-    }
-
-    constructor() {        
-        
-    } 
-
-    ngOnChanges(changes: SimpleChanges) {
-        changes
     }
 }
