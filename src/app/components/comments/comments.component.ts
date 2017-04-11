@@ -15,44 +15,46 @@ import { AuthService } from '../../services/auth.service';
     templateUrl: 'comments.html',
 })
 export class CommentsComponent implements OnInit {
-    private _comments: Observable<CommentModel[]>;
-    private _userUpload: UploadModel;
-    private _commentText: string;
-    private _isLoaded: Boolean;
+    private comments: Observable<CommentModel[]>;
+    private userUpload: UploadModel;
+    private commentText: string;
+    private isLoaded: Boolean;
 
-    @ViewChild('content') _content: Content;
+    @ViewChild('content') content: Content;
 
-    constructor(public alertCtrl: AlertController, public viewCtrl: ViewController, private commentService: CommentService, private uploadService: uploadService, private userService: UserService, private authService: AuthService, private navParams: NavParams) {
-    }
+    constructor(private alertCtrl: AlertController, private viewCtrl: ViewController,
+        private commentService: CommentService, private uploadService: uploadService,
+        private userService: UserService, private authService: AuthService,
+        private navParams: NavParams) { }
 
     ngOnInit(): void {
         if (this.navParams.get('upload')) {
-            this._userUpload = this.navParams.get('upload');
+            this.userUpload = this.navParams.get('upload');
         }
-        
-        this._isLoaded = !this._userUpload.commentsCount;
 
-        this._comments = this.commentService.getAll(this._userUpload.$key);
-        this._comments.subscribe(() => {
-            this._isLoaded = true;
+        this.isLoaded = !this.userUpload.commentsCount;
+
+        this.comments = this.commentService.getAll(this.userUpload.$key);
+        this.comments.subscribe(() => {
+            this.isLoaded = true;
             setTimeout(() => this.scrollToBottom(500), 500);
         });
     }
 
     private send() {
-        let comment = new CommentModel();
-        comment.user = this.authService.currentUser.$key;
-        comment.text = this._commentText;
-        comment.createdAt = new Date();
+        let comment: CommentModel = {
+            user: this.authService.currentUser.$key,
+            text: this.commentText,
+            createdAt: new Date(),
+        };
 
-        this.commentService.create(comment, this._userUpload.$key).then(() => this.scrollToBottom(500));
+        this.commentService.create(comment, this.userUpload.$key).then(() => this.scrollToBottom(500));
 
-        this._commentText = "";
+        this.commentText = "";
     }
 
     private scrollToBottom(speed = 0) {
-        console.log("bottom", this._content.getContentDimensions());
-        this._content.scrollTo(0, this._content.getContentDimensions().scrollHeight, speed);
+        this.content.scrollTo(0, this.content.getContentDimensions().scrollHeight, speed);
     }
 
     private dismiss() {
@@ -60,19 +62,13 @@ export class CommentsComponent implements OnInit {
     }
 
     public onHold(comment: CommentModel) {
-        
-
-        // check if I am the owner of the photo
-        if(this.authService.currentUser.$key == this._userUpload.user ||
-            comment.user == this.authService.currentUser.$key)
+        if (this.authService.currentUser.$key == this.userUpload.user ||
+            comment.user == this.authService.currentUser.$key) {
             this.removeComment(comment);
-
-       
-       
+        }
     }
 
-    private removeComment(comment: CommentModel)
-    {
+    private removeComment(comment: CommentModel) {
         let confirm = this.alertCtrl.create({
             title: 'Delete comment?',
             message: 'Are you sure that you want to remove this comment?',
@@ -84,13 +80,11 @@ export class CommentsComponent implements OnInit {
                 {
                     text: 'Agree',
                     handler: () => {
-                        this.commentService.remove(this._userUpload.$key, comment.$key);
+                        this.commentService.remove(this.userUpload.$key, comment.$key);
                     }
                 }]
         });
 
         confirm.present();
-
-        
     }
 }

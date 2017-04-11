@@ -19,15 +19,15 @@ import { PhotoService } from '../../services/photo.service';
     templateUrl: 'search.html'
 })
 export class SearchComponent implements OnInit {
-    private _searchType: string;
-    private _isLoaded: Boolean = true;
-    private _filteredUserUploads: Array<UploadModel>;
-    private _filteredMembers: Array<UserModel>;
-    private _filteredPhotos: Array<PhotoModel>
+    private searchType: string;
+    private isLoaded: Boolean = true;
+    private filteredUserUploads: Array<UploadModel>;
+    private filteredMembers: Array<UserModel>;
+    private filteredPhotos: Array<PhotoModel>
     private _searchQuery: string = '';
-    private _currentSubscription: Subscription;
-    private _categories: Observable<CategoryModel[]>;
-    private _selectedCategory: CategoryModel;
+    private currentSubscription: Subscription;
+    private categories: Observable<CategoryModel[]>;
+    private selectedCategory: CategoryModel;
     private recentMemberSearches: Observable<UserModel[]>;
 
     set searchQuery(value: string) {
@@ -39,69 +39,70 @@ export class SearchComponent implements OnInit {
         return this._searchQuery;
     }
 
-    constructor(private nav: NavController, private categoryService: CategoryService, private modalCtrl: ModalController, private userUploadsService: uploadService, private photoService: PhotoService, private userService: UserService) {
-    }    
+    constructor(private nav: NavController, private categoryService: CategoryService,
+        private modalCtrl: ModalController, private userUploadsService: uploadService,
+        private photoService: PhotoService, private userService: UserService) {
+    }
 
     ngOnInit(): void {
-        this._categories = this.categoryService.getAll();
-        this.recentMemberSearches =  this.userService.getRecentSearches();
-        this._searchType = 'photos';
+        this.categories = this.categoryService.getAll();
+        this.recentMemberSearches = this.userService.getRecentSearches();
+        this.searchType = 'photos';
         this.onSegmentChange();
     }
 
     private performSearch(query: string) {
-        switch (this._searchType) {
-            case 'uploads': 
+        switch (this.searchType) {
+            case 'uploads':
                 if (query.length < 3) {
                     this.unsubscribe();
-                    this._filteredUserUploads = null;
+                    this.filteredUserUploads = null;
                     return;
                 }
 
-                this._isLoaded = false;
-                this._currentSubscription = this.userUploadsService.search(query)
-                        .subscribe(userUploads => {
-                            this._filteredUserUploads = userUploads;
-                            this._isLoaded = true;
-                        });
-            break;
+                this.isLoaded = false;
+                this.currentSubscription = this.userUploadsService.search(query)
+                    .subscribe(userUploads => {
+                        this.filteredUserUploads = userUploads;
+                        this.isLoaded = true;
+                    });
+                break;
 
-            case 'members': 
+            case 'members':
                 if (query.length == 0) {
                     this.unsubscribe();
-                    this._filteredMembers = null;
+                    this.filteredMembers = null;
                     return;
                 }
 
-                this._isLoaded = false;
-                this._currentSubscription = this.userService.search(query)
-                        .subscribe(users => {
-                            this._filteredMembers = users;
-                            this._isLoaded = true;
-                        });
-            break;
+                this.isLoaded = false;
+                this.currentSubscription = this.userService.search(query)
+                    .subscribe(users => {
+                        this.filteredMembers = users;
+                        this.isLoaded = true;
+                    });
+                break;
 
-            case 'photos': 
-                this._isLoaded = false;
-                this._currentSubscription = this.photoService.search(query, this._selectedCategory ? this._selectedCategory.$key : null)
-                        .subscribe(photos => {
-                            this._filteredPhotos = photos;
-                            this._isLoaded = true;
-                        });
-            break;
+            case 'photos':
+                this.isLoaded = false;
+                this.currentSubscription = this.photoService.search(query, this.selectedCategory ? this.selectedCategory.$key : null)
+                    .subscribe(photos => {
+                        this.filteredPhotos = photos;
+                        this.isLoaded = true;
+                    });
+                break;
         }
     }
 
     private onSegmentChange() {
-        this._searchQuery = '';
-        this.performSearch(this._searchQuery);
+        this.searchQuery = '';
+        this.performSearch(this.searchQuery);
     }
-    
+
     private unsubscribe() {
-        if (this._currentSubscription)
-        {
-            this._currentSubscription.unsubscribe();
-            this._currentSubscription = null;
+        if (this.currentSubscription) {
+            this.currentSubscription.unsubscribe();
+            this.currentSubscription = null;
         }
     }
 
@@ -119,7 +120,7 @@ export class SearchComponent implements OnInit {
     }
 
     private goToUpload(upload: UploadModel) {
-        let fullScreenImageModal = this.modalCtrl.create(FullscreenImageComponent, { 
+        let fullScreenImageModal = this.modalCtrl.create(FullscreenImageComponent, {
             upload: upload
         });
         fullScreenImageModal.present();
@@ -134,13 +135,13 @@ export class SearchComponent implements OnInit {
     }
 
     private selectCategory(category: CategoryModel) {
-        if (this._selectedCategory && this._selectedCategory.$key == category.$key) {
-            this._selectedCategory = null;
+        if (this.selectedCategory && this.selectedCategory.$key == category.$key) {
+            this.selectedCategory = null;
         }
         else {
-            this._selectedCategory = category;
+            this.selectedCategory = category;
         }
-        
-        this.performSearch(this._searchQuery);
+
+        this.performSearch(this.searchQuery);
     }
 }

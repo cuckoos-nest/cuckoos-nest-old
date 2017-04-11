@@ -1,4 +1,3 @@
-// import { UserModel } from "./user.model";
 import { NotificationType } from "../enums/notification-type.enum";
 import { BaseModel } from './base/base.model';
 

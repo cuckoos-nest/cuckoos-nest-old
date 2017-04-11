@@ -8,7 +8,7 @@
 <ion-content>
 
   <ion-toolbar mode="ios">
-    <ion-segment [(ngModel)]="_searchType" mode="ios" (ionChange)="onSegmentChange()">
+    <ion-segment [(ngModel)]="searchType" mode="ios" (ionChange)="onSegmentChange()">
       <ion-segment-button value="photos">
         Nests
       </ion-segment-button>
@@ -21,20 +21,20 @@
     </ion-segment>
   </ion-toolbar>
 
-  <ion-toolbar mode="ios" *ngIf="_searchType == 'photos'">
+  <ion-toolbar mode="ios" *ngIf="searchType == 'photos'">
     <ion-scroll scrollX="true" ngClass="categories-scroller"> 
-      <div (click)="selectCategory(category)" [ngClass]="{'category': true, 'selected': (_selectedCategory && _selectedCategory.$key == category.$key)}"  *ngFor="let category of _categories | async">
+      <div (click)="selectCategory(category)" [ngClass]="{'category': true, 'selected': (selectedCategory && selectedCategory.$key == category.$key)}"  *ngFor="let category of categories | async">
         <img [src]="category.image" />
         <p>{{ category.name }}</p>
       </div>
     </ion-scroll>
   </ion-toolbar>
 
-  <ion-spinner *ngIf="!_isLoaded" ngClass="middle-vertical"></ion-spinner>
+  <ion-spinner *ngIf="!isLoaded" ngClass="middle-vertical"></ion-spinner>
 
-  <div [ngSwitch]="_searchType" *ngIf="_isLoaded">
+  <div [ngSwitch]="searchType" *ngIf="isLoaded">
     <ion-list *ngSwitchCase="'uploads'">
-      <ion-item text-wrap *ngFor="let upload of (_filteredUserUploads | orderBy:'!likesCount')" (click)="goToUpload(upload)">
+      <ion-item text-wrap *ngFor="let upload of (filteredUserUploads | orderBy:'!likesCount')" (click)="goToUpload(upload)">
             <ion-thumbnail item-left>
                 <img [src]="upload.image">
             </ion-thumbnail>
@@ -49,15 +49,15 @@
 
     <div *ngSwitchCase="'photos'">      
       <ion-list>
-        <ion-list-header *ngIf="_filteredPhotos.length == 0">
+        <ion-list-header *ngIf="filteredPhotos.length == 0">
           No Results
         </ion-list-header>
-        <ion-list-header *ngIf="_filteredPhotos.length > 0">
-          {{ _selectedCategory ? _selectedCategory.name : 'All Categories' }}
+        <ion-list-header *ngIf="filteredPhotos.length > 0">
+          {{ selectedCategory ? selectedCategory.name : 'All Categories' }}
         </ion-list-header>
       </ion-list>
 
-      <gallery *ngIf="_isLoaded && _filteredPhotos.length > 0" [items]="_filteredPhotos | orderBy:'title'" [titleMember]="getPhotoTitle" [imageMember]="getPhotoImage" (onItemClicked)="goToPhoto($event)"></gallery>
+      <gallery *ngIf="isLoaded && filteredPhotos.length > 0" [items]="filteredPhotos | orderBy:'title'" [titleMember]="getPhotoTitle" [imageMember]="getPhotoImage" (onItemClicked)="goToPhoto($event)"></gallery>
     </div>
 
     <div *ngSwitchCase="'members'">
@@ -75,11 +75,11 @@
       </ion-list>
 
       <ion-list *ngIf="searchQuery.length > 0">
-        <ion-list-header *ngIf="_filteredMembers.length == 0">
+        <ion-list-header *ngIf="filteredMembers.length == 0">
           No Results
         </ion-list-header>
 
-        <ion-item *ngFor="let member of (_filteredMembers | orderBy:'displayName')" (click)="goToUser(member)">
+        <ion-item *ngFor="let member of (filteredMembers | orderBy:'displayName')" (click)="goToUser(member)">
             <ion-avatar item-left>
                 <img [src]="member.image">
             </ion-avatar>

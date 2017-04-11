@@ -14,16 +14,16 @@ import { UsersListComponent } from '../users-list/users-list.component';
     templateUrl: 'user-profile.html'
 })
 export class UserProfileComponent implements OnInit {
-    private _user: UserModel;
-    private _isMyProfile: Boolean;
-    private _userUploads: Observable<UploadModel[]>;
-    private _isFollowedByMe: Boolean;
-    private _isLoaded: Boolean;
+    private user: UserModel;
+    private isMyProfile: Boolean;
+    private uploads: Observable<UploadModel[]>;
+    private isFollowedByMe: Boolean;
+    private isLoaded: Boolean;
     private followers: Observable<UserModel[]>;
     private following: Observable<UserModel[]>;
 
     @ViewChild('content') content: Content;
-    @ViewChild('uploads') uploads: ElementRef;
+    @ViewChild('uploads') uploadsRef: ElementRef;
 
     constructor(private navController: NavController, private modalCtrl: ModalController,
         private navParams: NavParams, private authService: AuthService,
@@ -32,23 +32,23 @@ export class UserProfileComponent implements OnInit {
 
     ngOnInit(): void {
         if (this.navParams.get('user')) {
-            this._user = this.navParams.get('user');
+            this.user = this.navParams.get('user');
         }
         else {
-            this._user = this.authService.currentUser;
+            this.user = this.authService.currentUser;
         }
 
-        this._userUploads = this.userUploadsService.getAllByUser(this._user.$key);
-        this._userUploads.subscribe(() => this._isLoaded = true);
+        this.uploads = this.userUploadsService.getAllByUser(this.user.$key);
+        this.uploads.subscribe(() => this.isLoaded = true);
 
-        this._isMyProfile = (this._user.$key == this.authService.currentUser.$key);
+        this.isMyProfile = (this.user.$key == this.authService.currentUser.$key);
 
-        if (!this._isMyProfile) {
-            this.userService.isFollowingUser(this._user.$key).subscribe(isFollowing => this._isFollowedByMe = isFollowing);
+        if (!this.isMyProfile) {
+            this.userService.isFollowingUser(this.user.$key).subscribe(isFollowing => this.isFollowedByMe = isFollowing);
         }
 
-        this.followers = this.userService.getFollowers(this._user.$key);
-        this.following = this.userService.getFollowing(this._user.$key);
+        this.followers = this.userService.getFollowers(this.user.$key);
+        this.following = this.userService.getFollowing(this.user.$key);
     }
 
     private getUploadImage(upload: UploadModel): string {
@@ -63,11 +63,11 @@ export class UserProfileComponent implements OnInit {
     }
 
     private follow() {
-        if (!this._isFollowedByMe) {
-            this.userService.follow(this._user.$key)
+        if (!this.isFollowedByMe) {
+            this.userService.follow(this.user.$key)
                 .then(() => {
                     let toast = this.toastCtrl.create({
-                        message: `You're now following ${this._user.displayName}!`,
+                        message: `You're now following ${this.user.displayName}!`,
                         duration: 3000,
                         position: 'top'
                     });
@@ -75,12 +75,8 @@ export class UserProfileComponent implements OnInit {
                 });
         }
         else {
-            this.userService.unfollow(this._user.$key);
+            this.userService.unfollow(this.user.$key);
         }
-    }
-
-    private showPhotos() {
-
     }
 
     private showFollowing() {
@@ -102,8 +98,7 @@ export class UserProfileComponent implements OnInit {
     }
 
     private showUploads() {
-        let yOffset = this.uploads.nativeElement.offsetTop;
-        console.log("div", this.uploads);
+        let yOffset = this.uploadsRef.nativeElement.offsetTop;
         this.content.scrollTo(0, yOffset, 1000)
     }
 }

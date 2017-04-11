@@ -1,9 +1,9 @@
 <ion-content>
   <ion-tabs>
-    <ion-tab tabIcon="home" [root]="_wallTab"></ion-tab>
-    <ion-tab tabIcon="search" [root]="_searchTab"></ion-tab>
-    <ion-tab tabIcon="add" [root]="_addTab"></ion-tab>
-    <ion-tab tabIcon="heart" [root]="_notificationsTab" (ionSelect)="resetNotifications()" [tabBadge]="_newNotifications | async" tabBadgeStyle="danger"></ion-tab>
-    <ion-tab tabIcon="person" [root]="_profileTab"></ion-tab>
+    <ion-tab tabIcon="home" [root]="wallTab"></ion-tab>
+    <ion-tab tabIcon="search" [root]="searchTab"></ion-tab>
+    <ion-tab tabIcon="add" [root]="addTab"></ion-tab>
+    <ion-tab tabIcon="heart" [root]="notificationsTab" (ionSelect)="resetNotifications()" [tabBadge]="newNotifications | async" tabBadgeStyle="danger"></ion-tab>
+    <ion-tab tabIcon="person" [root]="profileTab"></ion-tab>
   </ion-tabs>
 </ion-content>

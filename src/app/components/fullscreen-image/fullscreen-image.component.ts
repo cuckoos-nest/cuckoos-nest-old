@@ -16,23 +16,25 @@ import { UserModel } from '../../models/user.model';
     templateUrl: 'fullscreen-image.html'
 })
 export class FullscreenImageComponent implements OnInit {
-    private _userUpload: UploadModel;
-    private _userKey: string;
-    private _isOwner: Boolean;
-    private _isLikeLoading: Boolean;
-    private _isLiked: Boolean;
+    private upload: UploadModel;
+    private uid: string;
+    private isOwner: Boolean;
+    private isLikeLoading: Boolean;
+    private isLiked: Boolean;
 
 
-    constructor(public alertCtrl: AlertController, public viewCtrl: ViewController, private likeService: LikeService, private navCtrl: NavController, private navParams: NavParams, private uploadService: uploadService, private authService: AuthService) {
-    }
+    constructor(private alertCtrl: AlertController, private viewCtrl: ViewController, 
+                private likeService: LikeService, private navCtrl: NavController, 
+                private navParams: NavParams, private uploadService: uploadService, 
+                private authService: AuthService) { }
 
     ngOnInit(): void {
-        this._userUpload = this.navParams.get('upload');
-        this._userKey = this.authService.currentUser.$key;
-        this._isOwner = (this._userKey == this._userUpload.user);
+        this.upload = this.navParams.get('upload');
+        this.uid = this.authService.currentUser.$key;
+        this.isOwner = (this.uid == this.upload.user);
 
-        this.likeService.getUids(this._userUpload.$key).subscribe(likes => {
-            this._isLiked = (likes.indexOf(this.authService.currentUser.$key) != -1);
+        this.likeService.getUids(this.upload.$key).subscribe(likes => {
+            this.isLiked = (likes.indexOf(this.authService.currentUser.$key) != -1);
         });
     }
 
@@ -48,7 +50,7 @@ export class FullscreenImageComponent implements OnInit {
             {
                 text: 'Agree',
                 handler: () => {
-                    this.uploadService.remove(this._userUpload.$key);
+                    this.uploadService.remove(this.upload.$key);
                     this.navCtrl.pop();
                 }
             }]
@@ -58,23 +60,22 @@ export class FullscreenImageComponent implements OnInit {
     }
 
     private like() {
-        this._isLikeLoading = true;
-        if (this._isLiked == false) {
-            this.likeService.like(this._userUpload.$key);
+        this.isLikeLoading = true;
+        if (this.isLiked == false) {
+            this.likeService.like(this.upload.$key);
         }
         else {
-            this.likeService.unlike(this._userUpload.$key);
+            this.likeService.unlike(this.upload.$key);
         }
     }
 
     private comment() {
           this.navCtrl.push(CommentsComponent, {
-            upload: this._userUpload
+            upload: this.upload
         });
     }
 
     private dismiss() {
         this.viewCtrl.dismiss();
     }
-    
 }

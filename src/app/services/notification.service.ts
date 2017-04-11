@@ -56,4 +56,10 @@ export class NotificationService {
     public clearAll() : void{
         this.af.database.object(`/notifications/${this.authService.currentUser.$key}`).set(null)
     }
+
+    public countUnread() {
+        return this.getAll()
+                .map(x => x.filter(x => !x.isRead))
+                .map(x => x.length);
+    }
 }

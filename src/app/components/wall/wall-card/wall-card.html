@@ -28,10 +28,10 @@
         <img [src]="photo?.image" ngClass="photo" (click)="goToPhoto()" />
       </ion-col>
       <ion-col col-3>
-        <ion-badge (click)="showLikers()" color="primary">{{ (_likes | async)?.length }} Likes</ion-badge>
+        <ion-badge (click)="showLikers()" color="primary">{{ (likes | async)?.length }} Likes</ion-badge>
       </ion-col>
       <ion-col col-3 >
-        <ion-badge  (click)="viewComments()" color="primary" class="commentCount">{{ _commentsCount | async }} Comments</ion-badge>
+        <ion-badge  (click)="viewComments()" color="primary" class="commentCount">{{ commentsCount | async }} Comments</ion-badge>
       </ion-col>
     </ion-row>
   </ion-grid>
@@ -43,7 +43,7 @@
 
   <ion-row>
     <ion-col>
-      <button  class="lowerCase" ion-button icon-left clear small (click)="like()" [disabled]="_isLikeLoading" [ngClass]="{'like-button': true, 'selected': _isLiked}"> 
+      <button  class="lowerCase" ion-button icon-left clear small (click)="like()" [disabled]="isLikeLoading" [ngClass]="{'like-button': true, 'selected': isLiked}"> 
         <ion-icon name="thumbs-up"></ion-icon>
         Like        
       </button>

@@ -19,20 +19,21 @@ export class WebcamComponent implements AfterViewInit {
     public photo: PhotoModel;
 
     @ViewChild("video")
-    private _video: any;
+    private video: any;
 
     @ViewChild("canvas")
-    private _canvas: any;
+    private canvas: any;
 
-    private _isStreaming: Boolean;
+    private isStreaming: Boolean;
 
-    constructor(private navController: NavController, private navParams: NavParams, private authService: AuthService) {
+    constructor(private navController: NavController, private navParams: NavParams, 
+                private authService: AuthService) {
         this.photo = navParams.get('photo');
     }
 
     private takePhoto() {
-        let video: any = this._video.nativeElement;
-        let canvas: any = this._canvas.nativeElement;
+        let video: any = this.video.nativeElement;
+        let canvas: any = this.canvas.nativeElement;
 
         var context = canvas.getContext('2d');
         canvas.width = video.videoWidth;
@@ -41,12 +42,13 @@ export class WebcamComponent implements AfterViewInit {
 
         var base64Image = canvas.toDataURL('image/jpeg');
 
-        let upload: UploadModel = new UploadModel();
-        upload.photo = this.photo.$key;
-        upload.user = this.authService.currentUser.$key;
-        upload.image = base64Image;
-        upload.likesCount = 0;
-        upload.commentsCount = 0;
+        let upload: UploadModel = {
+            photo: this.photo.$key,
+            user: this.authService.currentUser.$key,
+            image: base64Image,
+            likesCount: 0,
+            commentsCount: 0,
+        };
 
         this.navController.push(EditUserUploadComponent, {
             upload: upload
@@ -54,7 +56,7 @@ export class WebcamComponent implements AfterViewInit {
     }
 
     public ngAfterViewInit() {
-        let video: any = this._video.nativeElement;
+        let video: any = this.video.nativeElement;
 
         var n = <any>navigator;
          n.getUserMedia  = n.getUserMedia || n.webkitGetUserMedia || n.mozGetUserMedia || n.msGetUserMedia;
@@ -68,8 +70,8 @@ export class WebcamComponent implements AfterViewInit {
          });
 
         video.addEventListener('canplay', function(ev: any){
-            if (!this._isStreaming) {
-                this._isStreaming = true;
+            if (!this.isStreaming) {
+                this.isStreaming = true;
             }
         }, false);
     }

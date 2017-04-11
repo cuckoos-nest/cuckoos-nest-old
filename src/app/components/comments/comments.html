@@ -15,18 +15,18 @@
 <ion-list ngClass="write-comment"> 
     <ion-item>
         <ion-label floating>Write your comment...</ion-label>
-        <ion-textarea [(ngModel)]="_commentText" autofocus></ion-textarea>
+        <ion-textarea [(ngModel)]="commentText" autofocus></ion-textarea>
     </ion-item>
     <ion-item>
-        <button [disabled]="!_commentText || _commentText.length == 0" clear ion-button (click)="send()">Send</button>
+        <button [disabled]="!commentText || commentText.length == 0" clear ion-button (click)="send()">Send</button>
     </ion-item>
 </ion-list> 
 
 <ion-content #content>
-    <ion-spinner *ngIf="!_isLoaded" ngClass="middle-vertical"></ion-spinner>
+    <ion-spinner *ngIf="!isLoaded" ngClass="middle-vertical"></ion-spinner>
 
-    <ion-list *ngIf="_isLoaded" ngClass="comments-list">
-        <ion-item text-wrap *ngFor="let comment of (_comments | async)"  (press)="onHold(comment)">
+    <ion-list *ngIf="isLoaded" ngClass="comments-list">
+        <ion-item text-wrap *ngFor="let comment of (comments | async)"  (press)="onHold(comment)">
             <ion-thumbnail item-left>
                 <img [src]="(comment.user | user | async)?.image">
             </ion-thumbnail>

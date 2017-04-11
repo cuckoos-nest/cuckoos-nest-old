@@ -13,9 +13,9 @@ import { CategoryService } from '../../services/category.service';
     templateUrl: 'categories.html'
 })
 export class CategoriesComponent implements OnInit {
-    filteredCategories : CategoryModel[];
-    categories: CategoryModel[];
-    _searchQuery: string = '';
+    private filteredCategories : CategoryModel[];
+    private categories: CategoryModel[];
+    private _searchQuery: string = '';
 
     set searchQuery(value: string) {
         this._searchQuery = value;
@@ -26,8 +26,8 @@ export class CategoriesComponent implements OnInit {
         return this._searchQuery;
     }
 
-    constructor(private nav: NavController, private categoryService: CategoryService, private loadingCtrl: LoadingController) {
-    }
+    constructor(private nav: NavController, private categoryService: CategoryService, 
+                private loadingCtrl: LoadingController) { }
 
     ngOnInit(): void {
         let loader = this.loadingCtrl.create({
@@ -57,15 +57,4 @@ export class CategoriesComponent implements OnInit {
             category: selectedCategory
         });
     }
-
-    // private filter(ev : any) {
-    //     let val = ev.target.value;
-
-    //     if (val && val.trim() != '') {
-    //         this.filteredCategories = this.categories.map((items) => items.filter(item => (item.name.toLowerCase().indexOf(val.toLowerCase()) > -1)));
-    //     }
-    //     else {
-    //         this.filteredCategories = this.categories;
-    //     }
-    // }
 }

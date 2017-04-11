@@ -2,24 +2,24 @@
   <ion-navbar>
       
      <ion-buttons end>
-        <button *ngIf="!_isEmpty" ion-button icon-only (click)="clearNotifications()">
+        <button *ngIf="!isEmpty" ion-button icon-only (click)="clearNotifications()">
           <ion-icon name="trash"></ion-icon>
         </button>
       </ion-buttons>
 
-    <ion-title >
+    <ion-title>
         {{'NOTIFICATIONS' | translate}}
     </ion-title>    
   </ion-navbar>
 </ion-header>
 
 <ion-content ngClass="notifications">
-    <div *ngIf="_isEmpty" ngClass="empty-text">EMPTY</div>
+    <div *ngIf="isEmpty" ngClass="empty-text">EMPTY</div>
 
-    <ion-spinner *ngIf="!_isLoaded" ngClass="middle-vertical"></ion-spinner>
+    <ion-spinner *ngIf="!isLoaded" ngClass="middle-vertical"></ion-spinner>
 
-    <ion-list *ngIf="_isLoaded">
-        <ion-item *ngFor="let notification of _notifications | async" (click)="onNotificationClicked(notification)">
+    <ion-list *ngIf="isLoaded">
+        <ion-item *ngFor="let notification of notifications | async" (click)="onNotificationClicked(notification)">
             <ion-avatar item-left>
                 <img [src]="(notification.from | user | async)?.image">
             </ion-avatar>

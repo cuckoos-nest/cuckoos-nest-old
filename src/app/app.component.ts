@@ -27,12 +27,9 @@ import { CategoryService } from './services/category.service';
 export class MyApp implements OnInit {
   private rootPage: Component = null;
 
-  constructor(private platform: Platform, private _auth: AuthService, translate: TranslateService, private af: AngularFire, private test: CategoryService) {
+  constructor(private platform: Platform, private _auth: AuthService, 
+              private translate: TranslateService) {
     Splashscreen.show();
-
-    if (Config.debugMode) {
-      console.log("Platform", platform);
-    }
 
     translate.setDefaultLang(Config.defaultLanguage);
     translate.use(Config.defaultLanguage);
@@ -48,7 +45,6 @@ export class MyApp implements OnInit {
     this._auth.signInWithFacebook()
       .subscribe(() => {
         if (this._auth.authenticated) {
-          this.test.getAll().subscribe(x => console.log("categories: ", x.map(y => y.$key)));
           this.rootPage = MainMenuComponent;
           Splashscreen.hide();
         }

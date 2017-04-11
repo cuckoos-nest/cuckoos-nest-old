@@ -23,17 +23,17 @@ import { AuthService } from '../../../services/auth.service';
 export class CategoryDetailComponent implements OnInit {
     private photos : Observable<PhotoModel[]>
     private category : CategoryModel;
-    private _isFollowedByMe: Observable<Boolean>;
-    private _isLoaded: Boolean;
+    private isLoaded: Boolean;
 
-    constructor(private authService: AuthService, private userService: UserService, private navController: NavController, private navParams: NavParams, private photoService: PhotoService, private categoryService: CategoryService, private loadingCtrl: LoadingController) {
-    }    
+    constructor(private authService: AuthService, private userService: UserService, 
+                private navController: NavController, private navParams: NavParams, 
+                private photoService: PhotoService, private categoryService: CategoryService, 
+                private loadingCtrl: LoadingController) { }    
 
     ngOnInit(): void {
         this.category = this.navParams.get('category');
         this.photos = this.photoService.getAllByCategory(this.category.$key);
-        this.photos.subscribe(() => this._isLoaded = true);
-        this._isFollowedByMe = this.userService.isFollowingCategory(this.category.$key);
+        this.photos.subscribe(() => this.isLoaded = true);
     }
 
     private photoClicked(photo : PhotoModel) {
@@ -48,13 +48,5 @@ export class CategoryDetailComponent implements OnInit {
 
     private getPhotoImage(photo: PhotoModel) {
         return photo.image;
-    }
-
-    private follow() {
-        this.categoryService.follow(this.category.$key);
-    }
-
-    private unfollow() {
-        this.categoryService.unfollow(this.category.$key);
     }
 }

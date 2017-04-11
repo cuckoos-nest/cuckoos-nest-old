@@ -8,18 +8,18 @@ import { Pipe, PipeTransform } from "@angular/core";
   pure: true
 })
 export class UserPipe implements PipeTransform {
-    private _cachedUid: string;
-    private _cachedUser: Observable<UserModel>;
+    private cachedUid: string;
+    private cachedUser: Observable<UserModel>;
 
     constructor(private userService: UserService) {
     }
 
     transform(value: string): Observable<UserModel> {
-        if (value != this._cachedUid) {
-            this._cachedUid = value;
-            this._cachedUser = this.userService.get(value);
+        if (value != this.cachedUid) {
+            this.cachedUid = value;
+            this.cachedUser = this.userService.get(value);
         }
 
-        return this._cachedUser;
+        return this.cachedUser;
     }
 }
