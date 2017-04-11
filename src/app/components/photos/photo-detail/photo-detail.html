@@ -36,10 +36,10 @@
     </ion-row>
   </ion-grid>
 
-  <ion-spinner *ngIf="!_isLoaded" ngClass="middle-vertical"></ion-spinner>
+  <ion-spinner *ngIf="!isLoaded" ngClass="middle-vertical"></ion-spinner>
 
   <div class="empty-text" *ngIf="!(userUploads | async)?.length">No Cuckoos yet. :(</div>
-  <gallery *ngIf="_isLoaded && (userUploads | async)?.length" [items]="userUploads | async" [imageMember]="getPhotoImage" (onItemClicked)="uploadClicked($event)"></gallery>
+  <gallery *ngIf="isLoaded && (userUploads | async)?.length" [items]="userUploads | async" [imageMember]="getPhotoImage" (onItemClicked)="uploadClicked($event)"></gallery>
 
   <ion-fab center bottom>
     <button ion-fab color="light" (click)="takePhoto()"><ion-icon name="camera"></ion-icon></button>

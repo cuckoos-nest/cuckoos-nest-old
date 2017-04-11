@@ -13,12 +13,12 @@
   <ion-grid>
     <ion-row>
       <ion-col col-3 ngClass="counter" (click)="showUploads()">
-        <div ngClass="counter-value">{{ _user.uploadsCount }}</div>
+        <div ngClass="counter-value">{{ user.uploadsCount }}</div>
         <div ngClass="counter-title">Cuckoos</div>
       </ion-col>
 
       <ion-col col-3 ngClass="counter" (click)="showPhotos()">
-        <div ngClass="counter-value">{{ _user.followingPhotoCount }}</div>
+        <div ngClass="counter-value">{{ user.followingPhotoCount }}</div>
         <div ngClass="counter-title">Nests</div>
       </ion-col>
 
@@ -37,17 +37,17 @@
   
 
   <div class="user-name">
-    <img [src]="_user.image" ngClass="rounded-image"/>
+    <img [src]="user.image" ngClass="rounded-image"/>
 
     <h2>
-      {{ _user.displayName }}
+      {{ user.displayName }}
     </h2>
 
-    <button ion-button *ngIf="!_isMyProfile" [outline]="!_isFollowedByMe" round small (click)="follow()">{{ _isFollowedByMe ? 'Following' : 'Follow' }}</button>
+    <button ion-button *ngIf="!isMyProfile" [outline]="!isFollowedByMe" round small (click)="follow()">{{ isFollowedByMe ? 'Following' : 'Follow' }}</button>
   </div>
 
   <div #uploads class="gallery-container">
-    <gallery *ngIf="_isLoaded" columns="2" [items]="_userUploads | async" [imageMember]="getUploadImage" (onItemClicked)="uploadClicked($event)"></gallery>
-    <ion-spinner *ngIf="!_isLoaded" ngClass="middle-vertical"></ion-spinner>
+    <gallery *ngIf="isLoaded" columns="2" [items]="uploads | async" [imageMember]="getUploadImage" (onItemClicked)="uploadClicked($event)"></gallery>
+    <ion-spinner *ngIf="!isLoaded" ngClass="middle-vertical"></ion-spinner>
   </div> 
 </ion-content>

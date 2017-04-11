@@ -23,7 +23,6 @@ import { FullscreenImageComponent } from './components/fullscreen-image/fullscre
 import { EditUserUploadComponent } from './components/edit-user-upload/edit-user-upload.component';
 import { PhotoDetailComponent } from './components/photos/photo-detail/photo-detail.component';
 import { WebcamComponent } from './components/webcam/webcam.component';
-import { LikeListComponent } from './components/like-list/like-list.component';
 
 import { PhotoService } from './services/photo.service';
 import { CategoryService } from './services/category.service';
@@ -65,7 +64,6 @@ export const firebaseConfig = {
     PhotoDetailComponent,
     WebcamComponent,
     CommentsComponent,
-    LikeListComponent,
     UsersListComponent,
     WallCardPageComponent,
     
@@ -98,7 +96,6 @@ export const firebaseConfig = {
     PhotoDetailComponent,
     WebcamComponent,
     CommentsComponent,
-    LikeListComponent,
     UsersListComponent,
     WallCardPageComponent,
   ],

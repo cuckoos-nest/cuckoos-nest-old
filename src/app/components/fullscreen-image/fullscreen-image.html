@@ -8,13 +8,13 @@
              </ion-buttons>
 
             <ion-buttons right>
-                <button *ngIf="_isOwner" ion-button icon-only (click)="removePhoto()">
+                <button *ngIf="isOwner" ion-button icon-only (click)="removePhoto()">
                      <ion-icon name="trash"></ion-icon>
                  </button>
 
                  <button class="button" (click)="like()" ion-button icon-only>
-                    <ion-icon [hidden]="_isLiked" name="thumbs-up" class="icon" ></ion-icon>
-                    <ion-icon [hidden]="!_isLiked" name="thumbs-up"  class="light"></ion-icon>
+                    <ion-icon [hidden]="isLiked" name="thumbs-up" class="icon" ></ion-icon>
+                    <ion-icon [hidden]="!isLiked" name="thumbs-up"  class="light"></ion-icon>
                 </button>
                 <button class="button" (click)="comment()" ion-button icon-only>
                     <ion-icon  name="text"></ion-icon>
@@ -23,7 +23,7 @@
             </ion-buttons>
 
             <ion-title>
-                {{ _userUpload.user.displayName }}
+                {{ upload.user.displayName }}
             </ion-title>
         </ion-toolbar>
     </ion-header>
@@ -31,15 +31,15 @@
     <ion-content>
         <div class="background">
             <ion-scroll zooming="true" min-zoom="1" max-zoom="2">
-                <img class="image-viewer" [src]="_userUpload.image" />
+                <img class="image-viewer" [src]="upload.image" />
             </ion-scroll>
          
             <div class="footer">
                 <div class="description">
-                    {{ _userUpload.description }}
+                    {{ upload.description }}
                 </div>
                 <div class="dateTime">
-                    {{ _userUpload.createdAt | date: 'MMM d, HH:mm' }}
+                    {{ upload.createdAt | date: 'MMM d, HH:mm' }}
                 </div>
             </div>
         </div>

@@ -17,21 +17,22 @@ import { Subject } from "rxjs/Subject";
     templateUrl: 'wall.html'
 })
 export class WallComponent implements OnInit {
-    private _currentWall: Observable<UploadModel[]>;
-    private _olderPosts = new Array<UploadModel>();
-    private _currentUser: UserModel;
-    private _loadCount = 0;
-    private _isLoaded: Boolean;
+    private currentWall: Observable<UploadModel[]>;
+    private olderPosts: UploadModel[] = [];
+    private currentUser: UserModel;
+    private loadCount = 0;
+    private isLoaded: Boolean;
 
-    constructor(private loadingCtrl: LoadingController, private uploadService: uploadService, private authService: AuthService) {       
+    constructor(private loadingCtrl: LoadingController, private uploadService: uploadService, 
+                private authService: AuthService) {       
     }  
 
     ngOnInit(): void {
-        this._currentWall = this.uploadService.getWall();
-        this._currentWall.subscribe(() => this._isLoaded = true);
+        this.currentWall = this.uploadService.getWall();
+        this.currentWall.subscribe(() => this.isLoaded = true);
 
-        this._loadCount = Config.defaultNumberOfUserUploadsPerLoad;
-        this._currentUser = this.authService.currentUser;
+        this.loadCount = Config.defaultNumberOfUserUploadsPerLoad;
+        this.currentUser = this.authService.currentUser;
     }
 
     private doInfinite(infiniteScroll: any) {

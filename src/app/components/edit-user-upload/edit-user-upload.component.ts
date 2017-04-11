@@ -12,16 +12,17 @@ import { uploadService } from '../../services/upload.service';
 })
 export class EditUserUploadComponent {
 
-    private _userUpload: UploadModel;
+    private upload: UploadModel;
     private photoX: number;
     private photoY: number;
 
-    constructor(private navController: NavController, private uploadService: uploadService, private navParams: NavParams, private alertCtrl: AlertController) {
-        this._userUpload = navParams.get('upload');
+    constructor(private navController: NavController, private uploadService: uploadService, 
+                private navParams: NavParams, private alertCtrl: AlertController) {
+        this.upload = navParams.get('upload');
     }    
     
     private share() {
-        if (!this._userUpload.description) {
+        if (!this.upload.description) {
             let alert = this.alertCtrl.create({
                 title: 'Description missing',
                 subTitle: 'Please write a description',
@@ -31,8 +32,7 @@ export class EditUserUploadComponent {
             return;
         }
 
-        this.uploadService.create(this._userUpload);
+        this.uploadService.create(this.upload);
         this.navController.popToRoot();
-        
     }
 }

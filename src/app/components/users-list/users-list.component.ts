@@ -8,11 +8,11 @@ import { Subscription } from 'rxjs/Subscription';
     selector: 'users-list',
     templateUrl: 'users-list.html',
 })
-export class UsersListComponent implements OnInit {
+export class UsersListComponent {
 
-    @Input() private title: string;
+    @Input() title: string;
     
-    @Input() private users: Observable<UserModel[]> | UserModel[];
+    @Input() users: Observable<UserModel[]> | UserModel[];
 
     private isLoaded: Boolean;
 
@@ -30,10 +30,6 @@ export class UsersListComponent implements OnInit {
         else {
             this.isLoaded = true;
         }
-    }
-
-    ngOnInit(): void {
-        
     }
 
     private dismiss() {

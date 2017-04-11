@@ -20,7 +20,7 @@ import { uploadService } from '../../../services/upload.service';
 export class PhotoDetailComponent implements OnInit {
     private photo: PhotoModel;
     private userUploads: Observable<UploadModel[]>;
-    private _isLoaded: Boolean;
+    private isLoaded: Boolean;
     private followPhoto: Boolean;
     private followersPhotoCount: Observable<number>;
 
@@ -33,16 +33,16 @@ export class PhotoDetailComponent implements OnInit {
     ngOnInit(): void {
         this.photo = this.navParams.get('photo');
         this.userUploads = this.uploadService.getAllByPhoto(this.photo.$key);
-        this.userUploads.subscribe(() => this._isLoaded = true);
+        this.userUploads.subscribe(() => this.isLoaded = true);
         this.userService.isFollowingPhoto(this.photo.$key).subscribe(isFollow => this.followPhoto = isFollow);
         this.followersPhotoCount = this.photoService.getFollowersCount(this.photo.$key);
     }
 
-    getPhotoImage(upload: UploadModel) {
+    private getPhotoImage(upload: UploadModel) {
         return upload.image;
     }
 
-    follow() {
+    private follow() {
         if (this.followPhoto) {
             this.photoService.unfollow(this.photo.$key).then(() => this.followPhoto = false);
         }
@@ -80,18 +80,17 @@ export class PhotoDetailComponent implements OnInit {
         }).then((imageData) => {
             let base64Image = imageData;
 
-            let upload: UploadModel = new UploadModel();
-            upload.photo = this.photo.$key;
-            upload.user = this.authService.currentUser.$key;
-            upload.image = 'data:image/jpeg;base64,' + base64Image;
-            upload.likesCount = 0;
-            upload.commentsCount = 0;
+            let upload: UploadModel = {
+                photo: this.photo.$key,
+                user: this.authService.currentUser.$key,
+                image: 'data:image/jpeg;base64,' + base64Image,
+                likesCount: 0,
+                commentsCount: 0,
+            };
 
             this.navController.push(EditUserUploadComponent, {
                 upload: upload
             });
-        }, (err) => {
-            // Handle error
         });
     }
 

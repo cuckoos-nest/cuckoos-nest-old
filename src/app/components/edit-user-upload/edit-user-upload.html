@@ -16,14 +16,14 @@
 
 <ion-content ngClass="edit-user-upload">
     <div ngClass="preview">
-        <img [src]=" _userUpload.image" ngClass="user-image" />
-        <img [src]="_userUpload.photo.image" ngClass="photo-image" />
+        <img [src]="upload.image" ngClass="user-image" />
+        <img [src]="upload.photo.image" ngClass="photo-image" />
     </div>
 
     <ion-list>
         <ion-item>
             <ion-label floating>Description</ion-label>
-            <ion-textarea rows="4" [(ngModel)]="_userUpload.description"></ion-textarea>
+            <ion-textarea rows="4" [(ngModel)]="upload.description"></ion-textarea>
         </ion-item>
     </ion-list>
   

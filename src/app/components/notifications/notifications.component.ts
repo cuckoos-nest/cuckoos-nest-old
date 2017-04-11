@@ -3,10 +3,8 @@ import { NotificationModel } from './../../models/notification.model';
 import { UserModel } from './../../models/user.model';
 import { Observable } from 'rxjs/Observable';
 import { Component, OnInit } from '@angular/core';
-
 import Config from '../../config.json';
 import { NotificationType } from '../../enums/notification-type.enum';
-
 import { UserService } from '../../services/user.service';
 import { NotificationService } from '../../services/notification.service';
 import { NavController } from 'ionic-angular';
@@ -17,24 +15,24 @@ import { uploadService } from '../../services/upload.service';
     templateUrl: 'notifications.html'
 })
 export class NotificationsComponent implements OnInit {
-    private _notifications: Observable<NotificationModel[]>;
-    private _users = new Array<UserModel>();
-    private _isLoaded: Boolean;
-    private _isEmpty: Boolean;
+    private notifications: Observable<NotificationModel[]>;
+    private users: UserModel[] = [];
+    private isLoaded: Boolean;
+    private isEmpty: Boolean;
 
-    constructor(private navCtrl: NavController, private userUploadsService: uploadService, private notificationService: NotificationService, private userService: UserService) {
-    }
+    constructor(private navCtrl: NavController, private userUploadsService: uploadService, 
+                private notificationService: NotificationService, private userService: UserService) { }
 
     ngOnInit(): void {
-        this._notifications = this.notificationService.getAll();
-        this._notifications.subscribe(notifications => {
-            this._isLoaded = true;
-            this._isEmpty = notifications.length == 0
+        this.notifications = this.notificationService.getAll();
+        this.notifications.subscribe(notifications => {
+            this.isLoaded = true;
+            this.isEmpty = notifications.length == 0
         });
     }
 
     private notificationTypeToResource(type: NotificationType) {
-        return "NOTIFICATION_" + NotificationType[type].toUpperCase();
+        return "NOTIFICATION" + NotificationType[type].toUpperCase();
     }
 
     private clearNotifications(){

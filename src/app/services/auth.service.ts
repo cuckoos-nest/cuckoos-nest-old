@@ -35,7 +35,6 @@ export class AuthService {
     }
 
     public get authenticated(): boolean {
-        console.log(this._authState);
         return this._authState !== null;
     }
 
