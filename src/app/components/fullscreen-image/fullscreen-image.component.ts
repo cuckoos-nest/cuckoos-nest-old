@@ -12,7 +12,7 @@ import { UploadModel } from '../../models/upload.model';
 import { UserModel } from '../../models/user.model';
 
 @Component({
-    selector: 'fullcsreen-image',
+    selector: 'fullscreen-image',
     templateUrl: 'fullscreen-image.html'
 })
 export class FullscreenImageComponent implements OnInit {

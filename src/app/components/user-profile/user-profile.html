@@ -8,7 +8,7 @@
   </ion-navbar>
 </ion-header>
 
-<ion-content #content ngClass="user-profile">
+<ion-content #content>
 
   <ion-grid>
     <ion-row>
@@ -46,7 +46,7 @@
     <button ion-button *ngIf="!isMyProfile" [outline]="!isFollowedByMe" round small (click)="follow()">{{ isFollowedByMe ? 'Following' : 'Follow' }}</button>
   </div>
 
-  <div #uploads class="gallery-container">
+  <div #uploadsRef class="gallery-container">
     <gallery *ngIf="isLoaded" columns="2" [items]="uploads | async" [imageMember]="getUploadImage" (onItemClicked)="uploadClicked($event)"></gallery>
     <ion-spinner *ngIf="!isLoaded" ngClass="middle-vertical"></ion-spinner>
   </div> 

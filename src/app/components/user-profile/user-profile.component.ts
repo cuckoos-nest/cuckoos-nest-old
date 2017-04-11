@@ -23,7 +23,7 @@ export class UserProfileComponent implements OnInit {
     private following: Observable<UserModel[]>;
 
     @ViewChild('content') content: Content;
-    @ViewChild('uploads') uploadsRef: ElementRef;
+    @ViewChild('uploadsRef') uploadsRef: ElementRef;
 
     constructor(private navController: NavController, private modalCtrl: ModalController,
         private navParams: NavParams, private authService: AuthService,
